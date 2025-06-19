@@ -1,4 +1,13 @@
 [
+ {
+    "title": "Färdig med utbildningen",
+    "image": "img/tårta.jpg",
+    "date": "2025-06-02",
+    "category": "Utbildning",
+    "comments": 0,
+    "description": "Och ett glädjande besked",
+    "link": "blog/post4.html"
+  },
   {
     "title": "Tredagarskalas för vår lilla 3-åring!",
     "image": "img/3-åring.jpg",
