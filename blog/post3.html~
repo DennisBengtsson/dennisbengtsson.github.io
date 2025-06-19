@@ -132,7 +132,6 @@
     <script src="js/main.js"></script>
     <script src="js/site-data.js"></script>
     <script src="js/post-navigation.js"></script>
-<script src="js/fix-links.js"></script>
 
 
 </body>
