@@ -14,12 +14,22 @@ const NavigationConfig = {
     debug: true
 };
 
+// === Shared Utility Functions ===
+if (typeof escapeHTML !== 'function') {
+    function escapeHTML(str) {
+        if (typeof str !== 'string') return '';
+        const div = document.createElement('div');
+        div.textContent = str;
+        return div.innerHTML;
+    }
+}
+
 // Utility functions
 const debugLog = (...args) => {
     if (NavigationConfig.debug) console.log(...args);
 };
 
-const getFileNameFromPath = (path) =>1 {
+const getFileNameFromPath = (path) => {
     return path.split('/').pop().toLowerCase();
 };
 

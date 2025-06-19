@@ -1,128 +1,151 @@
-// Delad funktion för att undvika XSS
-function escapeHTML(str) {
-    if (typeof str !== 'string' && !(str instanceof String)) {
-        return "";
+// === Konfigurationsobjekt ===
+const BlogConfig = {
+    jsonUrl: '/json/blog_posts.json',
+    defaultImage: 'default-image.jpg',
+    defaultCategory: 'Okategoriserat',
+    maxCarouselPosts: 5
+};
+
+// === Shared Utility Functions ===
+if (typeof escapeHTML !== 'function') {
+    // Använd en funktion om den inte redan finns
+    function escapeHTML(str) {
+        if (typeof str !== 'string') return '';
+        const div = document.createElement('div');
+        div.textContent = str;
+        return div.innerHTML;
     }
-    const p = document.createElement("p");
-    p.textContent = str;
-    return p.innerHTML;
 }
 
-// Funktion för att hämta bloggdata
+const isValidDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toString() !== 'Invalid Date' && !isNaN(date.getTime());
+};
+
+// === Datahantering ===
 async function fetchBlogData() {
     try {
-        const response = await fetch('https://dennisbengtsson.github.io/json/blog_posts.json', {
+        const response = await fetch(BlogConfig.jsonUrl, {
             headers: { 'Accept': 'application/json' }
         });
 
         if (!response.ok) {
-            throw new Error(`HTTP-fel: ${response.status}`);
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
 
-        return await response.json();
+        const data = await response.json();
+        
+        // Validera data direkt vid hämtning
+        return Array.isArray(data) ? data.filter(post => 
+            post && 
+            post.title && 
+            post.description && 
+            isValidDate(post.date)
+        ) : [];
     } catch (error) {
         console.error('Kunde inte ladda bloggdata:', error);
-        return null;
+        return [];
     }
 }
 
-// Funktion för att skapa blogglistan
-function createBlogList(blogPosts) {
+// === UI-komponenter ===
+function createBlogPost(post) {
+    const safePost = {
+        title: escapeHTML(post.title || ''),
+        description: escapeHTML(post.description || ''),
+        image: escapeHTML(post.image || BlogConfig.defaultImage),
+        date: escapeHTML(post.date || ''),
+        category: escapeHTML(post.category || BlogConfig.defaultCategory),
+        comments: Number.isInteger(post.comments) ? post.comments : 0,
+        link: escapeHTML(post.link || '#')
+    };
+
+    return `
+        <div class="row blog-item px-3 pb-5">
+            <div class="col-md-5">
+                <img class="img-fluid mb-4 mb-md-0" src="${safePost.image}" alt="${safePost.title}">
+            </div>
+            <div class="col-md-7">
+                <h3 class="mt-md-4 px-md-3 mb-2 py-2 bg-white font-weight-bold">${safePost.title}</h3>
+                <div class="d-flex mb-3">
+                    <small class="mr-2 text-muted"><i class="fa fa-calendar-alt"></i> ${safePost.date}</small>
+                    <small class="mr-2 text-muted"><i class="fa fa-folder"></i> ${safePost.category}</small>
+                    <small class="mr-2 text-muted"><i class="fa fa-comments"></i> ${safePost.comments} Kommentarer</small>
+                </div>
+                <p>${safePost.description}</p>
+                <a class="btn btn-sm btn-outline-primary next-post" href="${safePost.link}">
+                    Läs mer <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+        </div>
+    `;
+}
+
+function createCarouselItem(post, isActive = false) {
+    const safePost = {
+        title: escapeHTML(post.title || ''),
+        description: escapeHTML(post.description || ''),
+        image: escapeHTML(post.image || BlogConfig.defaultImage),
+        link: escapeHTML(post.link || '#')
+    };
+
+    return `
+        <div class="carousel-item${isActive ? ' active' : ''}">
+            <img src="${safePost.image}" class="d-block w-100" alt="${safePost.title}">
+            <div class="carousel-caption d-none d-md-block">
+                <h5>${safePost.title}</h5>
+                <p>${safePost.description}</p>
+                <a href="${safePost.link}" class="btn btn-primary custom-read-more-button">Läs mer</a>
+            </div>
+        </div>
+    `;
+}
+
+// === Huvudrenderare ===
+function renderBlogList(blogPosts) {
     const blogList = document.getElementById('blog-list');
     if (!blogList || !Array.isArray(blogPosts)) return;
 
-    blogList.innerHTML = '';
-
-    blogPosts.forEach(post => {
-        // Validera postdata
-        const safePost = {
-            title: escapeHTML(post.title || ''),
-            description: escapeHTML(post.description || ''),
-            image: escapeHTML(post.image || 'default-image.jpg'),
-            date: escapeHTML(post.date || ''),
-            category: escapeHTML(post.category || 'Okategoriserat'),
-            comments: Number.isInteger(post.comments) ? post.comments : 0,
-            link: escapeHTML(post.link || '#')
-        };
-
-        blogList.innerHTML += `
-            <div class="row blog-item px-3 pb-5">
-                <div class="col-md-5">
-                    <img class="img-fluid mb-4 mb-md-0" src="${safePost.image}" alt="${safePost.title}">
-                </div>
-                <div class="col-md-7">
-                    <h3 class="mt-md-4 px-md-3 mb-2 py-2 bg-white font-weight-bold">${safePost.title}</h3>
-                    <div class="d-flex mb-3">
-                        <small class="mr-2 text-muted"><i class="fa fa-calendar-alt"></i> ${safePost.date}</small>
-                        <small class="mr-2 text-muted"><i class="fa fa-folder"></i> ${safePost.category}</small>
-                        <small class="mr-2 text-muted"><i class="fa fa-comments"></i> ${safePost.comments} Kommentarer</small>
-                    </div>
-                    <p>${safePost.description}</p>
-                    <a class="btn btn-sm btn-outline-primary next-post" href="${safePost.link}">Läs mer <i class="fa fa-angle-right"></i></a>
-                </div>
-            </div>
-        `;
-    });
+    // Skapa all HTML på en gång för bättre prestanda
+    blogList.innerHTML = blogPosts
+        .map(post => createBlogPost(post))
+        .join('');
 }
 
-// Funktion för att skapa karusell
-function createCarousel(blogPosts) {
-    const carouselInner = $('#carousel-inner');
-    if (!carouselInner.length || !Array.isArray(blogPosts)) return;
+function renderCarousel(blogPosts) {
+    const carouselInner = document.getElementById('carousel-inner');
+    if (!carouselInner || !Array.isArray(blogPosts)) return;
 
-    carouselInner.empty();
+    // Filtrera, sortera och ta de senaste inläggen
+    const validPosts = blogPosts
+        .filter(post => isValidDate(post.date))
+        .sort((a, b) => new Date(b.date) - new Date(a.date))
+        .slice(0, BlogConfig.maxCarouselPosts);
 
-    try {
-        // Filtrera ogiltiga poster och sortera efter datum
-        const validPosts = blogPosts.filter(post => 
-            post && post.date && new Date(post.date) !== "Invalid Date"
-        );
-        
-        const latestPosts = validPosts
-            .sort((a, b) => new Date(b.date) - new Date(a.date))
-            .slice(0, 5);
-
-        if (latestPosts.length === 0) {
-            carouselInner.html('<div class="carousel-item active">Inga blogginlägg tillgängliga</div>');
-            return;
-        }
-
-        latestPosts.forEach((post, index) => {
-            const safePost = {
-                title: escapeHTML(post.title || ''),
-                description: escapeHTML(post.description || ''),
-                image: escapeHTML(post.image || 'default-image.jpg'),
-                link: escapeHTML(post.link || '#')
-            };
-
-            const carouselItem = $(`
-                <div class="carousel-item${index === 0 ? ' active' : ''}">
-                    <img src="${safePost.image}" class="d-block w-100" alt="${safePost.title}">
-                    <div class="carousel-caption d-none d-md-block">
-                        <h5>${safePost.title}</h5>
-                        <p>${safePost.description}</p>
-                        <a href="${safePost.link}" class="btn btn-primary custom-read-more-button">Läs mer</a>
-                    </div>
-                </div>
-            `);
-            
-            carouselInner.append(carouselItem);
-        });
-    } catch (error) {
-        console.error('Fel vid skapande av karusell:', error);
-        carouselInner.html('<div class="carousel-item active">Kunde inte ladda blogginlägg</div>');
+    if (validPosts.length === 0) {
+        carouselInner.innerHTML = '<div class="carousel-item active">Inga blogginlägg tillgängliga</div>';
+        return;
     }
+
+    // Skapa alla karusellposter
+    carouselInner.innerHTML = validPosts
+        .map((post, index) => createCarouselItem(post, index === 0))
+        .join('');
 }
 
-// Initiera komponenter beroende på sidan
+// === Initiering ===
 $(document).ready(async function() {
+    // Hämta data endast en gång
     const blogData = await fetchBlogData();
     
-    if (window.location.pathname.includes("blog.html")) {
-        createBlogList(blogData || []);
+    // Initiera komponenter beroende på sidan
+    const path = window.location.pathname;
+    
+    if (path.includes("blog.html")) {
+        renderBlogList(blogData);
     }
     
-    if (window.location.pathname.includes("index.html")) {
-        createCarousel(blogData || []);
+    if (path.includes("index.html")) {
+        renderCarousel(blogData);
     }
 });
