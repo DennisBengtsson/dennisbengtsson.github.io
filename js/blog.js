@@ -7,15 +7,15 @@ const BlogConfig = {
 };
 
 // === Shared Utility Functions ===
-if (typeof escapeHTML !== 'function') {
-    // Använd en funktion om den inte redan finns
-    function escapeHTML(str) {
+if (typeof window.escapeHTML !== 'function') {
+    window.escapeHTML = function(str) {
         if (typeof str !== 'string') return '';
         const div = document.createElement('div');
         div.textContent = str;
         return div.innerHTML;
-    }
+    };
 }
+
 
 const isValidDate = (dateString) => {
     const date = new Date(dateString);

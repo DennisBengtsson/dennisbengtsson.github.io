@@ -1,6 +1,6 @@
 // === Konfigurationsobjekt ===
 const BlogConfig = {
-    jsonUrl: 'https://dennisbengtsson.github.io/json/blog_posts.json',
+    jsonUrl: '/json/blog_posts.json',
     defaultImage: 'default-image.jpg',
     defaultCategory: 'Okategoriserat',
     maxCarouselPosts: 5

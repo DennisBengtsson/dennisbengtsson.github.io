@@ -15,13 +15,13 @@ const NavigationConfig = {
 };
 
 // === Shared Utility Functions ===
-if (typeof escapeHTML !== 'function') {
-    function escapeHTML(str) {
+if (typeof window.escapeHTML !== 'function') {
+    window.escapeHTML = function(str) {
         if (typeof str !== 'string') return '';
         const div = document.createElement('div');
         div.textContent = str;
         return div.innerHTML;
-    }
+    };
 }
 
 // Utility functions
