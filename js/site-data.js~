@@ -80,7 +80,7 @@ const loadAllData = async () => {
 
 const generateMenu = async () => {
     try {
-        const response = await fetch('/blogg/data.json'); // Use consistent path
+        const response = await fetch('/data.json'); // Use consistent path
         if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
         const data = await response.json();
         const menu = data.menu;
@@ -145,13 +145,13 @@ const updateSidebar = (sidebar, data) => {
     if (sidebar.profileImageId) {
         const profileImage = document.getElementById(sidebar.profileImageId);
         if (profileImage) {
-            profileImage.src = sidebar.profileImagePath || "./img/profile.jpg"; // Use path from data or default
+            profileImage.src = sidebar.profileImagePath || "/img/profile.jpg"; // Use path from data or default
         } else {
             console.warn(`Element with ID "${sidebar.profileImageId}" not found!`);
         }
     }
-    if (sidebar.xLinkId) updateElementHref(sidebar.xLinkId, data.x);
-    if (sidebar.facebookLinkId) updateElementHref(sidebar.facebookLinkId, data.facebook);
+    if (sidebar.telegramLinkId) updateElementHref(sidebar.telegramLinkId, data.telegram);
+    if (sidebar.goodreadsLinkId) updateElementHref(sidebar.goodreadsLinkId, data.goodreads);
     if (sidebar.linkedinLinkId) updateElementHref(sidebar.linkedinLinkId, data.linkedin);
     if (sidebar.instagramLinkId) updateElementHref(sidebar.instagramLinkId, data.instagram);
 

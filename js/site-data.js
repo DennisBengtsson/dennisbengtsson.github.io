@@ -64,7 +64,7 @@ const sidebarHTML = `
 
 const loadAllData = async () => {
     try {
-        const response = await fetch('/blogg/data.json'); // Adjust the path here
+        const response = await fetch('/data.json'); // Adjust the path here
         if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
         const data = await response.json();
 
@@ -80,7 +80,7 @@ const loadAllData = async () => {
 
 const generateMenu = async () => {
     try {
-        const response = await fetch('/blogg/data.json'); // Use consistent path
+        const response = await fetch('/data.json'); // Use consistent path
         if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
         const data = await response.json();
         const menu = data.menu;
