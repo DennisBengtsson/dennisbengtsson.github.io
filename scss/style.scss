@@ -1,0 +1,248 @@
+/******* Bootstrap Theming ********/
+
+// Color Palette
+$primary: #2A4B7C;
+$secondary: #202C45;
+$light: #f1f3ff;
+
+// Theme Colors Map (Best Practice for Bootstrap)
+$theme-colors: (
+  "primary": $primary,
+  "secondary": $secondary,
+  "light": $light,
+) !default; // Make it default so users can easily override
+
+// Typography
+$font-family-base: "Open Sans", sans-serif !default; //Make it default so it can be overridden
+
+// Body Styles
+$body-bg: $light !default; //Make it default so it can be overridden
+$body-color: #666666 !default; //Make it default so it can be overridden
+
+// Heading Styles
+$headings-color: $secondary !default; //Make it default so it can be overridden
+
+// Options (Consider using Bootstrap's defaults where appropriate)
+$enable-rounded: false !default; //Make it default so it can be overridden
+$enable-shadows: false !default; //Make it default so it can be overridden
+
+// Import Bootstrap (after variable overrides)
+@import "bootstrap/scss/bootstrap";
+
+/********** Layout Style **********/
+.wrapper {
+  position: relative;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1140px;
+
+  .sidebar {
+    position: relative;
+    width: 100%;
+    float: left;
+    padding: 30px;
+    background: #ffffff;
+    z-index: 9; //Added for clarity
+
+    &-icon { // Use BEM-style naming
+      display: none;
+    }
+  }
+
+  .content {
+    position: relative;
+    width: 100%;
+    padding: 15px;
+    float: left;
+    background: $light;
+
+    &::before,
+    &::after {
+      //Moved this to media queries for better organization
+    }
+  }
+
+  .sidebar,
+  .content {
+    transition: margin 200ms ease-out; //Shorthand property
+  }
+
+  .sidebar-icon {
+    margin-right: -18px;
+    visibility: hidden;
+    height: 0 !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .wrapper {
+    .content {
+      padding: 30px 0px 30px 30px;
+      width: calc(100% - 50px);
+      margin-left: 50px;
+      float: right;
+
+      &::before,
+      &::after {
+        position: fixed;
+        content: "";
+        width: 100%;
+        height: 30px;
+        background: $light;
+        z-index: 9;
+      }
+
+      &::before {
+        top: 0;
+      }
+
+      &::after {
+        bottom: 0;
+      }
+    }
+
+    .sidebar {
+      position: fixed;
+      width: 350px;
+      height: 100%;
+      margin-left: -300px;
+      float: left;
+      overflow: auto;
+      scrollbar-width: thin; // Standard
+      scrollbar-color: darkgrey transparent; // Standard (thumb track)
+      //z-index: 9; // Removed because it's already defined in the base .sidebar
+
+      &:hover {
+        margin-left: 0;
+      }
+
+      &-text { // Use BEM-style naming
+        display: none;
+      }
+
+      &-icon {
+        display: flex;
+      }
+
+      // Webkit Scrollbar Styling (moved here for better organization)
+      &::-webkit-scrollbar {
+        width: 7px;
+      }
+
+      &::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background-color: darkgrey;
+        outline: 1px solid slategrey;
+        border-radius: 7px;
+      }
+    }
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .wrapper .sidebar {
+    z-index: 99;
+
+    &-text,
+    &:hover &-icon {
+      visibility: hidden;
+      height: 0 !important;
+    }
+
+    &-icon,
+    &:hover &-text {
+      visibility: visible;
+      height: 100% !important;
+    }
+  }
+}
+
+@media (min-width: 992px) {
+  .wrapper {
+    .sidebar {
+      margin: 0;
+    }
+
+    .content {
+      width: calc(100% - 350px);
+      margin-left: 350px;
+    }
+  }
+}
+
+@media (max-width: 1140px) {
+  .wrapper .content {
+    padding: 30px;
+  }
+}
+
+@media (max-width: 576px) {
+  .wrapper .content {
+    padding: 15px;
+  }
+}
+
+/******** Back to Top CSS *********/
+.back-to-top {
+  position: fixed;
+  display: none;
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  line-height: 1;
+  font-size: 30px;
+  right: 30px;
+  bottom: 30px;
+  transition: background 0.5s;
+  z-index: 11;
+
+  i {
+    color: $primary;
+
+    &:hover {
+      color: $secondary;
+    }
+  }
+
+  animation: action 1s infinite alternate; //Shorthand animation property
+
+  @keyframes action {
+    0% {
+      transform: translateY(0);
+    }
+
+    100% {
+      transform: translateY(-15px);
+    }
+  }
+}
+
+/********** Custom CSS ************/
+.carousel-caption {
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+
+@media (min-width: 768px) {
+  .blog-item h3 {
+    margin-left: -90px;
+  }
+}
+
+.skills .progress .progress-bar {
+  width: 0;
+  transition: 2s;
+}
+
+.contact-form .help-block ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}

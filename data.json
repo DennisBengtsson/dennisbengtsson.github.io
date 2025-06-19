@@ -1,0 +1,34 @@
+{
+    "name": "Dennis Bengtsson",
+    "pageTitleSuffix": " - Personlig Blogg",
+    "footerNameId": "footer-name",
+    "description": "Arbetar med betong och trä. Fyrbarnsfar med vanlig sunt bonnförnuft.",
+    "sidebar": {
+        "profileNameId": "profile-name",
+        "profileDescriptionId": "profile-description",
+        "profileImageId": "profile-image",
+"profileImagePath": "img/profile.jpg",
+        "telegramId": "telegram-link",
+        "goodreadsLinkId": "goodreads-link",
+        "linkedinLinkId": "linkedin-link",
+        "instagramLinkId": "instagram-link"
+    },
+    "telegram": "https://www.t.me/",
+    "goodreads": "https://www.goodreads.com/user/show/164131463-dennis-bengtsson",
+    "linkedin": "https://se.linkedin.com/in/dennis-bengtsson-703562135",
+    "instagram": "https://www.instagram.com/dennis.bengtsson92/",
+    "menu": [
+        { "label": "Hem", "url": "index.html", "dataPage": "index" },
+        { "label": "Om mig", "url": "about.html", "dataPage": "about" },
+        {
+            "label": "Sidor",
+            "url": "#",
+            "dataPage": "sidor",
+            "dropdown": [
+                { "label": "Blogg", "url": "blog.html", "dataPage": "blog" },
+                { "label": "Bilder", "url": "bilder.html", "dataPage": "bilder" }
+            ]
+        },
+        { "label": "Kontakt", "url": "contact.html", "dataPage": "contact" }
+    ]
+}

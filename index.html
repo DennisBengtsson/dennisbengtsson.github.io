@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="sv">
+
+<head>
+    <meta charset="utf-8">
+    <title id="page-title">Dennis Bengtsson - Personlig Blogg</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Dennis Bengtsson blogg om betong och trä" name="keywords">
+    <meta content="Dennis Bengtsson blogg" name="description">
+
+
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon">
+
+    <!-- Font Awesome (lokalt installerat) -->
+    <link rel="stylesheet" href="fonts/fontawesome-free-6.7.2-web/css/all.min.css">
+
+    <!-- Font Open Sans (lokalt definierat) -->
+    <link href="css/opensans.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- Content Security Policy (CSP) -->
+<meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+    script-src 'self' https://code.jquery.com https://stackpath.bootstrapcdn.com https://github.com/DennisBengtsson/blogg/js/ https://github.com/DennisBengtsson/blogg/jquery/;
+    img-src 'self' data: https://github.com;
+    style-src 'self' 'unsafe-inline';
+    connect-src 'self';
+    font-src 'self';
+    object-src 'none';
+    base-uri 'self';
+    form-action 'self';
+">
+    <style>
+        /* Begränsa höjden på karusellen till 50% av visningsportens höjd */
+        #blog-carousel {
+            height: 40vh; /* vh = viewport height */
+            overflow: hidden; /* Dölj eventuellt överflödigt innehåll */
+        }
+
+        /* Se till att bilden fyller den tillgängliga höjden, men inte mer */
+        #blog-carousel .carousel-inner>.carousel-item>img {
+            max-height: 100%;
+            object-fit: cover; /* Behåll bildens proportioner och fyll utrymmet */
+        }
+
+        .carousel-caption {
+            background-color: rgba(0, 0, 0, 0.5); /* Mörkare bakgrund för bättre läsbarhet */
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .carousel-caption h5, .carousel-caption p {
+            color: white;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div id="sidebar-container"></div>
+
+        <div class="content">
+            <!-- Navbar Start -->
+            <div id="header-container"></div>
+            <!-- Navbar End -->
+
+            <!-- Page Specific Content -->
+            <div id="page-content-container">
+                <!-- Carousel Start -->
+                <div class="container p-0">
+                    <div id="blog-carousel" class="carousel slide" data-ride="carousel">
+                        <div class="carousel-inner" id="carousel-inner">
+                            <!-- Carousel items kommer att laddas här dynamiskt -->
+                        </div>
+                        <a class="carousel-control-prev" href="#blog-carousel" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Föregående</span>
+                        </a>
+                        <a class="carousel-control-next" href="#blog-carousel" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Nästa</span>
+                        </a>
+                    </div>
+                </div>
+                <!-- Carousel End -->
+            </div>
+
+            <!-- Footer Start -->
+            <div id="footer-container"></div>
+            <!-- Footer End -->
+        </div>
+    </div>
+
+    <!-- Back to Top -->
+    <a href="#" class="back-to-top"><i class="fa fa-angle-double-up"></i></a>
+
+    <!-- JavaScript Libraries -->
+    <script src="jquery/jquery-3.7.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <script src="jquery/jquery.waypoints.min.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="js/site-data.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/blog.js"></script>
+
+
+</body>
+
+</html>

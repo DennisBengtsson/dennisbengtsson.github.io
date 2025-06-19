@@ -1,0 +1,1 @@
+Set-Cookie: mycookie=value; SameSite=None; Secure

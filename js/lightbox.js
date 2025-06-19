@@ -1,0 +1,149 @@
+document.addEventListener('DOMContentLoaded', function () {
+    const gallery = document.querySelector('.image-gallery');
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImage = document.getElementById('lightbox-bild');
+    const imageNumber = document.getElementById('bild-nummer');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const closeIcon = document.querySelector('.close-icon');
+    let lightboxOverlay = document.querySelector('.lightbox-overlay');
+
+    let currentIndex = 0;
+    const galleryLinks = document.querySelectorAll('.gallery-link');
+    const images = Array.from(galleryLinks).map(a => a.dataset.src);
+
+    // SKAPAR OVERLAY DIREKT, INNAN EVENTUELL LOGIK
+    if (!lightboxOverlay && lightbox) {
+        console.log('Creating overlay element dynamically');
+        lightboxOverlay = document.createElement('div');
+        lightboxOverlay.className = 'lightbox-overlay';
+        lightbox.insertBefore(lightboxOverlay, lightbox.firstChild);
+        console.log("Dynamically created lightboxOverlay:", lightboxOverlay);
+    }
+
+    // Funktioner
+    const openLightbox = (index) => {
+        currentIndex = parseInt(index, 10);
+        lightboxImage.src = images[currentIndex];
+        updateImageNumber();
+        lightbox.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+
+        // Direkt modifiering av overlay för att göra den klickbar
+        if (lightboxOverlay) {
+            lightboxOverlay.style.cursor = 'pointer';
+            lightboxOverlay.setAttribute('title', 'Klicka för att stänga');
+
+            // Lägg till event listener direkt på overlay
+            lightboxOverlay.addEventListener('click', closeLightbox); // Direkt anslutning till closeLightbox
+            console.log("Event listener added to overlay:", lightboxOverlay);
+        }
+    };
+
+    // Handler för overlay-klick (TA BORT DENNA FUNKTION)
+    // const overlayClickHandler = function (event) {
+    //     // Kontrollera att klicket verkligen var på overlay och inte på något barn-element
+    //     if (event.target === lightboxOverlay) {
+    //         console.log("Overlay clicked - closing lightbox");
+    //         closeLightbox();
+    //     }
+    // };
+
+    const closeLightbox = () => {
+        lightbox.style.display = 'none';
+        document.body.style.overflow = '';
+    };
+
+    const changeImage = (direction) => {
+        currentIndex += direction;
+        if (currentIndex < 0) {
+            currentIndex = images.length - 1;
+        } else if (currentIndex >= images.length) {
+            currentIndex = 0;
+        }
+        lightboxImage.src = images[currentIndex];
+        updateImageNumber();
+    };
+
+    const updateImageNumber = () => {
+        imageNumber.textContent = `${currentIndex + 1} / ${images.length}`;
+    };
+
+    // Hantera klick på galleribilder
+    if (gallery) {
+        gallery.addEventListener('click', (event) => {
+            if (event.target.tagName === 'IMG') {
+                event.preventDefault();
+
+                const galleryLink = event.target.closest('.gallery-link');
+
+                if (galleryLink) {
+                    const index = galleryLink.dataset.index;
+                    if (index !== undefined) {
+                        openLightbox(index);
+                    } else {
+                        console.error('Index saknas på gallerilänk:', galleryLink);
+                    }
+                } else {
+                    console.error('Gallerilänk hittades inte för bilden:', event.target);
+                }
+            }
+        });
+    } else {
+        console.error('Image gallery element not found!');
+    }
+
+    // Hantera klick på föregående-knapp
+    if (prevBtn) {
+        prevBtn.addEventListener('click', (event) => {
+            event.stopPropagation();
+            changeImage(-1);
+        });
+    } else {
+        console.warn('Previous button element not found!');
+    }
+
+    // Hantera klick på nästa-knapp
+    if (nextBtn) {
+        nextBtn.addEventListener('click', (event) => {
+            event.stopPropagation();
+            changeImage(1);
+        });
+    } else {
+        console.warn('Next button element not found!');
+    }
+
+    // Hantera klick på stängningsikon
+    if (closeIcon) {
+        closeIcon.addEventListener('click', (event) => {
+            event.stopPropagation();
+            closeLightbox();
+        });
+    } else {
+        console.warn('Close icon element not found!');
+    }
+
+    // Hantera tangenttryckningar (Escape, piltangenter)
+    document.addEventListener('keydown', (event) => {
+        if (lightbox && lightbox.style.display === 'block') {
+            if (event.key === 'Escape') {
+                closeLightbox();
+            } else if (event.key === 'ArrowLeft') {
+                changeImage(-1);
+            } else if (event.key === 'ArrowRight') {
+                changeImage(1);
+            }
+        }
+    });
+
+    // Säkerställ att alla länkar har index
+    galleryLinks.forEach((link, index) => {
+        if (!link.dataset.index) {
+            link.dataset.index = index;
+        }
+    });
+
+    console.log('Lightbox script loaded');
+    console.log('Lightbox overlay element:', lightboxOverlay);
+    console.log('Gallery links found:', galleryLinks.length);
+});

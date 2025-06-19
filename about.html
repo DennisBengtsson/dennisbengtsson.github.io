@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title id="page-title">Personlig Blogg</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Personlig Blogg Template" name="keywords">
+    <meta content="En ren och responsiv personlig blogg template." name="description">
+
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon">
+
+    <!-- Font Awesome (lokalt installerat) -->
+    <link rel="stylesheet" href="fonts/fontawesome-free-6.7.2-web/css/all.min.css">
+
+    <!-- Font Open Sans (lokalt definierat) -->
+    <link href="css/opensans.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- Content Security Policy (CSP) -->
+<meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+    script-src 'self' https://code.jquery.com https://stackpath.bootstrapcdn.com https://github.com/DennisBengtsson/blogg/js/ https://github.com/DennisBengtsson/blogg/jquery/;
+    img-src 'self' data: https://github.com;
+    style-src 'self' 'unsafe-inline';
+    connect-src 'self';
+    font-src 'self';
+    object-src 'none';
+    base-uri 'self';
+    form-action 'self';
+">
+    <style>
+        .bildtext {
+            font-size: 0.6em;
+            color: #666;
+            display: block;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div id="sidebar-container"></div>
+
+        <div class="content">
+            <!-- Navbar Start -->
+            <div id="header-container"></div>
+            <!-- Navbar End -->
+
+            <!-- Page Header Start -->
+            <div class="container py-5 px-2 bg-primary">
+                <div class="row py-5 px-4">
+                    <div class="col-sm-6 text-center text-md-left">
+                        <h1 class="mb-3 mb-md-0 text-white text-uppercase font-weight-bold">Om Mig</h1>
+                    </div>
+                    <div class="col-sm-6 text-center text-md-right">
+                        <div class="d-inline-flex pt-2">
+                            <h4 class="m-0 text-white"><a class="text-white" href="index.html">Hem</a></h4>
+                            <h4 class="m-0 text-white px-2">/</h4>
+                            <h4 class="m-0 text-white">Om mig</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Page Header End -->
+
+            <!-- About Start -->
+            <div class="container bg-white pt-5">
+                <div class="row px-3 pb-5">
+                    <div class="col-md-12">
+                        <h2 class="mb-4 font-weight-bold">"Småland, familj och framtidstro"</h2>
+                        <figure class="float-left mr-4 mb-3" style="max-width: 300px;">
+                            <img class="img-fluid" src="img/about.jpg" alt="Bild från Kittelsenmuseet">
+                            <figcaption class="bildtext">Näst äldsta dottern och jag på Kittelsenmuseet, Norge.</figcaption>
+                        </figure>
+                        <p class="m-0">
+                            Det är tre ord som sammanfattar mig ganska bra. Mina småländska rötter viskar om det
+                            förflutna, men framtidstron sjunger om Skåne, där möjligheterna för mina efterkommande
+                            blomstrar fritt i den feta jorden - en längtan större än skogarnas tystnad, en plats för
+                            deras osjungna sånger. </p>
+                        <p><br>
+                            Född 1992. Jag uppskattar livets enkelhet; prål, falsk yta och skryt är inte för mig. Min
+                            stora rikedom är att vara far till fyra underbara döttrar och make till en fantastisk fru.
+                            Vid dagens slut är det familjen jag tänker på.
+
+                            <br><br>
+                            <span class="quote">"Sätter du en smålänning på en öde klippa<br> i havet skaver han sig
+                                mätt,<br>och giver du honom en get bliver han rik."</span>
+                            <img src="img/strandad-man.jpg" alt="Strandad man">
+                        </p>
+
+                        <br>
+                        <h3>Mina intressen och engagemang</h3>
+                        <p>
+                            Certifierad snickare och utbildad betongarbetare, men långt ifrån bara en slitvarg.
+                            Engagerad medborgare, nyfiken på litteratur och med stort intresse för svensk och
+                            europeisk historia. Teknikintresset har återvänt på senare tid, inte minst med de nya
+                            möjligheter som AI erbjuder.
+                        </p>
+                        <p>
+                            Lokalsamhället och demokratin är viktiga för mig, dessa kräver ständigt engagemang. Rätten
+                            att rösta fritt är en grundläggande princip som jag stöder genom att ställa upp som
+                            rösträknare vid val.
+                        </p>
+
+                        <p>Svenska kyrkan är en plats för reflektion och gemenskap för mig och min familj.</p>
+                    </div>
+                </div>
+            </div>
+            <!-- About End -->
+
+            <!-- Footer Start -->
+            <div id="footer-container"></div>
+            <!-- Footer End -->
+        </div>
+    </div>
+
+    <!-- JavaScript Libraries -->
+    <script src="jquery/jquery-3.7.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <script src="jquery/jquery.waypoints.min.js"></script>
+
+    <script src="js/main.js"></script>
+    <script src="js/site-data.js"></script>
+</body>
+
+</html>

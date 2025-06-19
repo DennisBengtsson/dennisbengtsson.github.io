@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title id="page-title">Personlig Blogg</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Personlig Blogg Template" name="keywords">
+    <meta content="En ren och responsiv personlig blogg template." name="description">
+
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon">
+
+    <!-- Font Awesome (lokalt installerat) -->
+    <link rel="stylesheet" href="fonts/fontawesome-free-6.7.2-web/css/all.min.css">
+
+    <!-- Font Open Sans (lokalt definierat) -->
+    <link href="css/opensans.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- Content Security Policy (CSP) -->
+<meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+    script-src 'self' https://code.jquery.com https://stackpath.bootstrapcdn.com https://github.com/DennisBengtsson/blogg/js/ https://github.com/DennisBengtsson/blogg/jquery/;
+    img-src 'self' data: https://github.com;
+    style-src 'self' 'unsafe-inline';
+    connect-src 'self';
+    font-src 'self';
+    object-src 'none';
+    base-uri 'self';
+    form-action 'self';
+">
+    <style>
+        .bildtext {
+            font-size: 0.6em;
+            color: #666;
+            display: block;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div id="sidebar-container"></div>
+
+        <div class="content">
+            <!-- Navbar Start -->
+            <div id="header-container"></div>
+            <!-- Navbar End -->
+
+            <!-- Page Header Start -->
+            <!-- Page Header Start -->
+            <div class="container py-5 px-2 bg-primary">
+                <div class="row py-5 px-4">
+                    <div class="col-sm-6 text-center text-md-left">
+                        <h1 class="mb-3 mb-md-0 text-white text-uppercase font-weight-bold">Blogg</h1>
+                    </div>
+                    <div class="col-sm-6 text-center text-md-right">
+                        <div class="d-inline-flex pt-2">
+                            <h4 class="m-0 text-white"><a class="text-white" href="index.html">Hem</a></h4>
+                            <h4 class="m-0 text-white px-2">/</h4>
+                            <h4 class="m-0 text-white">Blogg</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Page Header End -->
+
+            <!-- Blogginlägg Container -->
+            <div class="container bg-white pt-5" id="blog-list">
+                <!--
+                    Här ska du lägga till din kod för att dynamiskt generera blogginlägg.
+                    Använd JavaScript (t.ex. din 'blog.js'-fil) för att h��mta data
+                    och generera HTML-koden för varje blogginlägg.
+                -->
+
+                <!-- Exempel på blogginlägg (dessa ska ersättas dynamiskt) -->
+                <div class="blog-post mb-4">
+                    <h2><a href="#"></a></h2>
+                    <p class="text-muted"></p>
+                    <p>Laddar inlägg...</p>
+                    <a href="#" class="btn btn-primary"></a>
+                </div>
+                <!-- Slut på Exempel Blogginlägg -->
+
+            </div>
+
+            <!-- Pagination (Sidnumrering) -->
+            <div class="container">
+                <div class="row px-3 pb-5">
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination m-0 mx-3">
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                            </li>
+                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                    <span class="sr-only">Next</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+
+
+
+            <!-- Page Header End -->
+
+            <!-- Contact Start -->
+
+            <!-- Contact End -->
+
+            <!-- Footer Start -->
+            <div id="footer-container">
+            </div>
+            <!-- Footer End -->
+        </div>
+    </div>
+
+    <!-- JavaScript Libraries -->
+    <script src="jquery/jquery-3.7.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <script src="jquery/jquery.waypoints.min.js"></script>
+
+<script src="js/blog.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/site-data.js"></script>
+    <script src="js/post-navigation.js"></script>
+</body>
+
+</html>

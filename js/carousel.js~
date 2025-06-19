@@ -1,0 +1,67 @@
+$(document).ready(function() {
+    // Antag att dina blogginlägg finns i en variabel som heter 'blogPosts'
+    // i site-data.js eller liknande.
+    // Exempel (kommentera bort det här om du har din egen datakälla):
+    /*
+    var blogPosts = [
+        { title: "Blogginlägg 1", date: "2024-01-01", content: "Kort beskrivning 1...", image: "img/image1.jpg" },
+        { title: "Blogginlägg 2", date: "2024-01-05", content: "Kort beskrivning 2...", image: "img/image2.jpg" },
+        { title: "Blogginlägg 3", date: "2024-01-10", content: "Kort beskrivning 3...", image: "img/image3.jpg" },
+        { title: "Blogginlägg 4", date: "2024-01-15", content: "Kort beskrivning 4...", image: "img/image4.jpg" },
+        { title: "Blogginlägg 5", date: "2024-01-20", content: "Kort beskrivning 5...", image: "img/image5.jpg" }
+    ];
+    */
+
+   // Funktion för att skapa karusell-items
+    function createCarouselItems(posts) {
+        const carouselInner = $('#carousel-inner');
+        carouselInner.empty(); // Rensa eventuellt tidigare innehåll
+
+        // Skapa den första 'active' item
+        if (posts.length > 0) {
+            const firstPost = posts[0];
+            const firstItem = `
+                <div class="carousel-item active">
+                    <img src="${firstPost.image}" class="d-block w-100" alt="${firstPost.title}">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>${firstPost.title}</h5>
+                        <p>${firstPost.content}</p>
+                    </div>
+                </div>
+            `;
+            carouselInner.append(firstItem);
+
+            // Skapa de resterande items
+            for (let i = 1; i < posts.length; i++) {
+                const post = posts[i];
+                const item = `
+                    <div class="carousel-item">
+                        <img src="${post.image}" class="d-block w-100" alt="${post.title}">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5>${post.title}</h5>
+                            <p>${post.content}</p>
+                        </div>
+                    </div>
+                `;
+                carouselInner.append(item);
+            }
+        } else {
+            carouselInner.append('<div class="carousel-item active">Inga blogginlägg hittades.</div>');
+        }
+    }
+  // Kontrollera att blogPosts är definierad innan du använder den
+    if (typeof blogPosts !== 'undefined' && Array.isArray(blogPosts)) {
+       // Sortera blogginläggen efter datum (nyaste först)
+       blogPosts.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+       // Ta de 5 senaste inläggen
+       const latestPosts = blogPosts.slice(0, 5);
+
+       // Skapa karusell-items med de senaste inläggen
+       createCarouselItems(latestPosts);
+   } else {
+       console.error('blogPosts är inte definierad eller är inte en array.');
+       $('#carousel-inner').html('<div class="carousel-item active">Kunde inte ladda blogginlägg.</div>');
+   }
+
+});

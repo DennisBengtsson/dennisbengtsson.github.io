@@ -1,0 +1,29 @@
+[
+  {
+    "title": "Välkommen till min hemsida",
+    "image": "img/betongbil.jpg",
+    "date": "2025-03-12",
+    "category": "Övrigt",
+    "comments": 0,
+    "description": "Här har jag tänkt ladda upp arbetsrelaterade och personliga saker.",
+    "link": "blog/post1.html"
+  },
+  {
+    "title": "Praktik!",
+    "image": "img/mta.jpg",
+    "date": "2025-03-12",
+    "category": "Arbete",
+    "comments": 0,
+    "description": "Vecka 13 börjar jag min betongpraktik.",
+    "link": "blog/post2.html"
+  },
+  {
+    "title": "Tredagarskalas för vår lilla 3-åring!",
+    "image": "img/3-åring.jpg",
+    "date": "2025-03-15",
+    "category": "Familj",
+    "comments": 0,
+    "description": "Vilken helg vi har haft! Vår näst yngsta flicka fyllde 3 år i torsdags och det har varit firande i dagarna tre.",
+    "link": "blog/post3.html"
+  }
+]

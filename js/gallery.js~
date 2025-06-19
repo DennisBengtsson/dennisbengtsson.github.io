@@ -1,0 +1,41 @@
+// gallery.js
+
+function openLightbox(index) {
+    currentImageIndex = index;
+    var lightbox = document.getElementById('lightbox');
+    var lightboxBild = document.getElementById('lightbox-bild');
+    var bildNummer = document.getElementById('bild-nummer');
+
+    lightboxBild.src = images[currentImageIndex];
+    bildNummer.textContent = (currentImageIndex + 1) + ' / ' + images.length;
+    lightbox.style.display = 'block';
+}
+
+function closeLightbox() {
+    var lightbox = document.getElementById('lightbox');
+    lightbox.style.display = 'none';
+}
+
+function changeImage(n) {
+    currentImageIndex += n;
+
+    if (currentImageIndex >= images.length) {
+        currentImageIndex = 0;
+    } else if (currentImageIndex < 0) {
+        currentImageIndex = images.length - 1;
+    }
+
+    var lightboxBild = document.getElementById('lightbox-bild');
+    var bildNummer = document.getElementById('bild-nummer');
+
+    lightboxBild.src = images[currentImageIndex];
+    bildNummer.textContent = (currentImageIndex + 1) + ' / ' + images.length;
+}
+
+// Stäng lightbox om man klickar utanför bilden
+window.addEventListener('click', function(event) {
+    var lightbox = document.getElementById('lightbox');
+    if (event.target == lightbox) {
+        closeLightbox();
+    }
+});

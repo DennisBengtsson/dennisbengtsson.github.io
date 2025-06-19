@@ -1,0 +1,54 @@
+(function ($) {
+    "use strict";
+
+    // Back to top button functionality
+    $(window).scroll(function () {
+        if ($(this).scrollTop() > 100) {
+            $(".back-to-top").fadeIn("slow");
+        } else {
+            $(".back-to-top").fadeOut("slow");
+        }
+    });
+
+    $(".back-to-top").click(function (e) {
+        e.preventDefault();
+        $("html, body").animate(
+            { scrollTop: 0 },
+            1500,
+            "easeInOutExpo"
+        );
+    });
+
+    // Carousel Initialization (Make sure you have the correct HTML in place)
+    $(document).ready(function() {
+        $('#blog-carousel').carousel(); //Initiera karusellen
+    });
+
+})(jQuery);
+
+// Funktion för att hämta data (Kan vara generell och användas på andra ställen)
+const fetchData = async (url) => {
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return await response.text(); //Antar att du vill ha HTML eller text tillbaka
+    } catch (error) {
+        console.error("Fel vid hämtning av data:", error);
+        return null; // Eller annan lämplig felhantering
+    }
+};
+
+// Funktion för att ladda partiell HTML (Kan göras mer generell om behovet finns)
+const loadPartial = async (url, targetId) => {
+    const html = await fetchData(url);
+    if (html) {
+        const targetElement = document.getElementById(targetId);
+        if (targetElement) {
+            targetElement.innerHTML = html;
+        } else {
+            console.error(`Element med ID "${targetId}" hittades inte.`);
+        }
+    }
+};

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title id="page-title">Personlig Blogg</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Personlig Blogg Template" name="keywords">
+    <meta content="En ren och responsiv personlig blogg template." name="description">
+
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon">
+
+    <!-- Font Awesome (lokalt installerat) -->
+    <link rel="stylesheet" href="fonts/fontawesome-free-6.7.2-web/css/all.min.css">
+
+    <!-- Font Open Sans (lokalt definierat) -->
+    <link href="css/opensans.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- Content Security Policy (CSP) -->
+<meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+    script-src 'self' https://code.jquery.com https://stackpath.bootstrapcdn.com https://github.com/DennisBengtsson/blogg/js/ https://github.com/DennisBengtsson/blogg/jquery/;
+    img-src 'self' data: https://github.com;
+    style-src 'self' 'unsafe-inline';
+    connect-src 'self';
+    font-src 'self';
+    object-src 'none';
+    base-uri 'self';
+    form-action 'self';
+">
+    <style>
+        /* Allmän stil */
+        .bildtext {
+            font-size: 0.6em;
+            color: #666;
+            display: block;
+            text-align: center;
+        }
+
+        /* Galleri-specifik stil */
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            /* Fast 3 kolumner */
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Lightbox-stilar (grundl��ggande, kan behöva justeras) */
+        #lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            /* M��rk bakgrund */
+            display: none;
+            /* Göm som standard */
+            z-index: 1000;
+            /* Se till att den är överst */
+        }
+
+        #lightbox-bild {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            /* Centrera bilden */
+            max-width: 90%;
+            max-height: 90%;
+        }
+
+        .close-icon {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 1001;
+            /* Se till att den är över bilden */
+        }
+
+        /* Stil för pilarna */
+        .pil {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 3em;
+            color: white;
+            text-decoration: none;
+            z-index: 1001;
+            cursor: pointer;
+        }
+
+        .vanster {
+            left: 20px;
+        }
+
+        .hoger {
+            right: 20px;
+        }
+
+        /* Stil för bildnummer */
+        #bild-nummer {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 1.2em;
+            z-index: 1001;
+        }
+
+        /* Stil för overlay */
+        .lightbox-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            /* Gör genomskinlig */
+            z-index: 999;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div id="sidebar-container"></div>
+
+        <div class="content">
+            <!-- Navbar Start -->
+            <div id="header-container"></div>
+            <!-- Navbar End -->
+
+            <!-- Page Header Start -->
+            <div class="container py-5 px-2 bg-primary">
+                <div class="row py-5 px-4">
+                    <div class="col-sm-6 text-center text-md-left">
+                        <h1 class="mb-3 mb-md-0 text-white text-uppercase font-weight-bold">Bildgalleri</h1>
+                    </div>
+                    <div class="col-sm-6 text-center text-md-right">
+                        <div class="d-inline-flex pt-2">
+                            <h4 class="m-0 text-white"><a class="text-white" href="index.html">Hem</a></h4>
+                            <h4 class="m-0 text-white px-2">/</h4>
+                            <h4 class="m-0 text-white">Bildgalleri</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Page Header End -->
+
+            <!-- Image Gallery Start -->
+            <div class="container bg-white py-5 px-2">
+                <div class="image-gallery" id="image-gallery">
+                    <!-- Lägg till dina bilder här -->
+                                        <div class="gallery-item">
+                        <a href="#" class="gallery-link" data-src="img/gallery/om-mig.jpg">
+                            <img src="img/gallery/om-mig.jpg" alt="Om mig">
+                        </a>
+                    </div>
+                    <div class="gallery-item">
+                        <a href="#" class="gallery-link" data-src="img/gallery/profile.jpg">
+                            <img src="img/gallery/profile.jpg" alt="Profile">
+                        </a>
+                    </div>
+                    <div class="gallery-item">
+                        <a href="#" class="gallery-link" data-src="img/gallery/strandad-man.jpg">
+                            <img src="img/gallery/strandad-man.jpg" alt="Strandad man">
+                        </a>
+                    </div>
+                    <div class="gallery-item">
+                        <a href="#" class="gallery-link" data-src="img/gallery/3-åring.jpg">
+                            <img src="img/gallery/3-åring.jpg" alt="3-åring">
+                        </a>
+                    </div>                    
+                </div>
+            </div>
+            <!-- Image Gallery End -->
+
+            <!-- Lightbox HTML (Placera detta direkt innan </body>) -->
+            <div id="lightbox">
+                <div class="lightbox-overlay"></div>
+                <span class="close-icon"><i class="fas fa-times"></i></span>
+                <a id="prevBtn" class="pil vanster" aria-label="Föregående bild">&#10094;</a>
+                <div class="lightbox-content">
+                    <img id="lightbox-bild" src="" alt="">
+                </div>
+                <a id="nextBtn" class="pil hoger" aria-label="Nästa bild">&#10095;</a>
+                <div id="bild-nummer" class="bild-nummer"></div>
+            </div>
+
+            <!-- Footer Start -->
+            <div id="footer-container">
+            </div>
+            <!-- Footer End -->
+        </div>
+    </div>
+
+    <!-- JavaScript Libraries -->
+    <script src="jquery/jquery-3.7.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <script src="jquery/jquery.waypoints.min.js"></script>
+
+    <script src="js/main.js"></script>
+    <script src="js/site-data.js"></script>
+    <script src="js/lightbox.js"></script>
+</body>
+
+</html>

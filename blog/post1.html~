@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="sv">
+
+<head>
+    <meta charset="utf-8">
+    <title id="page-title">Välkommen till min hemsida!</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Nybörjare, kodning, html, css, javascript, json" name="keywords">
+    <meta content="Välkommen till min hemsida" name="description">
+
+
+<base href="https://dennisbengtsson.github.io/blogg/">
+
+    <!-- Favicon -->
+    <link href="/blogg/img/favicon.ico" rel="icon">
+
+    <!-- Font Awesome (lokalt installerat) -->
+    <link rel="stylesheet" href="/blogg/fonts/fontawesome-free-6.7.2-web/css/all.min.css">
+
+    <!-- Font Open Sans (lokalt definierat) -->
+    <link href="/blogg/css/opensans.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="/blogg/css/style.css" rel="stylesheet">
+
+    <!-- Content Security Policy (CSP) -->
+<meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+    script-src 'self' https://code.jquery.com https://stackpath.bootstrapcdn.com https://dennisbengtsson.github.io/blogg/js/ https://dennisbengtsson.github.io/blogg/jquery/;
+    img-src 'self' data: https://https://dennisbengtsson.github.io/img;
+    style-src 'self' 'unsafe-inline';
+    connect-src 'self';
+    font-src 'self';
+    object-src 'none';
+    base-uri 'self';
+    form-action 'self';
+">
+    <style>
+        .bildtext {
+            font-size: 0.6em;
+            color: #666;
+            display: block;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div id="sidebar-container"></div>
+
+        <div class="content">
+            <!-- Navbar Start -->
+            <div id="header-container"></div>
+            <!-- Navbar End -->
+
+            <!-- Page Header Start (Anpassad för detta inl��gg) -->
+            <div class="container py-5 px-2 bg-primary">
+                <div class="row py-5 px-4">
+                    <div class="col-sm-6 text-center text-md-left">
+                        <h1 class="mb-3 mb-md-0 text-white text-uppercase font-weight-bold">Blogg</h1>
+                    </div>
+                    <div class="col-sm-6 text-center text-md-right">
+                        <div class="d-inline-flex pt-2">
+                            <h4 class="m-0 text-white"><a class="text-white" href="/blogg/index.html">Hem</a></h4>
+                            <h4 class="m-0 text-white px-2">/</h4>
+                            <h4 class="m-0 text-white"><a class="text-white" href="/blogg/blog.html">Blogg</a></h4>
+                            <h4 class="m-0 text-white px-2">/</h4>
+                            <h4 class="m-0 text-white smaller-text">Inlägg</h4>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Page Header End -->
+
+            <!-- Blogginlägg Content -->
+            <div class="container bg-white pt-5">
+                <div class="row px-3 pb-5">
+                    <div class="col-md-12">
+                        <img class="img-fluid mb-4" src="/blogg/img/betongbil.jpg" alt="En julgran">
+                        <span class="bildtext"></span>
+                        <h1 class="mt-md-4 mb-2 py-2 bg-white font-weight-bold">Välkommen till min hemsida</h1>
+                        <div class="d-flex mb-3">
+                            <small class="mr-2 text-muted"><i class="fa fa-calendar-alt"></i> 2025-03-12</small>
+                            <small class="mr-2 text-muted"><i class="fa fa-folder"></i> Arbete</small>
+                        </div>
+                        <p>
+ Länge har jag drömt om att skapa en egen hemsida, men det har känts som en stor utmaning. Att lära sig koda från grunden är inte lätt, särskilt när koncentrationen sviker. Men med hjälp av AI har det faktiskt gått riktigt bra! Jag har lärt mig en del på vägen, men utan denna hjälp hade jag nog inte klarat att bygga något.
+<p></p>Det var allt för idag - välkommen till min hemsida! 
+                        </p>
+
+
+<div class="d-flex justify-content-between align-items-center">
+    <a class="btn btn-sm btn-outline-primary back" href="/blogg/blog.html">Tillbaka till bloggen <i class="fa fa-angle-right"></i></a>
+    <div class="text-right">
+        <a href="" class="btn btn-sm btn-outline-primary prev-post">Föregående inlägg</a>
+        <a href="" class="btn btn-sm btn-outline-primary next-post">Nästa inlägg</a>
+    </div>
+</div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- Blogginlägg Content End -->
+
+            <!-- Footer Start -->
+            <div id="footer-container"></div>
+            <!-- Footer End -->
+        </div>
+    </div>
+
+    <!-- JavaScript Libraries -->
+    <script src="jquery/jquery-3.7.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <script src="jquery/jquery.waypoints.min.js"></script>
+
+    <script src="js/main.js"></script>
+    <script src="js/site-data.js"></script>
+    <script src="js/post-navigation.js"></script>
+<script src="js/fix-links.js"></script>
+
+</body>
+
+</html>
