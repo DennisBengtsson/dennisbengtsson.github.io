@@ -24,7 +24,7 @@
     <!-- Content Security Policy (CSP) -->
 <meta http-equiv="Content-Security-Policy" content="
     default-src 'self';
-    script-src 'self' https://code.jquery.com https://stackpath.bootstrapcdn.com https://github.com/DennisBengtsson/js/ https://github.com/DennisBengtsson/jquery/;
+    script-src 'self' https://code.jquery.com https://stackpath.bootstrapcdn.com https://github.com/DennisBengtsson/blogg/js/ https://github.com/DennisBengtsson/blogg/jquery/;
     img-src 'self' data: https://github.com;
     style-src 'self' 'unsafe-inline';
     connect-src 'self';
