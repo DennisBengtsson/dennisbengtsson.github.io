@@ -1,11 +1,9 @@
-// post-navigation.js
-
 console.log("post-navigation.js loaded");
 
 // Funktion för att hämta blogginlägg från JSON-filen
 async function getBlogPosts() {
     try {
-        const response = await fetch('/blogg/json/blog_posts.json');
+        const response = await fetch('/blogg/json/blog_posts.json'); // Uppdatera sökvägen om nödvändigt
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -49,10 +47,12 @@ async function generatePostNavigation() {
         return;
     }
 
+    console.log("Elementen .prev-post och .next-post hittades"); // Verifiera att elementen hittades
+
     if (currentIndex > 0) {
         // Det finns ett föregående inlägg
         const prevPost = posts[currentIndex - 1];
-        prevLink.href =  prevPost.link;
+        prevLink.href = prevPost.link;
         prevLink.textContent = "Föregående inlägg";
         prevLink.classList.remove('disabled');
     } else {
