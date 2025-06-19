@@ -13,7 +13,7 @@ $(document).ready(function() {
     async function loadBlogPosts() {
         try {
             console.log("loadBlogPosts() körs");
-            const response = await fetch('https://dennisbengtsson.github.io/blogg/json/blog_posts.json', {
+            const response = await fetch('https://dennisbengtsson.github.io/json/blog_posts.json', {
                 headers: { 'Accept': 'application/json' }
             });
 
@@ -51,7 +51,7 @@ $(document).ready(function() {
         } catch (error) {
             console.error('Kunde inte ladda bloggposter:', error);
             const blogList = document.getElementById('blog-list');
-            if (blogList) blogList.innerHTML = '<p>Kunde inte ladda bloggposter. Förs��k igen senare.</p>';
+            if (blogList) blogList.innerHTML = '<p>Kunde inte ladda bloggposter. Försök igen senare.</p>';
         }
     }
 
@@ -92,7 +92,7 @@ $(document).ready(function() {
 
             carouselInner.append(`
                 <div class="carousel-item">
-                    <img src="${escapedImage}" class="d-block w-100" alt="${escapedTitle}">
+                    <img src="${escapedImage}" class="d-block w-10" alt="${escapedTitle}">
                     <div class="carousel-caption d-none d-md-block">
                         <h5>${escapedTitle}</h5>
                         <p>${escapedDescription}</p>
@@ -109,7 +109,7 @@ $(document).ready(function() {
     if (window.location.pathname.includes("index.html")) {
         // H��mta blogPosts med AJAX (ENDAST FÖR INDEX.HTML)
         $.ajax({
-            url: "https://dennisbengtsson.github.io/blogg/json/blog_posts.json",
+            url: "https://dennisbengtsson.github.io/json/blog_posts.json",
             method: "GET",
             dataType: "text", // ÄNDRAD TILL TEXT
             success: function(data) {

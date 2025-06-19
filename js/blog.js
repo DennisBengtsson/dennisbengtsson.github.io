@@ -1,129 +1,128 @@
-$(document).ready(function() {
+// Delad funktion för att undvika XSS
+function escapeHTML(str) {
+    if (typeof str !== 'string' && !(str instanceof String)) {
+        return "";
+    }
+    const p = document.createElement("p");
+    p.textContent = str;
+    return p.innerHTML;
+}
 
-    // Funktion för att förhindra XSS (Cross-Site Scripting)
-    function escapeHTML(str) {
-        if (str == null) {
-            return ""; // Eller något annat vettigt standardvärde
+// Funktion för att hämta bloggdata
+async function fetchBlogData() {
+    try {
+        const response = await fetch('https://dennisbengtsson.github.io/json/blog_posts.json', {
+            headers: { 'Accept': 'application/json' }
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP-fel: ${response.status}`);
         }
-        let p = document.createElement("p");
-        p.appendChild(document.createTextNode(str));
-        return p.innerHTML;
+
+        return await response.json();
+    } catch (error) {
+        console.error('Kunde inte ladda bloggdata:', error);
+        return null;
     }
+}
 
-    async function loadBlogPosts() {
-        try {
-            console.log("loadBlogPosts() körs");
-            const response = await fetch('https://dennisbengtsson.github.io/blogg/json/blog_posts.json', {
-                headers: { 'Accept': 'application/json' }
-            });
+// Funktion för att skapa blogglistan
+function createBlogList(blogPosts) {
+    const blogList = document.getElementById('blog-list');
+    if (!blogList || !Array.isArray(blogPosts)) return;
 
-            if (!response.ok) {
-                throw new Error('Nätverksresponsen var inte ok');
-            }
+    blogList.innerHTML = '';
 
-            const data = await response.json();
-            console.log(data);
+    blogPosts.forEach(post => {
+        // Validera postdata
+        const safePost = {
+            title: escapeHTML(post.title || ''),
+            description: escapeHTML(post.description || ''),
+            image: escapeHTML(post.image || 'default-image.jpg'),
+            date: escapeHTML(post.date || ''),
+            category: escapeHTML(post.category || 'Okategoriserat'),
+            comments: Number.isInteger(post.comments) ? post.comments : 0,
+            link: escapeHTML(post.link || '#')
+        };
 
-            const blogList = document.getElementById('blog-list');
-            if (blogList) {
-                blogList.innerHTML = '';
+        blogList.innerHTML += `
+            <div class="row blog-item px-3 pb-5">
+                <div class="col-md-5">
+                    <img class="img-fluid mb-4 mb-md-0" src="${safePost.image}" alt="${safePost.title}">
+                </div>
+                <div class="col-md-7">
+                    <h3 class="mt-md-4 px-md-3 mb-2 py-2 bg-white font-weight-bold">${safePost.title}</h3>
+                    <div class="d-flex mb-3">
+                        <small class="mr-2 text-muted"><i class="fa fa-calendar-alt"></i> ${safePost.date}</small>
+                        <small class="mr-2 text-muted"><i class="fa fa-folder"></i> ${safePost.category}</small>
+                        <small class="mr-2 text-muted"><i class="fa fa-comments"></i> ${safePost.comments} Kommentarer</small>
+                    </div>
+                    <p>${safePost.description}</p>
+                    <a class="btn btn-sm btn-outline-primary next-post" href="${safePost.link}">Läs mer <i class="fa fa-angle-right"></i></a>
+                </div>
+            </div>
+        `;
+    });
+}
 
-                data.forEach(post => {
-                    blogList.innerHTML += `
-                        <div class="row blog-item px-3 pb-5">
-                            <div class="col-md-5">
-                                <img class="img-fluid mb-4 mb-md-0" src="${escapeHTML(post.image)}" alt="${escapeHTML(post.title)}">
-                            </div>
-                            <div class="col-md-7">
-                                <h3 class="mt-md-4 px-md-3 mb-2 py-2 bg-white font-weight-bold">${escapeHTML(post.title)}</h3>
-                                <div class="d-flex mb-3">
-                                    <small class="mr-2 text-muted"><i class="fa fa-calendar-alt"></i> ${escapeHTML(post.date)}</small>
-                                    <small class="mr-2 text-muted"><i class="fa fa-folder"></i> ${escapeHTML(post.category)}</small>
-                                    <small class="mr-2 text-muted"><i class="fa fa-comments"></i> ${Number.isInteger(post.comments) ? post.comments : 0} Kommentarer</small>
-                                </div>
-                                <p>${escapeHTML(post.description)}</p>
-                                <a class="btn btn-sm btn-outline-primary next-post" href="${escapeHTML(post.link)}">Läs mer <i class="fa fa-angle-right"></i></a>
-                            </div>
-                        </div>
-                    `;
-                });
-            }
-        } catch (error) {
-            console.error('Kunde inte ladda bloggposter:', error);
-            const blogList = document.getElementById('blog-list');
-            if (blogList) blogList.innerHTML = '<p>Kunde inte ladda bloggposter. Förs��k igen senare.</p>';
-        }
-    }
+// Funktion för att skapa karusell
+function createCarousel(blogPosts) {
+    const carouselInner = $('#carousel-inner');
+    if (!carouselInner.length || !Array.isArray(blogPosts)) return;
 
-    if (window.location.pathname.includes("blog.html")) {
-        loadBlogPosts();
-    }
-});
+    carouselInner.empty();
 
-$(document).ready(function() {
-    // Funktion för att förhindra XSS (Cross-Site Scripting)
-    function escapeHTML(str) {
-        if (str == null) {
-            return "";  // Eller något annat vettigt standardvärde
-        }
-        let p = document.createElement("p");
-        p.appendChild(document.createTextNode(str));
-        return p.innerHTML;
-    }
+    try {
+        // Filtrera ogiltiga poster och sortera efter datum
+        const validPosts = blogPosts.filter(post => 
+            post && post.date && new Date(post.date) !== "Invalid Date"
+        );
+        
+        const latestPosts = validPosts
+            .sort((a, b) => new Date(b.date) - new Date(a.date))
+            .slice(0, 5);
 
-    function createCarousel(blogPosts) {
-        const carouselInner = $('#carousel-inner');
-        carouselInner.empty();
-
-        if (!blogPosts || !Array.isArray(blogPosts)) {
-            console.error('blogPosts är inte definierad eller är inte en array.');
-            carouselInner.html('<div class="carousel-item active">Kunde inte ladda blogginlägg.</div>');
+        if (latestPosts.length === 0) {
+            carouselInner.html('<div class="carousel-item active">Inga blogginlägg tillgängliga</div>');
             return;
         }
 
-        const latestPosts = blogPosts.sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 5);
+        latestPosts.forEach((post, index) => {
+            const safePost = {
+                title: escapeHTML(post.title || ''),
+                description: escapeHTML(post.description || ''),
+                image: escapeHTML(post.image || 'default-image.jpg'),
+                link: escapeHTML(post.link || '#')
+            };
 
-        latestPosts.forEach(post => {
-            const { title, description, image, link } = post;
-            const escapedTitle = escapeHTML(title);
-            const escapedDescription = escapeHTML(description);
-            const escapedImage = escapeHTML(image);
-            const escapedLink = escapeHTML(link);
-
-            carouselInner.append(`
-                <div class="carousel-item">
-                    <img src="${escapedImage}" class="d-block w-10" alt="${escapedTitle}">
+            const carouselItem = $(`
+                <div class="carousel-item${index === 0 ? ' active' : ''}">
+                    <img src="${safePost.image}" class="d-block w-100" alt="${safePost.title}">
                     <div class="carousel-caption d-none d-md-block">
-                        <h5>${escapedTitle}</h5>
-                        <p>${escapedDescription}</p>
-                        <a href="${escapedLink}" class="btn btn-primary custom-read-more-button">Läs mer</a>
+                        <h5>${safePost.title}</h5>
+                        <p>${safePost.description}</p>
+                        <a href="${safePost.link}" class="btn btn-primary custom-read-more-button">Läs mer</a>
                     </div>
                 </div>
             `);
+            
+            carouselInner.append(carouselItem);
         });
-
-        //Aktivera den första karusellbilden
-         carouselInner.find('.carousel-item:first').addClass('active');
+    } catch (error) {
+        console.error('Fel vid skapande av karusell:', error);
+        carouselInner.html('<div class="carousel-item active">Kunde inte ladda blogginlägg</div>');
     }
+}
 
+// Initiera komponenter beroende på sidan
+$(document).ready(async function() {
+    const blogData = await fetchBlogData();
+    
+    if (window.location.pathname.includes("blog.html")) {
+        createBlogList(blogData || []);
+    }
+    
     if (window.location.pathname.includes("index.html")) {
-        // H��mta blogPosts med AJAX (ENDAST FÖR INDEX.HTML)
-        $.ajax({
-            url: "https://dennisbengtsson.github.io/blogg/json/blog_posts.json",
-            method: "GET",
-            dataType: "text", // ÄNDRAD TILL TEXT
-            success: function(data) {
-                try {
-                    const blogPosts = JSON.parse(data); // Parsa JSON manuellt
-                    createCarousel(blogPosts);
-                } catch (e) {
-                    console.error("Fel vid parsning av JSON:", e);
-                }
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                console.error("Fel vid hämtning av blogginlägg för index.html:", textStatus, errorThrown);
-                $('#carousel-inner').html('<div class="carousel-item active">Kunde inte ladda blogginlägg.</div>');
-            }
-        });
+        createCarousel(blogData || []);
     }
 });
