@@ -19,7 +19,7 @@ const debugLog = (...args) => {
     if (NavigationConfig.debug) console.log(...args);
 };
 
-const getFileNameFromPath = (path) => {
+const getFileNameFromPath = (path) =>1 {
     return path.split('/').pop().toLowerCase();
 };
 
