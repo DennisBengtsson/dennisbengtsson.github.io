@@ -27,7 +27,7 @@
 <meta http-equiv="Content-Security-Policy" content="
     default-src 'self';
     script-src 'self' https://code.jquery.com https://stackpath.bootstrapcdn.com https://dennisbengtsson.github.io/js/ https://dennisbengtsson.github.io/jquery/;
-    img-src 'self' data: https://https://dennisbengtsson.github.io/img;
+    img-src 'self' data: https://dennisbengtsson.github.io/img;
     style-src 'self' 'unsafe-inline';
     connect-src 'self';
     font-src 'self';
