@@ -1,113 +1,81 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="sv">
-
 <head>
-    <meta charset="utf-8">
-    <title id="page-title">Dennis Bengtsson - Personlig Blogg</title>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="Dennis Bengtsson blogg om betong och trä" name="keywords">
-    <meta content="Dennis Bengtsson blogg" name="description">
+  <meta charset="utf-8">
+  <title>Dennis Bengtsson - Personlig Blogg</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="keywords"  content="Dennis Bengtsson blogg om betong och trä">
+  <meta name="description" content="Dennis Bengtsson blogg">
 
+  <link rel="icon" href="img/favicon.ico">
+  <link rel="stylesheet" href="fonts/fontawesome-free-6.7.2-web/css/all.min.css">
+  <link rel="stylesheet" href="css/opensans.css">
+  <link rel="stylesheet" href="css/bootstrap-4.5.2.min.css">
+  <link rel="stylesheet" href="css/style.css">
 
-    <!-- Favicon -->
-    <link href="img/favicon.ico" rel="icon">
+  <!-- Strikt, CDN-fri CSP -->
+  <meta http-equiv="Content-Security-Policy" content="
+    default-src   'none';
+    script-src    'self'
+      'sha384-D47DB5EE0C125722D221F68BC476C4EDD45BDEFE2660229BA50BF3C7471E81E8EED4C56C1AB5F9C57C40BECFC781E16C'
+      'sha384-F9B291A03BA0509C0EA9EF159C97B3D531C08A115E5C714A92CB495B71C94F1C566B73A0E538C042C4687C824EB33DDB';
+    style-src     'self';
+    img-src       'self' data:;
+    font-src      'self' data:;
+    connect-src   'none';
+    object-src    'none';
+    base-uri      'self';
+    form-action   'self';
+    frame-ancestors 'none';
+    block-all-mixed-content;
+    upgrade-insecure-requests">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+  <meta http-equiv="X-Frame-Options"        content="DENY"   />
+  <meta http-equiv="Referrer-Policy"         content="no-referrer" />
 
-    <!-- Font Awesome (lokalt installerat) -->
-    <link rel="stylesheet" href="fonts/fontawesome-free-6.7.2-web/css/all.min.css">
-
-    <!-- Font Open Sans (lokalt definierat) -->
-    <link href="css/opensans.css" rel="stylesheet">
-
-    <!-- Customized Bootstrap Stylesheet -->
-    <link href="css/style.css" rel="stylesheet">
-
-    <!-- Content Security Policy (CSP) -->
-<meta http-equiv="Content-Security-Policy" content="
-    default-src 'self';
-    script-src 'self' https://code.jquery.com https://stackpath.bootstrapcdn.com https://github.com/DennisBengtsson/js/ https://github.com/DennisBengtsson/jquery/;
-    img-src 'self' data: https://github.com;
-    style-src 'self' 'unsafe-inline';
-    connect-src 'self';
-    font-src 'self';
-    object-src 'none';
-    base-uri 'self';
-    form-action 'self';
-">
-    <style>
-        /* Begränsa höjden på karusellen till 50% av visningsportens höjd */
-        #blog-carousel {
-            height: 40vh; /* vh = viewport height */
-            overflow: hidden; /* Dölj eventuellt överflödigt innehåll */
-        }
-
-        /* Se till att bilden fyller den tillgängliga höjden, men inte mer */
-        #blog-carousel .carousel-inner>.carousel-item>img {
-            max-height: 100%;
-            object-fit: cover; /* Behåll bildens proportioner och fyll utrymmet */
-        }
-
-        .carousel-caption {
-            background-color: rgba(0, 0, 0, 0.5); /* Mörkare bakgrund för bättre läsbarhet */
-            padding: 15px;
-            border-radius: 5px;
-        }
-        .carousel-caption h5, .carousel-caption p {
-            color: white;
-        }
-
-    </style>
+  <style>
+    .carousel-item img {height:40vh;object-fit:cover}
+    .carousel-caption{background:rgba(0,0,0,.4);border-radius:5px;padding:15px;color:#fff}
+  </style>
 </head>
 
 <body>
-    <div class="wrapper">
-        <div id="sidebar-container"></div>
+  <div class="wrapper">
+    <aside id="sidebar-container"></aside>
+    <main class="content">
+      <header id="header-container"></header>
 
-        <div class="content">
-            <!-- Navbar Start -->
-            <div id="header-container"></div>
-            <!-- Navbar End -->
-
-            <!-- Page Specific Content -->
-            <div id="page-content-container">
-                <!-- Carousel Start -->
-                <div class="container p-0">
-                    <div id="blog-carousel" class="carousel slide" data-ride="carousel">
-                        <div class="carousel-inner" id="carousel-inner">
-                            <!-- Carousel items kommer att laddas här dynamiskt -->
-                        </div>
-                        <a class="carousel-control-prev" href="#blog-carousel" role="button" data-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Föregående</span>
-                        </a>
-                        <a class="carousel-control-next" href="#blog-carousel" role="button" data-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Nästa</span>
-                        </a>
-                    </div>
-                </div>
-                <!-- Carousel End -->
-            </div>
-
-            <!-- Footer Start -->
-            <div id="footer-container"></div>
-            <!-- Footer End -->
+      <!-- Bild-karusell -->
+      <div id="blog-carousel" class="carousel slide" data-ride="carousel" data-interval="5000">
+        <div id="carousel-inner" class="carousel-inner">
+          <!-- slides populeras av blog.js -->
         </div>
-    </div>
+        <a class="carousel-control-prev" href="#blog-carousel" role="button" data-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="sr-only">Föregående</span>
+        </a>
+        <a class="carousel-control-next" href="#blog-carousel" role="button" data-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="sr-only">Nästa</span>
+        </a>
+      </div>
 
-    <!-- Back to Top -->
+      <footer id="footer-container"></footer>
+    </main>
+
     <a href="#" class="back-to-top"><i class="fa fa-angle-double-up"></i></a>
 
-    <!-- JavaScript Libraries -->
-    <script src="jquery/jquery-3.7.1.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
-    <script src="jquery/jquery.waypoints.min.js"></script>
-
-    <!-- Template Javascript -->
-    <script src="js/site-data.js"></script>
-    <script src="js/main.js"></script>
-    <script src="js/blog.js"></script>
-
-
+    <!-- Lokala script (ingen CDN längre) -->
+    <script src="jquery/jquery-3.7.1.min.js"
+            integrity="sha384-D47DB5EE0C125722D221F68BC476C4EDD45BDEFE2660229BA50BF3C7471E81E8EED4C56C1AB5F9C57C40BECFC781E16C"
+            crossorigin="anonymous" defer></script>
+    <script src="js/bootstrap.bundle-4.5.2.min.js" defer></script>
+    <script src="jquery/jquery.waypoints.min.js"
+            integrity="sha384-F9B291A03BA0509C0EA9EF159C97B3D531C08A115E5C714A92CB495B71C94F1C566B73A0E538C042C4687C824EB33DDB"
+            crossorigin="anonymous" defer></script>
+    <script src="js/site-data.js" defer></script>
+    <script src="js/main.js"     defer></script>
+    <script src="js/blog.js"     defer></script>
+  </div>
 </body>
-
 </html>

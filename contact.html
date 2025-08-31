@@ -1,110 +1,91 @@
-<!DOCTYPE html>
-<html lang="en">
-
+<!doctype html>
+<html lang="sv">
 <head>
-    <meta charset="utf-8">
-    <title id="page-title">Personlig Blogg</title>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="Personlig Blogg Template" name="keywords">
-    <meta content="En ren och responsiv personlig blogg template." name="description">
+  <meta charset="utf-8">
+  <title>Personlig Blogg – Kontakta mig</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="keywords"  content="Personlig Blogg">
+  <meta name="description" content="En ren och responsiv personlig blogg template.">
 
-    <!-- Favicon -->
-    <link href="img/favicon.ico" rel="icon">
+  <link rel="icon" href="img/favicon.ico">
+  <link rel="stylesheet" href="fonts/fontawesome-free-6.7.2-web/css/all.min.css">
+  <link rel="stylesheet" href="css/opensans.css">
+  <link rel="stylesheet" href="css/bootstrap-4.5.2.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <style>.bildtext{font-size:.6em;color:#666}/*övrigt i style.css*/</style>
 
-    <!-- Font Awesome (lokalt installerat) -->
-    <link rel="stylesheet" href="fonts/fontawesome-free-6.7.2-web/css/all.min.css">
-
-    <!-- Font Open Sans (lokalt definierat) -->
-    <link href="css/opensans.css" rel="stylesheet">
-
-    <!-- Customized Bootstrap Stylesheet -->
-    <link href="css/style.css" rel="stylesheet">
-
-    <!-- Content Security Policy (CSP) -->
-<meta http-equiv="Content-Security-Policy" content="
-    default-src 'self';
-    script-src 'self' https://code.jquery.com https://stackpath.bootstrapcdn.com https://github.com/DennisBengtsson/blogg/js/ https://github.com/DennisBengtsson/blogg/jquery/;
-    img-src 'self' data: https://github.com;
-    style-src 'self' 'unsafe-inline';
-    connect-src 'self';
-    font-src 'self';
-    object-src 'none';
-    base-uri 'self';
-    form-action 'self';
-">
-    <style>
-        .bildtext {
-            font-size: 0.6em;
-            color: #666;
-            display: block;
-            text-align: center;
-        }
-    </style>
+  <!-- Strikt, CDN-fri CSP -->
+  <meta http-equiv="Content-Security-Policy" content="
+    default-src   'none';
+    script-src    'self'
+      'sha384-D47DB5EE0C125722D221F68BC476C4EDD45BDEFE2660229BA50BF3C7471E81E8EED4C56C1AB5F9C57C40BECFC781E16C';
+    style-src     'self';
+    img-src       'self' data:;
+    font-src      'self' data:;
+    object-src    'none';
+    base-uri      'self';
+    form-action   'self';
+    frame-ancestors 'none';
+    block-all-mixed-content;
+    upgrade-insecure-requests">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+  <meta http-equiv="X-Frame-Options"         content="DENY"   />
+  <meta http-equiv="Referrer-Policy"        content="no-referrer" />
 </head>
 
 <body>
-    <div class="wrapper">
-        <div id="sidebar-container"></div>
+  <div class="wrapper">
+    <aside id="sidebar-container"></aside>
+    <main class="content">
+      <header id="header-container"></header>
 
-        <div class="content">
-            <!-- Navbar Start -->
-            <div id="header-container"></div>
-            <!-- Navbar End -->
-
-            <!-- Page Header Start -->
-            <div class="container py-5 px-2 bg-primary">
-                <div class="row py-5 px-4">
-                    <div class="col-sm-6 text-center text-md-left">
-                        <h1 class="mb-3 mb-md-0 text-white text-uppercase font-weight-bold">Kontakta Mig</h1>
-                    </div>
-                    <div class="col-sm-6 text-center text-md-right">
-                        <div class="d-inline-flex pt-2">
-                            <h4 class="m-0 text-white"><a class="text-white" href="index.html">Hem</a></h4>
-                            <h4 class="m-0 text-white px-2">/</h4>
-                            <h4 class="m-0 text-white">Kontakta mig</h4>
-                        </div>
-                    </div>
-                </div>
+      <section class="container py-5 px-2 bg-primary">
+        <div class="row py-5 px-4">
+          <div class="col-sm-6 text-center text-md-left">
+            <h1 class="mb-3 mb-md-0 text-white text-uppercase font-weight-bold">Kontakta Mig</h1>
+          </div>
+          <div class="col-sm-6 text-center text-md-right">
+            <div class="d-inline-flex pt-2">
+              <h4 class="m-0 text-white"><a class="text-white" href="index.html">Hem</a></h4>
+              <h4 class="m-0 text-white px-2">/</h4>
+              <h4 class="m-0 text-white">Kontakta mig</h4>
             </div>
-            <!-- Page Header End -->
-
-            <!-- Contact Start -->
-            <div class="container bg-white pt-5">
-                <div class="row px-3 pb-2">
-                    <div class="col-sm-4 text-center mb-3">
-                        <i class="fa fa-2x fa-map-marker-alt mb-3 text-primary"></i>
-                        <h4 class="font-weight-bold">Adress</h4>
-                        <p>Skåne (NV)</p>
-                    </div>
-                    <div class="col-sm-4 text-center mb-3">
-                        <i class="fa fa-2x fa-phone-alt mb-3 text-primary"></i>
-                        <h4 class="font-weight-bold">Telefon</h4>
-                        <p><a href="tel:0730741489">073-074 14 89</a></p>
-                    </div>
-                    <div class="col-sm-4 text-center mb-3">
-                        <i class="far fa-2x fa-envelope mb-3 text-primary"></i>
-                        <h4 class="font-weight-bold">Email</h4>
-                        <p class="email-address"><a
-                                href="mailto:dennisrmgbengtsson@gmail.com">DennisRMGBengtsson</a></p>
-                    </div>
-                </div>
-            </div>
-            <!-- Contact End -->
-
-            <!-- Footer Start -->
-            <div id="footer-container">
-            </div>
-            <!-- Footer End -->
+          </div>
         </div>
-    </div>
+      </section>
 
-    <!-- JavaScript Libraries -->
-    <script src="jquery/jquery-3.7.1.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
-    <script src="jquery/jquery.waypoints.min.js"></script>
+      <section class="container bg-white pt-5">
+        <div class="row px-3 pb-2 text-center">
+          <div class="col-sm-4 mb-3">
+            <i class="fa fa-2x fa-map-marker-alt mb-2 text-primary"></i>
+            <h4 class="font-weight-bold">Adress</h4>
+            <p>Skåne (NV)</p>
+          </div>
+          <div class="col-sm-4 mb-3">
+            <i class="fa fa-2x fa-phone-alt mb-2 text-primary"></i>
+            <h4 class="font-weight-bold">Telefon</h4>
+            <p><a href="tel:0730741489">073-074 14 89</a></p>
+          </div>
+          <div class="col-sm-4 mb-3">
+            <i class="far fa-2x fa-envelope mb-2 text-primary"></i>
+            <h4 class="font-weight-bold">Email</h4>
+            <p class="email-address"><a href="mailto:dennisrmgbengtsson@gmail.com">DennisRMGBengtsson</a></p>
+          </div>
+        </div>
+      </section>
 
-    <script src="js/main.js"></script>
-    <script src="js/site-data.js"></script>
+      <footer id="footer-container"></footer>
+    </main>
+  </div>
+
+  <!-- Lokala script + bootstrap som lokalt package -->
+  <script src="jquery/jquery-3.7.1.min.js"
+          integrity="sha384-D47DB5EE0C125722D221F68BC476C4EDD45BDEFE2660229BA50BF3C7471E81E8EED4C56C1AB5F9C57C40BECFC781E16C"
+          crossorigin="anonymous"></script>
+  <script src="js/bootstrap.bundle-4.5.2.min.js"></script>
+  <script src="jquery/jquery.waypoints.min.js"></script>
+
+  <script src="js/main.js"></script>
+  <script src="js/site-data.js"></script>
 </body>
-
 </html>
