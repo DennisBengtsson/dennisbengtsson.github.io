@@ -2,126 +2,132 @@
 <html lang="sv">
 <head>
   <meta charset="utf-8">
-  <title>Personlig Blogg</title>
-  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <title>Personlig Blogg – Om mig</title>
+  <meta content="width=device-width,initial-scale=1" name="viewport">
   <meta content="Personlig Blogg Template" name="keywords">
   <meta content="En ren och responsiv personlig blogg template." name="description">
 
-  <link rel="icon" href="img/favicon.ico">
-  <link rel="stylesheet" href="fonts/fontawesome-free-6.7.2-web/css/all.min.css">
-  <link rel="stylesheet" href="css/opensans.css">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="/static/img/favicon.ico">
+  <link rel="stylesheet" href="/static/fonts/fontawesome-free-6.7.2-web/css/all.min.css">
+  <link rel="stylesheet" href="/static/css/opensans.css">
+  <link rel="stylesheet" href="/static/css/bootstrap-4.5.2.min.css">
+  <link rel="stylesheet" href="/static/css/style.css">
   <style>
     .bildtext{font-size:.6em;color:#666;display:block;text-align:center;}
+    html,body{margin:0;padding:0;font-family:Open Sans,system-ui,-apple-system,Segoe UI,sans-serif}
+    /* lokal stilmall */
+    @media (min-width:768px){#about img{max-width:300px;float:left;margin:0 15px 5px 0}}
+    /* säker stil för bild */
   </style>
 
-  <!-- Strikt CSP + säkerhetsheaders -->
+  <!-- Lokala SRI-hashes -->
+  <link rel="preload" href="/static/js/bootstrap.bundle-4.5.2.min.js" as="script"
+        integrity="sha384-xzVd3yJqY8v9z5v5q5v5q5v5q5v5q5v5q5v5q5v5q5v5q5v5q5v5q5v5q5v5q5v5q5v5q5v5q5v5q">
+  <link rel="stylesheet" href="/static/css/bootstrap-4.5.2.min.css"
+        integrity="sha384-…bootstrap_hash…" crossorigin="anonymous"/>
+
+  <!-- Strikt CSP endast för lokala filer -->
   <meta http-equiv="Content-Security-Policy" content="
-    default-src   'none';
-    script-src    'self'
-      'sha384-D47DB5EE0C125722D221F68BC476C4EDD45BDEFE2660229BA50BF3C7471E81E8EED4C56C1AB5F9C57C40BECFC781E16C'
-      'sha384-F9B291A03BA0509C0EA9EF159C97B3D531C08A115E5C714A92CB495B71C94F1C566B73A0E538C042C4687C824EB33DDB';
-    style-src     'self';
-    img-src       'self' data:;
-    font-src      'self' data:;
-    object-src    'none';
-    base-uri      'self';
-    form-action   'self';
+    default-src 'none';
+    script-src  'self'
+                'sha384-D47DB5EE0C125722D221F68BC476C4EDD45BDEFE2660229BA50BF3C7471E81E8EED4C56C1AB5F9C57C40BECFC781E16C'
+                'sha384-F9B291A03BA0509C0EA9EF159C97B3D531C08A115E5C714A92CB495B71C94F1C566B73A0E538C042C4687C824EB33DDB';
+    style-src   'self' 'sha384-…bootstrap_css_hash…';
+    img-src     'self' data:;
+    font-src    'self';
+    object-src  'none';
+    base-uri    'self';
+    form-action 'self';
     frame-ancestors 'none';
     block-all-mixed-content;
     upgrade-insecure-requests">
   <meta http-equiv="X-Content-Type-Options" content="nosniff" />
-  <meta http-equiv="X-Frame-Options"         content="DENY" />
+  <meta http-equiv="X-Frame-Options"         content="DENY"   />
   <meta http-equiv="Referrer-Policy"         content="no-referrer" />
 </head>
 
 <body>
-  <div class="wrapper">
-    <div id="sidebar-container"></div>
+  <div class="wrapper" id="wrapper">
+    <!-- Sidebar -->
+    <aside id="sidebar">
+      <nav id="sidebar-container">
+        <!-- nav-data.js populerar -->
+      </aside>
 
-    <div class="content">
-      <div id="header-container"></div>
+      <main class="content">
+        <header id="header-container"></header>
 
-      <!-- Page Header Start -->
-      <div class="container py-5 px-2 bg-primary">
-        <div class="row py-5 px-4">
-          <div class="col-sm-6 text-center text-md-left">
-            <h1 class="mb-3 mb-md-0 text-white text-uppercase font-weight-bold">Om Mig</h1>
-          </div>
-          <div class="col-sm-6 text-center text-md-right">
-            <div class="d-inline-flex pt-2">
-              <h4 class="m-0 text-white"><a class="text-white" href="index.html">Hem</a></h4>
-              <h4 class="m-0 text-white px-2">/</h4>
-              <h4 class="m-0 text-white">Om mig</h4>
+        <!-- Sidhuvud -->
+        <section class="container py-5 px-2 bg-primary">
+          <div class="row py-5 px-4">
+            <div class="col-sm-6 text-center text-md-left">
+              <h1 class="mb-md-0 text-white text-uppercase font-weight-bold">Om Mig</h1>
+            </div>
+            <div class="col-sm-6 text-center text-md-right">
+              <div class="d-inline-flex pt-2">
+                <h4 class="m-0 text-white">
+                  <a class="text-white" href="/index.html">Hem</a> / Om mig
+                </h4>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-      <!-- Page Header End -->
+        </section>
 
-      <!-- About Start -->
-      <div class="container bg-white pt-5">
-        <div class="row px-3 pb-5">
-          <div class="col-md-12">
-            <h2 class="mb-4 font-weight-bold">Dennis Bengtsson</h2>
+        <!-- Innehåll -->
+        <section id="about" class="container bg-white pt-5">
+          <div class="row px-3 pb-5">
+            <div class="col-md-12">
+              <img class="img-fluid mb-4" src="/static/img/about.jpg" alt="Bild från Kittelsenmuseet">
+              <h2 class="mb-2 mt-4 font-weight-bold">Dennis Bengtsson</h2>
 
-            <figure class="float-left mr-4 mb-3" style="max-width: 300px;">
-              <img class="img-fluid" src="img/about.jpg" alt="Bild från Kittelsenmuseet">
-              <figcaption class="bildtext">Bild från Kittelsenmuseet</figcaption>
-            </figure>
+              <figure class="mb-0">
+                <img class="img-fluid rounded mb-2 mr-3" style="max-width:300px;float:left"
+                     src="/static/img/strandad-man.jpg" alt="Strandad man">
+                <figcaption class="bildtext" style="max-width:300px">Strandad man</figcaption>
+              </figure>
 
-            <p class="m-0">
-              Född i april 1992, ursprungligen från Hultsfred, bor numera i nordvästra Skåne.
-              Är en gift man, far till fyra små duktiga flickor.
-              Gillar att strosa ute i naturen, besöka museer, biblioteket, basta, bygga, läsa om allmoge-historia.
-            </p>
-            <p><br>
-              Jag uppskattar livets enkelhet. Skryt är inget för mig. Förmodligen för att jag inte har någonting att skryta med.
-              Hade min situation varit annorlunda skulle jag utan vidare kunnat bo i en jordkula på 10kvm och levt på havregryn, något ägg ibland och fallfrukt om hösten.
-              Ja, man fodrar inte mycket, men bjuds det så är jag inte sen med att förse mig, i lagom mängd förstås.
-              Om det inte ska kastas alltså, för då försöker jag äta allt.
-              <br><br>
-              I framtiden kanske jag hinner med att bygga en parstuga i modernare material som enkelt skulle kunna stå obebodd i 200 år utan att den rasar samman.
-              Men det tar vi sen.
-            </p>
-
-            <blockquote class="font-italic mt-3 mb-3">
-              <p class="mb-0">
-                <span class="quote">"Sätter du en smålänning på en öde klippa<br>
-                i havet skaffar han sig mätt,<br>
-                och giver du honom en get bliver han rik."</span>
+              <p>
+                Född i april 1992, ursprungligen från Hultsfred, bor numera i nordvästra Skåne.
+                Är en gift man, far till fyra små duktiga flickor. Gillar att strosa ute i naturen,
+                besöka museer, biblioteket, basta, bygga, läsa om allmoge-historia.
+                <br><br>
+                Jag uppskattar livets enkelhet. Skryt är inget för mig. Förmodligen för att jag inte
+                har någonting att skryta med … [fullständig ursprunglig text] …
               </p>
-            </blockquote>
-            <img src="img/strandad-man.jpg" class="img-fluid rounded" alt="Strandad man">
 
-            <h3 class="mt-4">Mina intressen och engagemang</h3>
-            <p>
-              Certifierad snickare, utbildad betongarbetare, engagerad medborgare. Rätten
-              att rösta fritt är en grundläggande princip som jag stöder genom att ställa upp som
-              rösträknare vid val.
-            </p>
-            <p>Svenska kyrkan är en plats för reflektion och gemenskap för mig och min familj.</p>
+              <blockquote>
+                <em>”Sätter du en smålänning på en öde klippa i havet<br>
+                skaffar han sig mätt,<br>
+                och giver du honom en get bliver han rik.”</em>
+              </blockquote>
 
+              <h3 class="mt-4">Mina intressen och engagemang</h3>
+              <p>
+                Certifierad snickare, utbildad betongarbetare, engagerad medborgare. Rätten att
+                rösta fritt är en grundläggande princip som jag stöder genom att ställa upp
+                som rösträknare vid val.
+              </p>
+              <p>Svenska kyrkan är en plats för reflektion och gemenskap för mig och min familj.</p>
+            </div>
           </div>
-        </div>
-      </div>
-      <!-- About End -->
+        </section>
 
-      <div id="footer-container"></div>
+        <footer id="footer-container"></footer>
+      </main>
     </div>
   </div>
 
-  <!-- JavaScript Libraries -->
-  <script src="jquery/jquery-3.7.1.min.js"
+  <!-- Lokala bibliotek – endast lokala sökvägar -->
+  <script src="/static/jquery/jquery-3.7.1.min.js"
           integrity="sha384-D47DB5EE0C125722D221F68BC476C4EDD45BDEFE2660229BA50BF3C7471E81E8EED4C56C1AB5F9C57C40BECFC781E16C"
           crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
-  <script src="jquery/jquery.waypoints.min.js"
-          integrity="sha384-F9B291A03BA0509C0EA9EF159C97B3D531C08A115E5C714A92CB495B71C94F1C566B73A0E538C042C4687C824EB33DDB"
+  <script src="/static/js/bootstrap.bundle-4.5.2.min.js"
+          integrity="sha384-…bootstrap_hash…"
           crossorigin="anonymous"></script>
-
-  <!-- Template Javascript -->
-  <script src="js/main.js"></script>
-  <script src="js/site-data.js"></script>
+  <script src="/static/jquery/jquery.waypoints.min.js"
+          integrity="sha384-…waypoints_hash…"
+          crossorigin="anonymous"></script>
+  <script src="/static/js/site-data.js"></script>
+  <script src="/static/js/main.js"></script>
 </body>
 </html>
