@@ -1,75 +1,96 @@
-// Funktion för att hämta och visa RSS-flöde från Byggvärlden
 function loadNewsCarousel() {
-    // URL till RSS-flödet
+    // 1. Inställningar
     const rssUrl = 'https://www.byggvarlden.se/feed/';
-    // Proxy för att kringgån CORS (enklast lösning)
-    const proxyUrl = 'https://api.allorigins.win/raw?url=';
-    //const proxyUrl = 'https://cors-anywhere.herokuapp.com/'; // Alternativ proxy
+    const proxyUrl = 'https://api.allorigins.win/get?url='; // Använd 'get' istället för 'raw' för stabilare JSON-svar
 
-    fetch(proxyUrl + encodeURIComponent(rssUrl))
-        .then(response => response.text())
-        .then(str => new window.DOMParser().parseFromString(str, "text/xml"))
-        .then(data => {
-            const items = data.querySelectorAll("item");
-            const carouselInner = document.getElementById('news-carousel-inner');
-            carouselInner.innerHTML = ''; // Töm loading-meddelandet
+    // 2. Hämta data
+    $.getJSON(proxyUrl + encodeURIComponent(rssUrl), function(data) {
+        if (!data || !data.contents) {
+            console.error("Ingen data mottogs.");
+            return;
+        }
 
-            // Loopa genom de 5 senaste nyheterna och skapa karusell-items
-            items.forEach((item, index) => {
-                if (index >= 5) return; // Begränsa till 5 nyheter
+        // 3. Parsa XML-strängen som kom tillbaka
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(data.contents, "text/xml");
+        const items = xmlDoc.querySelectorAll("item");
+        const carouselInner = document.getElementById('news-carousel-inner');
 
-                const title = item.querySelector("title").textContent;
-                const link = item.querySelector("link").textContent;
-                // Försök hämta en bild från mediainnehåll eller description
-                let imageUrl = '';
-                const mediaContent = item.querySelector("content\\:encoded, encoded");
-                if (mediaContent) {
-                    const parser = new DOMParser();
-                    const htmlDoc = parser.parseFromString(mediaContent.textContent, "text/html");
-                    const img = htmlDoc.querySelector("img");
-                    if (img) imageUrl = img.src;
+        // Töm behållaren
+        carouselInner.innerHTML = '';
+
+        // 4. Loopa genom de 5 första nyheterna
+        let count = 0;
+        items.forEach((item) => {
+            if (count >= 5) return;
+
+            // Hämta textinnehåll säkert
+            const title = item.querySelector("title") ? item.querySelector("title").textContent : "Nyhet";
+            const link = item.querySelector("link") ? item.querySelector("link").textContent : "#";
+            
+            // Hämta bild (Letar på 3 olika ställen i RSS-strukturen)
+            let imageUrl = 'img/default-news.jpg'; // Ha gärna en fallback-bild i din img-mapp!
+            
+            // Metod A: Enclosure (vanligast för thumbnails)
+            const enclosure = item.querySelector("enclosure");
+            if (enclosure && enclosure.getAttribute("url")) {
+                imageUrl = enclosure.getAttribute("url");
+            } 
+            // Metod B: Media:content
+            else if (item.getElementsByTagNameNS("*", "content").length > 0) {
+                 const mediaCheck = item.getElementsByTagNameNS("*", "content")[0].getAttribute("url");
+                 if(mediaCheck) imageUrl = mediaCheck;
+            }
+            // Metod C: Leta inuti beskrivningstexten (HTML parsing)
+            else {
+                const description = item.querySelector("description") ? item.querySelector("description").textContent : "";
+                const tempDiv = document.createElement("div");
+                tempDiv.innerHTML = description;
+                const imgInDesc = tempDiv.querySelector("img");
+                if (imgInDesc) {
+                    imageUrl = imgInDesc.src;
                 }
+            }
 
-                const isActive = index === 0 ? 'active' : '';
+            const isActive = count === 0 ? 'active' : '';
 
-                // Skapa HTML för karusell-item
-                const carouselItem = `
-                    <div class="carousel-item ${isActive}">
-                        <div class="container py-5">
-                            <div class="row justify-content-center">
-                                <div class="col-md-8">
-                                    <div class="card shadow">
-                                        ${imageUrl ? `<img src="${imageUrl}" class="card-img-top" alt="${title}" style="height: 250px; object-fit: cover;">` : ''}
-                                        <div class="card-body">
-                                            <h5 class="card-title">${title}</h5>
-                                            <a href="${link}" target="_blank" rel="noopener" class="btn btn-primary">Läs mer</a>
-                                        </div>
+            // 5. Skapa HTML
+            const carouselItem = `
+                <div class="carousel-item ${isActive}">
+                    <div class="container py-5">
+                        <div class="row justify-content-center">
+                            <div class="col-md-8">
+                                <div class="card shadow border-0">
+                                    <div style="height: 250px; overflow: hidden; background-color: #eee;">
+                                        <img src="${imageUrl}" class="card-img-top" alt="${title}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.style.display='none'">
+                                    </div>
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title font-weight-bold">${title}</h5>
+                                        <a href="${link}" target="_blank" rel="noopener" class="btn btn-primary mt-2">Läs hela artikeln</a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                `;
-                carouselInner.innerHTML += carouselItem;
-            });
-        })
-        .catch(error => {
-            console.error('Error fetching RSS feed:', error);
-            document.getElementById('news-carousel-inner').innerHTML = `
-                <div class="carousel-item active">
-                    <div class="container py-5">
-                        <div class="row justify-content-center">
-                            <div class="col-md-8 text-center">
-                                <p>Kunde inte ladda nyheterna just nu.</p>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             `;
+            
+            carouselInner.innerHTML += carouselItem;
+            count++;
         });
+
+    }).fail(function() {
+        document.getElementById('news-carousel-inner').innerHTML = `
+            <div class="carousel-item active">
+                <div class="container py-5 text-center">
+                    <p>Kunde inte hämta nyheter just nu. Kontrollera din internetanslutning.</p>
+                </div>
+            </div>
+        `;
+    });
 }
 
-// Kör funktionen när sidan laddat
+// Kör igång när dokumentet är redo
 $(document).ready(function() {
     loadNewsCarousel();
 });
