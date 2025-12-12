@@ -19,9 +19,5 @@
         );
     });
 
-    // Carousel Initialization (Make sure you have the correct HTML in place)
-    $(document).ready(function() {
-        $('#blog-carousel').carousel(); //Initiera karusellen
-    });
 
 })(jQuery);
