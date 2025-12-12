@@ -1,55 +1,49 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="sv">
 <head>
     <meta charset="utf-8">
-    <title id="page-title">Personlig Blogg</title>
+    <title id="page-title">Dennis Bengtsson - Kontakt</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="Personlig Blogg Template" name="keywords">
-    <meta content="En ren och responsiv personlig blogg template." name="description">
+    <meta content="Kontakta Dennis Bengtsson" name="keywords">
+    <meta content="Kontaktuppgifter Dennis Bengtsson" name="description">
+
+    <!-- Content Security Policy (Samma som index) -->
+    <meta http-equiv="Content-Security-Policy" content="
+      default-src 'self'; 
+      script-src 'self' 'unsafe-inline'; 
+      style-src 'self' 'unsafe-inline'; 
+      img-src 'self' data: https:; 
+      font-src 'self'; 
+      connect-src 'self' https://api.rss2json.com; 
+      object-src 'none'; 
+      base-uri 'self'; 
+      form-action 'self'; 
+      upgrade-insecure-requests">
 
     <!-- Favicon -->
     <link href="img/favicon.ico" rel="icon">
 
-    <!-- Font Awesome (lokalt installerat) -->
+    <!-- Bootstrap CSS (Lokal) -->
+    <link rel="stylesheet" href="css/css/bootstrap.min.css">
+
+    <!-- Font Awesome (Lokal) -->
     <link rel="stylesheet" href="fonts/fontawesome-free-6.7.2-web/css/all.min.css">
 
-    <!-- Font Open Sans (lokalt definierat) -->
+    <!-- Font Open Sans (Lokal) -->
     <link href="css/opensans.css" rel="stylesheet">
 
-    <!-- Customized Bootstrap Stylesheet -->
+    <!-- Din egen CSS -->
     <link href="css/style.css" rel="stylesheet">
-
-    <!-- Content Security Policy (CSP) -->
-<meta http-equiv="Content-Security-Policy" content="
-    default-src 'self';
-    script-src 'self' https://code.jquery.com https://stackpath.bootstrapcdn.com https://github.com/DennisBengtsson/blogg/js/ https://github.com/DennisBengtsson/blogg/jquery/;
-    img-src 'self' data: https://github.com;
-    style-src 'self' 'unsafe-inline';
-    connect-src 'self';
-    font-src 'self';
-    object-src 'none';
-    base-uri 'self';
-    form-action 'self';
-">
-    <style>
-        .bildtext {
-            font-size: 0.6em;
-            color: #666;
-            display: block;
-            text-align: center;
-        }
-    </style>
 </head>
 
 <body>
     <div class="wrapper">
+        <!-- Sidebar -->
         <div id="sidebar-container"></div>
 
         <div class="content">
-            <!-- Navbar Start -->
+            <!-- Navbar -->
             <div id="header-container"></div>
-            <!-- Navbar End -->
 
             <!-- Page Header Start -->
             <div class="container py-5 px-2 bg-primary">
@@ -84,27 +78,27 @@
                     <div class="col-sm-4 text-center mb-3">
                         <i class="far fa-2x fa-envelope mb-3 text-primary"></i>
                         <h4 class="font-weight-bold">Email</h4>
-                        <p class="email-address"><a
-                                href="mailto:dennisrmgbengtsson@gmail.com">DennisRMGBengtsson</a></p>
+                        <p class="email-address"><a href="mailto:dennisrmgbengtsson@gmail.com">DennisRMGBengtsson</a></p>
                     </div>
                 </div>
             </div>
             <!-- Contact End -->
 
-            <!-- Footer Start -->
-            <div id="footer-container">
-            </div>
-            <!-- Footer End -->
+            <!-- Footer -->
+            <div id="footer-container"></div>
         </div>
     </div>
 
-    <!-- JavaScript Libraries -->
+    <!-- Back to Top -->
+    <a href="#" class="back-to-top"><i class="fa fa-angle-double-up" aria-hidden="true"></i></a>
+
+    <!-- JavaScript Libraries (LOKALA) -->
     <script src="jquery/jquery-3.7.1.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <script src="bootstrap-4.6.2-dist/js/bootstrap.bundle.min.js"></script>
     <script src="jquery/jquery.waypoints.min.js"></script>
 
-    <script src="js/main.js"></script>
+    <!-- Template Javascript -->
     <script src="js/site-data.js"></script>
+    <script src="js/main.js"></script>
 </body>
-
 </html>

@@ -1,37 +1,41 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="sv">
 <head>
     <meta charset="utf-8">
-    <title id="page-title">Personlig Blogg</title>
+    <title id="page-title">Dennis Bengtsson - Om Mig</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="Personlig Blogg Template" name="keywords">
-    <meta content="En ren och responsiv personlig blogg template." name="description">
+    <meta content="Dennis Bengtsson snickare betongarbetare" name="keywords">
+    <meta content="Om Dennis Bengtsson" name="description">
+
+    <!-- Content Security Policy (Samma som index) -->
+    <meta http-equiv="Content-Security-Policy" content="
+      default-src 'self'; 
+      script-src 'self' 'unsafe-inline'; 
+      style-src 'self' 'unsafe-inline'; 
+      img-src 'self' data: https:; 
+      font-src 'self'; 
+      connect-src 'self' https://api.rss2json.com; 
+      object-src 'none'; 
+      base-uri 'self'; 
+      form-action 'self'; 
+      upgrade-insecure-requests">
 
     <!-- Favicon -->
     <link href="img/favicon.ico" rel="icon">
 
-    <!-- Font Awesome (lokalt installerat) -->
+    <!-- Bootstrap CSS (Lokal) -->
+    <link rel="stylesheet" href="css/css/bootstrap.min.css">
+
+    <!-- Font Awesome (Lokal) -->
     <link rel="stylesheet" href="fonts/fontawesome-free-6.7.2-web/css/all.min.css">
 
-    <!-- Font Open Sans (lokalt definierat) -->
+    <!-- Font Open Sans (Lokal) -->
     <link href="css/opensans.css" rel="stylesheet">
 
-    <!-- Customized Bootstrap Stylesheet -->
+    <!-- Din egen CSS -->
     <link href="css/style.css" rel="stylesheet">
 
-    <!-- Content Security Policy (CSP) -->
-<meta http-equiv="Content-Security-Policy" content="
-    default-src 'self';
-    script-src 'self' https://code.jquery.com https://stackpath.bootstrapcdn.com https://github.com/DennisBengtsson/blogg/js/ https://github.com/DennisBengtsson/blogg/jquery/;
-    img-src 'self' data: https://github.com;
-    style-src 'self' 'unsafe-inline';
-    connect-src 'self';
-    font-src 'self';
-    object-src 'none';
-    base-uri 'self';
-    form-action 'self';
-">
+    <!-- Sidspecifik CSS -->
     <style>
         .bildtext {
             font-size: 0.6em;
@@ -44,12 +48,12 @@
 
 <body>
     <div class="wrapper">
+        <!-- Sidebar -->
         <div id="sidebar-container"></div>
 
         <div class="content">
-            <!-- Navbar Start -->
+            <!-- Navbar -->
             <div id="header-container"></div>
-            <!-- Navbar End -->
 
             <!-- Page Header Start -->
             <div class="container py-5 px-2 bg-primary">
@@ -78,14 +82,15 @@
                             <figcaption class="bildtext">Näst äldsta dottern och jag på Kittelsenmuseet, Norge.</figcaption>
                         </figure>
                         <p class="m-0">
-                            Född i april 1992, ursprungligen från Hultsfred, bor numera i nordvästra Skåne.
+                            F��dd i april 1992, ursprungligen från Hultsfred, bor numera i nordvästra Skåne.
                             Är en gift man, far till fyra små duktiga flickor.</p>
                         <p><br>
                             Som person är jag lugn, eftertänksam och noggrann. Jag uppskattar naturen, gärna med familjen. 
                             <br><br>
                             <span class="quote">"Sätter du en smålänning på en öde klippa<br> i havet skaver han sig
                                 mätt,<br>och giver du honom en get bliver han rik."</span>
-                            <img src="img/strandad-man.jpg" alt="Strandad man">
+                            <br>
+                            <img src="img/strandad-man.jpg" alt="Strandad man" class="mt-3" style="max-width: 100%;">
                         </p>
 
                         <br>
@@ -94,11 +99,10 @@
                             Certifierad snickare och utbildad betongarbetare. Har arbetat med både små och stora projekt.
                             Just nu arbetar jag som snickare på en större byggarbetsplats i Lund. Är anställd på ett företag med 300 anställda.
 
-
                             Engagerad medborgare. Lokalsamhället och demokratin är viktiga för mig, dessa kräver ständigt engagemang.
-                                    Rätten att rösta fritt är en grundläggande princip som jag stöder genom
-                                    att ställa upp som rösträknare vid val. Jag har hunnit med 5 val hittills och fler ska det bli. 
-                                    Jag blev vald till valnämndsordförande i kyrkoförsamlingen den 3/12 2025. 
+                            Rätten att rösta fritt är en grundläggande princip som jag stöder genom
+                            att ställa upp som rösträknare vid val. Jag har hunnit med 5 val hittills och fler ska det bli. 
+                            Jag blev vald till valnämndsordförande i kyrkoförsamlingen den 3/12 2025. 
                         </p>
 
                         <p>Svenska kyrkan är en plats för reflektion och gemenskap för mig och min familj.</p>
@@ -107,20 +111,22 @@
             </div>
             <!-- About End -->
 
-            <!-- Footer Start -->
+            <!-- Footer -->
             <div id="footer-container"></div>
-            <!-- Footer End -->
         </div>
     </div>
 
-    <!-- JavaScript Libraries -->
+    <!-- Back to Top -->
+    <a href="#" class="back-to-top"><i class="fa fa-angle-double-up" aria-hidden="true"></i></a>
+
+    <!-- JavaScript Libraries (LOKALA) -->
     <script src="jquery/jquery-3.7.1.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <script src="bootstrap-4.6.2-dist/js/bootstrap.bundle.min.js"></script>
     <script src="jquery/jquery.waypoints.min.js"></script>
 
-    <script src="js/main.js"></script>
+    <!-- Template Javascript -->
     <script src="js/site-data.js"></script>
+    <script src="js/main.js"></script>
+    <!-- feed.js behövs inte här då vi inte har nyhetskarusellen på om-sidan -->
 </body>
-
 </html>
-S
