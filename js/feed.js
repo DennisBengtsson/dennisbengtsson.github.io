@@ -56,7 +56,7 @@ function loadNewsCarousel() {
                             <div class="col-md-8">
                                 <div class="card shadow border-0" style="min-height: 400px;">
                                     <div style="height: 250px; overflow: hidden; background-color: #333;">
-                                        <img src="${imageUrl}" class="card-img-top" alt="${title}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='img/default-news.jpg'">
+                                        <img src="${imageUrl}" class="card-img-top" alt="${title}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='img/default-news.jpeg'">
                                     </div>
                                     <div class="card-body text-center d-flex flex-column justify-content-between">
                                         <h5 class="card-title font-weight-bold">${title}</h5>
