@@ -43,7 +43,7 @@ function loadNewsCarousel() {
 
             // Fallback om ingen bild hittas alls
             if (!imageUrl) {
-                imageUrl = 'img/default-news.jpg';
+                imageUrl = 'img/default-news.jpeg';
             }
 
             const isActive = count === 0 ? 'active' : '';
