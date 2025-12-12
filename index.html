@@ -51,23 +51,37 @@
       <!-- Page Specific Content -->
       <div id="page-content-container">
         
-        <!-- Carousel Start -->
+        <!-- Nyheter Karusell Start -->
         <div class="container-fluid p-0 mb-5">
-          <div id="blog-carousel" class="carousel slide" data-ride="carousel">
-            <div class="carousel-inner" id="carousel-inner">
-              <!-- Carousel items laddas dynamiskt -->
+          <div class="bg-dark text-white py-5">
+            <div class="container text-center">
+              <h2 class="display-4">Senaste från byggbranschen i Sverige</h2>
+              <p class="lead">Håll dig uppdaterad med branschens trender och nyheter.</p>
             </div>
-            <a class="carousel-control-prev" href="#blog-carousel" role="button" data-slide="prev">
+          </div>
+          <div id="news-carousel" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner" id="news-carousel-inner">
+                <!-- Här laddas nyheterna in dynamiskt via JS -->
+                <div class="carousel-item active">
+                    <div class="container py-5">
+                        <div class="row justify-content-center">
+                            <div class="col-md-8 text-center">
+                                <p>Laddar de senaste nyheterna...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <a class="carousel-control-prev" href="#news-carousel" role="button" data-slide="prev">
               <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span class="sr-only">F��reg��ende</span>
+              <span class="sr-only">Föregående</span>
             </a>
-            <a class="carousel-control-next" href="#blog-carousel" role="button" data-slide="next">
+            <a class="carousel-control-next" href="#news-carousel" role="button" data-slide="next">
               <span class="carousel-control-next-icon" aria-hidden="true"></span>
-              <span class="sr-only">N��sta</span>
+              <span class="sr-only">Nästa</span>
             </a>
           </div>
         </div>
-        <!-- Carousel End -->
 
         <!-- INDEX-INNEHÅLL (Start) -->
         <div class="container pb-5">
