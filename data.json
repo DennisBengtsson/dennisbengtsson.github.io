@@ -20,15 +20,6 @@
     "menu": [
         { "label": "Hem", "url": "index.html", "dataPage": "index" },
         { "label": "Om mig", "url": "about.html", "dataPage": "about" },
-        {
-            "label": "Sidor",
-            "url": "#",
-            "dataPage": "sidor",
-            "dropdown": [
-                { "label": "Blogg", "url": "blog.html", "dataPage": "blog" },
-                { "label": "Bilder", "url": "bilder.html", "dataPage": "bilder" }
-            ]
-        },
         { "label": "Kontakt", "url": "contact.html", "dataPage": "contact" }
     ]
 }

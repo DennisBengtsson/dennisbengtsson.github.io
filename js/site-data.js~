@@ -1,3 +1,4 @@
+// 1. Rensad headerHTML - tar bort all hårdkodad meny (sidor/dropdowns)
 const headerHTML = `
     <nav class="navbar navbar-expand-lg bg-secondary navbar-dark">
         <a href="index.html" class="navbar-brand d-block d-lg-none">Navigering</a>
@@ -6,21 +7,7 @@ const headerHTML = `
         </button>
         <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
             <div class="navbar-nav m-auto">
-                <div class="nav-item dropdown">
-                    <a href="index.html" class="nav-link dropdown-toggle" data-toggle="dropdown">Hem</a>
-                    <div class="dropdown-menu">
-                        <a href="blog.html" class="dropdown-item" data-page="blog">Blogg</a>
-                        <a href="bilder.html" class="dropdown-item" data-page="bilder">Bilder</a>
-                    </div>
-                </div>
-                <div class="nav-item dropdown">
-                    <a href="about.html" class="nav-link dropdown-toggle" data-toggle="dropdown">Om Mig</a>
-                    <div class="dropdown-menu">
-                        <a href="about.html" class="dropdown-item" data-page="about">Om Mig</a>
-                        <a href="contact.html" class="dropdown-item" data-page="contact">Kontakt</a>
-                    </div>
-                </div>
-                <!-- Removed direct links to Blogg, Bilder, About, and Contact -->
+                <!-- Menyn kommer att genereras här dynamiskt av funktionen generateMenu() -->
             </div>
         </div>
     </nav>
@@ -64,7 +51,7 @@ const sidebarHTML = `
 
 const loadAllData = async () => {
     try {
-        const response = await fetch('/data.json'); // Adjust the path here
+        const response = await fetch('/data.json'); 
         if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
         const data = await response.json();
 
@@ -77,16 +64,18 @@ const loadAllData = async () => {
     }
 };
 
-
 const generateMenu = async () => {
     try {
-        const response = await fetch('/data.json'); // Use consistent path
+        const response = await fetch('/data.json'); 
         if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
         const data = await response.json();
         const menu = data.menu;
         let menuHTML = '';
 
         menu.forEach(item => {
+            // Om du vill ta bort dropdown-funktionalitet helt (för att undvika "sidor"-strukturer),
+            // kan du ta bort if-satsen och bara köra else-delen. 
+            // Men koden nedan hanterar det baserat på vad som står i din JSON.
             if (item.dropdown) {
                 menuHTML += `
                     <div class="nav-item dropdown">
@@ -129,14 +118,14 @@ const updateSidebar = (sidebar, data) => {
     const updateElementText = (elementId, text) => {
         const element = document.getElementById(elementId);
         if (element) element.textContent = text;
-        else console.warn(`Element with ID "${elementId}" not found!`, elementId); // Log the ID
+        else console.warn(`Element with ID "${elementId}" not found!`, elementId);
 
     };
 
     const updateElementHref = (elementId, href) => {
         const element = document.getElementById(elementId);
         if (element) element.href = href;
-        else console.warn(`Element with ID "${elementId}" not found!`, elementId); // Log the ID
+        else console.warn(`Element with ID "${elementId}" not found!`, elementId);
     };
 
 
@@ -145,7 +134,7 @@ const updateSidebar = (sidebar, data) => {
     if (sidebar.profileImageId) {
         const profileImage = document.getElementById(sidebar.profileImageId);
         if (profileImage) {
-            profileImage.src = sidebar.profileImagePath || "/img/profile.jpg"; // Use path from data or default
+            profileImage.src = sidebar.profileImagePath || "/img/profile.jpg"; 
         } else {
             console.warn(`Element with ID "${sidebar.profileImageId}" not found!`);
         }
@@ -182,7 +171,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         setActiveNavLink();
 
-        console.log("Current path:", window.location.pathname); //Debugging log
+        console.log("Current path:", window.location.pathname);
     } catch (error) {
         console.error("Initialization error:", error);
     }
