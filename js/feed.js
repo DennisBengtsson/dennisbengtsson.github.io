@@ -43,7 +43,7 @@ function loadNewsCarousel() {
 
             // Fallback om ingen bild hittas alls
             if (!imageUrl) {
-                imageUrl = 'img/default-news.jpeg';
+                imageUrl = 'img/senaste.gif';
             }
 
             const isActive = count === 0 ? 'active' : '';
@@ -56,7 +56,7 @@ function loadNewsCarousel() {
                             <div class="col-md-8">
                                 <div class="card shadow border-0" style="min-height: 400px;">
                                     <div style="height: 250px; overflow: hidden; background-color: #333;">
-                                        <img src="${imageUrl}" class="card-img-top" alt="${title}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='img/default-news.jpeg'">
+                                        <img src="${imageUrl}" class="card-img-top" alt="${title}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='img/senaste.gif'">
                                     </div>
                                     <div class="card-body text-center d-flex flex-column justify-content-between">
                                         <h5 class="card-title font-weight-bold">${title}</h5>
