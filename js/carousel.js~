@@ -29,7 +29,7 @@ function loadNewsCarousel() {
             const link = item.querySelector("link") ? item.querySelector("link").textContent : "#";
             
             // Hämta bild (Letar på 3 olika ställen i RSS-strukturen)
-            let imageUrl = 'img/default-news.jpg'; // Ha gärna en fallback-bild i din img-mapp!
+            let imageUrl = 'img/senaste.gif'; // Ha gärna en fallback-bild i din img-mapp!
             
             // Metod A: Enclosure (vanligast för thumbnails)
             const enclosure = item.querySelector("enclosure");
