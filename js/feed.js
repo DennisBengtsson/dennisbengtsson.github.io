@@ -4,7 +4,9 @@ function loadNewsCarousel() {
     // Lista med dina RSS-flöden
     const rssUrls = [
         'https://www.byggvarlden.se/feed/',
-        'https://www.byggindustrin.se/rss.xml'
+        'https://www.byggindustrin.se/rss.xml',
+        'https://www.byggnadsarbetaren.se/feed/'
+
     ];
 
     // Skapa en "promise" för varje URL (vi hämtar alla samtidigt)
