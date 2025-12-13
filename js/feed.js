@@ -3,7 +3,7 @@
 function loadNewsCarousel() {
     // Vi använder rss2json som konverterar RSS till JSON och hanterar CORS automatiskt
     const rssUrl = 'https://www.byggvarlden.se/feed/';
-        const rssUrl = 'https://www.byggindustrin.se/rss.xml';
+                    'https://www.byggindustrin.se/rss.xml';
     const apiUrl = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(rssUrl);
 
     $.getJSON(apiUrl, function(data) {
