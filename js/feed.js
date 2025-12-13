@@ -1,38 +1,53 @@
-// js/feed.js - Använder rss2json.com för bättre stabilitet
+// js/feed.js - Hanterar flera RSS-flöden via rss2json
 
 function loadNewsCarousel() {
-    // Vi använder rss2json som konverterar RSS till JSON och hanterar CORS automatiskt
-    const rssUrl = 'https://www.byggvarlden.se/feed/';
-                    'https://www.byggindustrin.se/rss.xml';
-    const apiUrl = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(rssUrl);
+    // Lista med dina RSS-flöden
+    const rssUrls = [
+        'https://www.byggvarlden.se/feed/',
+        'https://www.byggindustrin.se/rss.xml'
+    ];
 
-    $.getJSON(apiUrl, function(data) {
-        // Kontrollera att status är ok
-        if (data.status !== 'ok' || !data.items) {
-            console.error("Kunde inte hämta RSS-flödet.");
+    // Skapa en "promise" för varje URL (vi hämtar alla samtidigt)
+    const requests = rssUrls.map(url => {
+        const apiUrl = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(url);
+        return $.getJSON(apiUrl);
+    });
+
+    // När alla hämtningar är klara (Promise.all)
+    Promise.all(requests).then(results => {
+        let allItems = [];
+
+        // Gå igenom resultaten från varje flöde
+        results.forEach(data => {
+            if (data.status === 'ok' && data.items) {
+                allItems = allItems.concat(data.items);
+            }
+        });
+
+        // Sortera alla nyheter efter publiceringsdatum (nyast först)
+        allItems.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+
+        // Vi tar bara de 5 senaste totalt (från blandade källor)
+        const topNews = allItems.slice(0, 5);
+
+        const carouselInner = document.getElementById('news-carousel-inner');
+        carouselInner.innerHTML = '';
+
+        if (topNews.length === 0) {
+            console.error("Inga nyheter hittades.");
             return;
         }
 
-        const items = data.items;
-        const carouselInner = document.getElementById('news-carousel-inner');
-
-        // Töm behållaren
-        carouselInner.innerHTML = '';
-
         let count = 0;
 
-        // Loopa genom nyheterna
-        items.forEach((item) => {
-            if (count >= 5) return; // Max 5 nyheter
-
+        // Loopa genom de sorterade och blandade nyheterna
+        topNews.forEach((item) => {
             const title = item.title;
             const link = item.link;
             
-            // --- BILDHANTERING ---
-            // rss2json försöker hitta en thumbnail automatiskt ('enclosure' eller 'thumbnail')
-            let imageUrl = item.thumbnail || item.enclosure.link || '';
+            // --- BILDHANTERING (Samma logik som du hade) ---
+            let imageUrl = item.thumbnail || item.enclosure?.link || '';
 
-            // Om rss2json inte hittade en bild, leta i innehållstexten (description/content)
             if (!imageUrl) {
                 const tempDiv = document.createElement("div");
                 tempDiv.innerHTML = item.content || item.description;
@@ -42,7 +57,6 @@ function loadNewsCarousel() {
                 }
             }
 
-            // Fallback om ingen bild hittas alls
             if (!imageUrl) {
                 imageUrl = 'img/senaste.jpg';
             }
@@ -61,6 +75,7 @@ function loadNewsCarousel() {
                                     </div>
                                     <div class="card-body text-center d-flex flex-column justify-content-between">
                                         <h5 class="card-title font-weight-bold">${title}</h5>
+                                        <small class="text-muted mb-2">${new Date(item.pubDate).toLocaleDateString('sv-SE')}</small>
                                         <div>
                                             <a href="${link}" target="_blank" rel="noopener" class="btn btn-primary mt-2">Läs hela artikeln</a>
                                         </div>
@@ -82,8 +97,8 @@ function loadNewsCarousel() {
             pause: "hover"
         });
 
-    }).fail(function() {
-        console.log("Kunde inte nå API:et.");
+    }).catch(function(error) {
+        console.log("Kunde inte nå API:et eller fel i data.", error);
         document.getElementById('news-carousel-inner').innerHTML = `
             <div class="carousel-item active">
                 <div class="container py-5 text-center">
