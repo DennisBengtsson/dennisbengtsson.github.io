@@ -1,6 +1,41 @@
 @charset "UTF-8";
 
 /**********************************/
+/*       0. THEME COLORS          */
+/*  Återställer dina originalfärger */
+/**********************************/
+:root {
+    --primary: #2A4B7C;
+    --secondary: #202C45;
+    --light: #f1f3ff;
+    --text-color: #666666;
+}
+
+body {
+    color: var(--text-color);
+    background-color: var(--light);
+    font-family: "Open Sans", sans-serif;
+}
+
+a { color: var(--primary); text-decoration: none; }
+a:hover { color: var(--secondary); text-decoration: underline; }
+
+/* Tvinga Bootstrap att använda dina färger */
+.text-primary { color: var(--primary) !important; }
+.bg-primary { background-color: var(--primary) !important; }
+.bg-light { background-color: var(--light) !important; }
+
+.btn-primary {
+    color: #fff;
+    background-color: var(--primary);
+    border-color: var(--primary);
+}
+.btn-primary:hover {
+    background-color: #203a5f; /* Lite mörkare nyans vid hover */
+    border-color: #1d3456;
+}
+
+/**********************************/
 /*       1. LAYOUT & SIDEBAR      */
 /**********************************/
 .wrapper {
@@ -24,7 +59,7 @@
     width: 100%;
     padding: 15px;
     float: left;
-    background: #f1f3ff;
+    background: var(--light);
     transition: margin 200ms ease-out;
 }
 
@@ -50,7 +85,7 @@
         content: "";
         width: 100%;
         height: 30px;
-        background: #f1f3ff;
+        background: var(--light);
         z-index: 9;
     }
 
@@ -118,7 +153,7 @@
 .back-to-top {
     position: fixed;
     display: none;
-    background: #2A4B7C;
+    background: var(--primary);
     color: #ffffff;
     width: 45px;
     height: 45px;
@@ -135,9 +170,9 @@
 }
 
 .back-to-top:hover {
-    background: #202C45;
+    background: var(--secondary);
     color: #ffffff;
-    transform: translateY(-3px); /* Liten rörelse vid hover istället för konstant animation */
+    transform: translateY(-3px);
 }
 
 .back-to-top i { color: #ffffff; }
