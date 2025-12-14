@@ -5,7 +5,6 @@
        1. HTML MALLAR (TEMPLATES)
        ========================================= */
     
-    // Header (Syns mest i mobil)
     const headerHTML = `
         <nav class="navbar navbar-expand-lg bg-secondary navbar-dark">
             <a href="index.html" class="navbar-brand d-block d-lg-none">Meny</a>
@@ -13,26 +12,19 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
-                <div class="navbar-nav m-auto" id="mobile-menu-target">
-                    <!-- Menyn genereras här för mobil -->
-                </div>
+                <div class="navbar-nav m-auto" id="mobile-menu-target"></div>
             </div>
         </nav>
     `;
 
-    // Sidebar (Den moderna designen vi gjorde)
     const sidebarHTML = `
         <div class="sidebar pb-4 px-4">
             <div class="sidebar-text">
                 <div class="text-center py-4">
-                    <!-- Profilbild -->
                     <img src="" alt="" id="profile-image" class="img-fluid rounded-circle mb-3 shadow-sm" style="width: 150px; height: 150px; object-fit: cover;">
-                    
-                    <!-- Namn och Titel -->
                     <h4 class="font-weight-bold" id="profile-name"></h4>
                     <p class="text-muted small mb-4" id="profile-description"></p>
                     
-                    <!-- Sociala Ikoner -->
                     <div class="d-flex justify-content-center mb-4">
                         <a class="btn btn-outline-primary btn-sm mr-2" href="#" target="_blank" id="telegram-link"><i class="fab fa-telegram"></i></a>
                         <a class="btn btn-outline-primary btn-sm mr-2" href="#" target="_blank" id="goodreads-link"><i class="fab fa-goodreads"></i></a>
@@ -41,20 +33,15 @@
                     </div>
                 </div>
                 
-                <!-- Meny i Sidebaren -->
-                <nav class="nav flex-column text-center" id="sidebar-menu-target">
-                    <!-- Menyn genereras här för desktop -->
-                </nav>
+                <nav class="nav flex-column text-center" id="sidebar-menu-target"></nav>
 
                 <div class="text-center mt-5">
                     <a href="mailto:dennisrmgbengtsson@gmail.com" class="btn btn-primary btn-sm mb-3">Kontakta mig</a>
                     <p class="m-0 small text-muted">
-                        &copy; 2025 <span id="footer-name"></span>.<br>Alla rättigheter förbehållna.
+                        &copy; 2025 <span id="footer-name"></span>.<br>Alla r��ttigheter förbehållna.
                     </p>
                 </div>
             </div>
-            
-            <!-- Ikoner när sidebaren är minimerad -->
             <div class="sidebar-icon d-flex flex-column align-items-center justify-content-center h-100">
                 <a href="index.html" class="p-3 text-primary"><i class="fas fa-home fa-2x"></i></a>
                 <a href="about.html" class="p-3 text-primary"><i class="fas fa-user fa-2x"></i></a>
@@ -62,52 +49,74 @@
         </div>
     `;
 
-    // Footer (Tom för att undvika fel, då vi flyttat in den i sidebaren)
     const footerHTML = ``;
 
     /* =========================================
-       2. LOGIK FÖR ATT HÄMTA DATA
+       2. DATA & BACKUP (Detta räddar sidan lokalt)
+       ========================================= */
+
+    // Denna data används om data.json inte g��r att ladda (t.ex. lokalt)
+    const fallbackData = {
+        name: "Dennis Bengtsson",
+        description: "Certifierad snickare och betongarbetare. Vanligt sunt bonnförnuft räcker långt.",
+        pageTitleSuffix: " - Personlig Blogg",
+        sidebar: {
+            profileImagePath: "img/about.jpg" 
+        },
+        telegram: "#",
+        goodreads: "https://www.goodreads.com/user/show/164131463-dennis-bengtsson",
+        linkedin: "https://se.linkedin.com/in/dennis-bengtsson-703562135",
+        instagram: "https://www.instagram.com/dennis.bengtsson92/",
+        menu: [
+            { "label": "Hem", "url": "index.html", "dataPage": "index" },
+            { "label": "Om mig", "url": "about.html", "dataPage": "about" },
+            { "label": "Kontakt", "url": "contact.html", "dataPage": "contact" }
+        ]
+    };
+
+    /* =========================================
+       3. LOGIK F��R ATT BYGGA SIDAN
        ========================================= */
 
     const initSite = async () => {
-        // L��gg in HTML-strukturen i de tomma divarna
+        // 1. Spruta in HTML-strukturen direkt så rutorna syns
         $("#header-container").html(headerHTML);
         $("#sidebar-container").html(sidebarHTML);
         $("#footer-container").html(footerHTML);
 
+        let data;
+
+        // 2. Försök hämta JSON
         try {
-            // Hämta data.json
             const response = await fetch('data.json');
-            if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
-            const data = await response.json();
-
-            // Fyll sidan med information
-            populateData(data);
-            generateMenus(data.menu);
-            setActiveNavLink();
-
+            if (!response.ok) throw new Error("Kunde inte ladda filen");
+            data = await response.json();
+            console.log("Laddade data från data.json");
         } catch (error) {
-            console.error('Kunde inte ladda data.json:', error);
-            // Här kan man lägga in fallback-text om man vill
+            // 3. Om det misslyckas (CORS/Lokalt), använd fallbackData
+            console.warn("Kunde inte ladda data.json (detta är normalt om du kör lokalt). Använder backup-data.");
+            data = fallbackData;
         }
+
+        // 4. Fyll i all info
+        populateData(data);
+        generateMenus(data.menu);
+        setActiveNavLink();
     };
 
     const populateData = (data) => {
-        // Uppdatera Sidtitel
         if (document.getElementById('page-title')) {
             document.getElementById('page-title').textContent = data.name + (data.pageTitleSuffix || '');
         }
 
-        // Fyll i Sidebar-info
         $("#profile-name").text(data.name);
         $("#footer-name").text(data.name);
         $("#profile-description").text(data.description);
 
-        if (data.sidebar.profileImagePath) {
-            $("#profile-image").attr("src", data.sidebar.profileImagePath);
-        }
+        // Säkerställ att bilden finns i fallback eller json
+        const imgSrc = (data.sidebar && data.sidebar.profileImagePath) ? data.sidebar.profileImagePath : "img/about.jpg";
+        $("#profile-image").attr("src", imgSrc);
 
-        // Fyll i länkar
         $("#telegram-link").attr("href", data.telegram);
         $("#goodreads-link").attr("href", data.goodreads);
         $("#linkedin-link").attr("href", data.linkedin);
@@ -115,29 +124,16 @@
     };
 
     const generateMenus = (menuItems) => {
-        // 1. Skapa HTML för mobilmenyn (Navbar)
+        // Mobilmeny
         let mobileMenuHTML = '';
         menuItems.forEach(item => {
-            if (item.dropdown) {
-                // Om du vill ha dropdowns
-                mobileMenuHTML += `
-                    <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">${item.label}</a>
-                        <div class="dropdown-menu">`;
-                item.dropdown.forEach(sub => {
-                    mobileMenuHTML += `<a href="${sub.url}" class="dropdown-item">${sub.label}</a>`;
-                });
-                mobileMenuHTML += `</div></div>`;
-            } else {
-                mobileMenuHTML += `<a href="${item.url}" class="nav-item nav-link" data-page="${item.dataPage}">${item.label}</a>`;
-            }
+            mobileMenuHTML += `<a href="${item.url}" class="nav-item nav-link" data-page="${item.dataPage}">${item.label}</a>`;
         });
         $("#mobile-menu-target").html(mobileMenuHTML);
 
-        // 2. Skapa HTML för sidebarmenyn (Desktop)
+        // Sidmeny (Desktop)
         let sidebarMenuHTML = '';
         menuItems.forEach(item => {
-             // Vi skippar dropdowns i sidebaren för renare look, eller länkar huvudrubriken
              sidebarMenuHTML += `
                 <a class="nav-link font-weight-bold py-2 mb-1 text-dark" href="${item.url}" data-page="${item.dataPage}">
                     <i class="fas fa-angle-right mr-2 text-primary"></i>${item.label}
@@ -147,23 +143,17 @@
     };
 
     const setActiveNavLink = () => {
-        // Lista ut vilken sida vi är på
         let path = window.location.pathname;
         let page = path.split("/").pop().replace(".html", "") || "index";
-        
-        // Markera länkarna som aktiva
         $(`[data-page="${page}"]`).addClass('active text-primary');
     };
 
     /* =========================================
-       3. UI & EVENTS (Körs när sidan laddat)
+       4. UI & EVENTS
        ========================================= */
     $(document).ready(function () {
-        
-        // Starta allt
         initSite();
 
-        // Back to top knapp
         $(window).scroll(function () {
             if ($(this).scrollTop() > 100) {
                 $('.back-to-top').fadeIn('slow');
@@ -177,7 +167,6 @@
             return false;
         });
 
-        // Starta karuseller
         $('#blog-carousel').carousel();
         $('#news-carousel').carousel();
     });
