@@ -1,54 +1,185 @@
 (function ($) {
     "use strict";
+
+    /* =========================================
+       1. HTML MALLAR (TEMPLATES)
+       ========================================= */
     
-    // Back to top button
-    $(window).scroll(function () {
-        // Om man scrollar ner mer än 100px, visa knappen
-        if ($(this).scrollTop() > 100) {
-            $('.back-to-top').fadeIn('slow');
-        } else {
-            $('.back-to-top').fadeOut('slow');
-        }
-    });
+    // Header (Syns mest i mobil)
+    const headerHTML = `
+        <nav class="navbar navbar-expand-lg bg-secondary navbar-dark">
+            <a href="index.html" class="navbar-brand d-block d-lg-none">Meny</a>
+            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+                <div class="navbar-nav m-auto" id="mobile-menu-target">
+                    <!-- Menyn genereras här för mobil -->
+                </div>
+            </div>
+        </nav>
+    `;
 
-    // När man klickar på knappen
-    $('.back-to-top').click(function () {
-        $('html, body').animate({scrollTop: 0}, 1500, 'swing');
-        return false;
+    // Sidebar (Den moderna designen vi gjorde)
+    const sidebarHTML = `
+        <div class="sidebar pb-4 px-4">
+            <div class="sidebar-text">
+                <div class="text-center py-4">
+                    <!-- Profilbild -->
+                    <img src="" alt="" id="profile-image" class="img-fluid rounded-circle mb-3 shadow-sm" style="width: 150px; height: 150px; object-fit: cover;">
+                    
+                    <!-- Namn och Titel -->
+                    <h4 class="font-weight-bold" id="profile-name"></h4>
+                    <p class="text-muted small mb-4" id="profile-description"></p>
+                    
+                    <!-- Sociala Ikoner -->
+                    <div class="d-flex justify-content-center mb-4">
+                        <a class="btn btn-outline-primary btn-sm mr-2" href="#" target="_blank" id="telegram-link"><i class="fab fa-telegram"></i></a>
+                        <a class="btn btn-outline-primary btn-sm mr-2" href="#" target="_blank" id="goodreads-link"><i class="fab fa-goodreads"></i></a>
+                        <a class="btn btn-outline-primary btn-sm mr-2" href="#" target="_blank" id="linkedin-link"><i class="fab fa-linkedin-in"></i></a>
+                        <a class="btn btn-outline-primary btn-sm mr-2" href="#" target="_blank" id="instagram-link"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                
+                <!-- Meny i Sidebaren -->
+                <nav class="nav flex-column text-center" id="sidebar-menu-target">
+                    <!-- Menyn genereras här för desktop -->
+                </nav>
+
+                <div class="text-center mt-5">
+                    <a href="mailto:dennisrmgbengtsson@gmail.com" class="btn btn-primary btn-sm mb-3">Kontakta mig</a>
+                    <p class="m-0 small text-muted">
+                        &copy; 2025 <span id="footer-name"></span>.<br>Alla rättigheter förbehållna.
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Ikoner när sidebaren är minimerad -->
+            <div class="sidebar-icon d-flex flex-column align-items-center justify-content-center h-100">
+                <a href="index.html" class="p-3 text-primary"><i class="fas fa-home fa-2x"></i></a>
+                <a href="about.html" class="p-3 text-primary"><i class="fas fa-user fa-2x"></i></a>
+            </div>
+        </div>
+    `;
+
+    // Footer (Tom för att undvika fel, då vi flyttat in den i sidebaren)
+    const footerHTML = ``;
+
+    /* =========================================
+       2. LOGIK FÖR ATT HÄMTA DATA
+       ========================================= */
+
+    const initSite = async () => {
+        // L��gg in HTML-strukturen i de tomma divarna
+        $("#header-container").html(headerHTML);
+        $("#sidebar-container").html(sidebarHTML);
+        $("#footer-container").html(footerHTML);
+
+        try {
+            // Hämta data.json
+            const response = await fetch('data.json');
+            if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+            const data = await response.json();
+
+            // Fyll sidan med information
+            populateData(data);
+            generateMenus(data.menu);
+            setActiveNavLink();
+
+        } catch (error) {
+            console.error('Kunde inte ladda data.json:', error);
+            // Här kan man lägga in fallback-text om man vill
+        }
+    };
+
+    const populateData = (data) => {
+        // Uppdatera Sidtitel
+        if (document.getElementById('page-title')) {
+            document.getElementById('page-title').textContent = data.name + (data.pageTitleSuffix || '');
+        }
+
+        // Fyll i Sidebar-info
+        $("#profile-name").text(data.name);
+        $("#footer-name").text(data.name);
+        $("#profile-description").text(data.description);
+
+        if (data.sidebar.profileImagePath) {
+            $("#profile-image").attr("src", data.sidebar.profileImagePath);
+        }
+
+        // Fyll i länkar
+        $("#telegram-link").attr("href", data.telegram);
+        $("#goodreads-link").attr("href", data.goodreads);
+        $("#linkedin-link").attr("href", data.linkedin);
+        $("#instagram-link").attr("href", data.instagram);
+    };
+
+    const generateMenus = (menuItems) => {
+        // 1. Skapa HTML för mobilmenyn (Navbar)
+        let mobileMenuHTML = '';
+        menuItems.forEach(item => {
+            if (item.dropdown) {
+                // Om du vill ha dropdowns
+                mobileMenuHTML += `
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">${item.label}</a>
+                        <div class="dropdown-menu">`;
+                item.dropdown.forEach(sub => {
+                    mobileMenuHTML += `<a href="${sub.url}" class="dropdown-item">${sub.label}</a>`;
+                });
+                mobileMenuHTML += `</div></div>`;
+            } else {
+                mobileMenuHTML += `<a href="${item.url}" class="nav-item nav-link" data-page="${item.dataPage}">${item.label}</a>`;
+            }
+        });
+        $("#mobile-menu-target").html(mobileMenuHTML);
+
+        // 2. Skapa HTML för sidebarmenyn (Desktop)
+        let sidebarMenuHTML = '';
+        menuItems.forEach(item => {
+             // Vi skippar dropdowns i sidebaren för renare look, eller länkar huvudrubriken
+             sidebarMenuHTML += `
+                <a class="nav-link font-weight-bold py-2 mb-1 text-dark" href="${item.url}" data-page="${item.dataPage}">
+                    <i class="fas fa-angle-right mr-2 text-primary"></i>${item.label}
+                </a>`;
+        });
+        $("#sidebar-menu-target").html(sidebarMenuHTML);
+    };
+
+    const setActiveNavLink = () => {
+        // Lista ut vilken sida vi är på
+        let path = window.location.pathname;
+        let page = path.split("/").pop().replace(".html", "") || "index";
+        
+        // Markera länkarna som aktiva
+        $(`[data-page="${page}"]`).addClass('active text-primary');
+    };
+
+    /* =========================================
+       3. UI & EVENTS (Körs när sidan laddat)
+       ========================================= */
+    $(document).ready(function () {
+        
+        // Starta allt
+        initSite();
+
+        // Back to top knapp
+        $(window).scroll(function () {
+            if ($(this).scrollTop() > 100) {
+                $('.back-to-top').fadeIn('slow');
+            } else {
+                $('.back-to-top').fadeOut('slow');
+            }
+        });
+
+        $('.back-to-top').click(function () {
+            $('html, body').animate({scrollTop: 0}, 1500, 'swing');
+            return false;
+        });
+
+        // Starta karuseller
+        $('#blog-carousel').carousel();
+        $('#news-carousel').carousel();
     });
 
 })(jQuery);
-
-    // Carousel Initialization (Make sure you have the correct HTML in place)
-    $(document).ready(function() {
-        $('#blog-carousel').carousel(); //Initiera karusellen
-    });
-
-})(jQuery);
-
-// Funktion för att hämta data (Kan vara generell och användas på andra ställen)
-const fetchData = async (url) => {
-    try {
-        const response = await fetch(url);
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        return await response.text(); //Antar att du vill ha HTML eller text tillbaka
-    } catch (error) {
-        console.error("Fel vid hämtning av data:", error);
-        return null; // Eller annan lämplig felhantering
-    }
-};
-
-// Funktion för att ladda partiell HTML (Kan göras mer generell om behovet finns)
-const loadPartial = async (url, targetId) => {
-    const html = await fetchData(url);
-    if (html) {
-        const targetElement = document.getElementById(targetId);
-        if (targetElement) {
-            targetElement.innerHTML = html;
-        } else {
-            console.error(`Element med ID "${targetId}" hittades inte.`);
-        }
-    }
-};
