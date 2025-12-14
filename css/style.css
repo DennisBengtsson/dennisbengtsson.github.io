@@ -323,3 +323,9 @@ h3 {
 .container.py-5.px-2.bg-primary h1.mb-3.mb-md-0.text-white.text-uppercase.font-weight-bold {
     font-size: 2rem !important;
 }
+
+/* Tvinga den inre raden i headern att bli mindre */
+.container.py-5.px-2.bg-primary .row.py-5 {
+    padding-top: 1rem !important;
+    padding-bottom: 1rem !important;
+}
