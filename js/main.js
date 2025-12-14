@@ -1,8 +1,10 @@
 (function ($) {
     "use strict";
 
+    console.log("Main.js har startat..."); // Kontroll för att se att scriptet laddas
+
     /* =========================================
-       1. HTML MALLAR (TEMPLATES)
+       1. HTML-MALLAR
        ========================================= */
     
     const headerHTML = `
@@ -21,15 +23,15 @@
         <div class="sidebar pb-4 px-4">
             <div class="sidebar-text">
                 <div class="text-center py-4">
-                    <img src="" alt="" id="profile-image" class="img-fluid rounded-circle mb-3 shadow-sm" style="width: 150px; height: 150px; object-fit: cover;">
-                    <h4 class="font-weight-bold" id="profile-name"></h4>
+                    <img src="img/about.jpg" alt="Profilbild" id="profile-image" class="img-fluid rounded-circle mb-3 shadow-sm" style="width: 150px; height: 150px; object-fit: cover;">
+                    <h4 class="font-weight-bold" id="profile-name">Laddar...</h4>
                     <p class="text-muted small mb-4" id="profile-description"></p>
                     
                     <div class="d-flex justify-content-center mb-4">
-                        <a class="btn btn-outline-primary btn-sm mr-2" href="#" target="_blank" id="telegram-link"><i class="fab fa-telegram"></i></a>
-                        <a class="btn btn-outline-primary btn-sm mr-2" href="#" target="_blank" id="goodreads-link"><i class="fab fa-goodreads"></i></a>
-                        <a class="btn btn-outline-primary btn-sm mr-2" href="#" target="_blank" id="linkedin-link"><i class="fab fa-linkedin-in"></i></a>
-                        <a class="btn btn-outline-primary btn-sm mr-2" href="#" target="_blank" id="instagram-link"><i class="fab fa-instagram"></i></a>
+                        <a class="btn btn-outline-primary btn-sm mr-2" href="#" id="telegram-link"><i class="fab fa-telegram"></i></a>
+                        <a class="btn btn-outline-primary btn-sm mr-2" href="#" id="goodreads-link"><i class="fab fa-goodreads"></i></a>
+                        <a class="btn btn-outline-primary btn-sm mr-2" href="#" id="linkedin-link"><i class="fab fa-linkedin-in"></i></a>
+                        <a class="btn btn-outline-primary btn-sm mr-2" href="#" id="instagram-link"><i class="fab fa-instagram"></i></a>
                     </div>
                 </div>
                 
@@ -38,7 +40,7 @@
                 <div class="text-center mt-5">
                     <a href="mailto:dennisrmgbengtsson@gmail.com" class="btn btn-primary btn-sm mb-3">Kontakta mig</a>
                     <p class="m-0 small text-muted">
-                        &copy; 2025 <span id="footer-name"></span>.<br>Alla r��ttigheter förbehållna.
+                        &copy; 2025 <span id="footer-name">Dennis Bengtsson</span>.<br>Alla rättigheter förbehållna.
                     </p>
                 </div>
             </div>
@@ -52,21 +54,17 @@
     const footerHTML = ``;
 
     /* =========================================
-       2. DATA & BACKUP (Detta räddar sidan lokalt)
+       2. DATA (BACKUP OM JSON INTE FUNKAR)
        ========================================= */
-
-    // Denna data används om data.json inte g��r att ladda (t.ex. lokalt)
     const fallbackData = {
         name: "Dennis Bengtsson",
         description: "Certifierad snickare och betongarbetare. Vanligt sunt bonnförnuft räcker långt.",
         pageTitleSuffix: " - Personlig Blogg",
-        sidebar: {
-            profileImagePath: "img/about.jpg" 
-        },
+        sidebar: { profileImagePath: "img/about.jpg" },
         telegram: "#",
-        goodreads: "https://www.goodreads.com/user/show/164131463-dennis-bengtsson",
-        linkedin: "https://se.linkedin.com/in/dennis-bengtsson-703562135",
-        instagram: "https://www.instagram.com/dennis.bengtsson92/",
+        goodreads: "https://www.goodreads.com/",
+        linkedin: "https://linkedin.com/",
+        instagram: "https://instagram.com/",
         menu: [
             { "label": "Hem", "url": "index.html", "dataPage": "index" },
             { "label": "Om mig", "url": "about.html", "dataPage": "about" },
@@ -75,30 +73,30 @@
     };
 
     /* =========================================
-       3. LOGIK F��R ATT BYGGA SIDAN
+       3. FUNKTIONER
        ========================================= */
 
     const initSite = async () => {
-        // 1. Spruta in HTML-strukturen direkt så rutorna syns
+        // 1. Lägg in HTML direkt så att rutorna syns
         $("#header-container").html(headerHTML);
         $("#sidebar-container").html(sidebarHTML);
         $("#footer-container").html(footerHTML);
+        console.log("HTML injicerat i sidebar/header");
 
-        let data;
+        let data = fallbackData; // Börja med backup-data
 
-        // 2. Försök hämta JSON
+        // 2. Förs��k hämta JSON
         try {
             const response = await fetch('data.json');
-            if (!response.ok) throw new Error("Kunde inte ladda filen");
-            data = await response.json();
-            console.log("Laddade data från data.json");
+            if (response.ok) {
+                data = await response.json();
+                console.log("Data hämtad från data.json");
+            }
         } catch (error) {
-            // 3. Om det misslyckas (CORS/Lokalt), använd fallbackData
-            console.warn("Kunde inte ladda data.json (detta är normalt om du kör lokalt). Använder backup-data.");
-            data = fallbackData;
+            console.warn("Kunde inte ladda data.json, använder backup-data.");
         }
 
-        // 4. Fyll i all info
+        // 3. Fyll i texten
         populateData(data);
         generateMenus(data.menu);
         setActiveNavLink();
@@ -113,9 +111,9 @@
         $("#footer-name").text(data.name);
         $("#profile-description").text(data.description);
 
-        // Säkerställ att bilden finns i fallback eller json
-        const imgSrc = (data.sidebar && data.sidebar.profileImagePath) ? data.sidebar.profileImagePath : "img/about.jpg";
-        $("#profile-image").attr("src", imgSrc);
+        if (data.sidebar && data.sidebar.profileImagePath) {
+            $("#profile-image").attr("src", data.sidebar.profileImagePath);
+        }
 
         $("#telegram-link").attr("href", data.telegram);
         $("#goodreads-link").attr("href", data.goodreads);
@@ -126,19 +124,23 @@
     const generateMenus = (menuItems) => {
         // Mobilmeny
         let mobileMenuHTML = '';
-        menuItems.forEach(item => {
-            mobileMenuHTML += `<a href="${item.url}" class="nav-item nav-link" data-page="${item.dataPage}">${item.label}</a>`;
-        });
+        if(menuItems) {
+            menuItems.forEach(item => {
+                mobileMenuHTML += `<a href="${item.url}" class="nav-item nav-link" data-page="${item.dataPage}">${item.label}</a>`;
+            });
+        }
         $("#mobile-menu-target").html(mobileMenuHTML);
 
-        // Sidmeny (Desktop)
+        // Desktopmeny (Sidebar)
         let sidebarMenuHTML = '';
-        menuItems.forEach(item => {
-             sidebarMenuHTML += `
-                <a class="nav-link font-weight-bold py-2 mb-1 text-dark" href="${item.url}" data-page="${item.dataPage}">
-                    <i class="fas fa-angle-right mr-2 text-primary"></i>${item.label}
-                </a>`;
-        });
+        if(menuItems) {
+            menuItems.forEach(item => {
+                sidebarMenuHTML += `
+                    <a class="nav-link font-weight-bold py-2 mb-1 text-dark" href="${item.url}" data-page="${item.dataPage}">
+                        <i class="fas fa-angle-right mr-2 text-primary"></i>${item.label}
+                    </a>`;
+            });
+        }
         $("#sidebar-menu-target").html(sidebarMenuHTML);
     };
 
@@ -149,11 +151,13 @@
     };
 
     /* =========================================
-       4. UI & EVENTS
+       4. KÖR PÅ START
        ========================================= */
     $(document).ready(function () {
+        console.log("Document ready - kör initSite");
         initSite();
 
+        // Scroll
         $(window).scroll(function () {
             if ($(this).scrollTop() > 100) {
                 $('.back-to-top').fadeIn('slow');
@@ -167,8 +171,9 @@
             return false;
         });
 
-        $('#blog-carousel').carousel();
-        $('#news-carousel').carousel();
+        // Karuseller
+        if ($('#blog-carousel').length) $('#blog-carousel').carousel();
+        if ($('#news-carousel').length) $('#news-carousel').carousel();
     });
 
 })(jQuery);
