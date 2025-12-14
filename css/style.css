@@ -2,13 +2,13 @@
 
 /**********************************/
 /*       0. THEME COLORS          */
-/*  Återställer dina originalfärger */
+/*  Här ställer vi in dina färger */
 /**********************************/
 :root {
-    --primary: #2A4B7C;
-    --secondary: #202C45;
-    --light: #f1f3ff;
-    --text-color: #000000;
+    --primary: #2A4B7C;   /* Din standardblå */
+    --secondary: #202C45; /* Din mörkblå (Header/Footer) */
+    --light: #f1f3ff;     /* Ljus bakgrundsfärg */
+    --text-color: #666666;
 }
 
 body {
@@ -17,23 +17,49 @@ body {
     font-family: "Open Sans", sans-serif;
 }
 
+/* Länkar */
 a { color: var(--primary); text-decoration: none; }
 a:hover { color: var(--secondary); text-decoration: underline; }
 
-/* Tvinga Bootstrap att använda dina färger */
+/* --------------------------------------------------------- */
+/* TVINGA BOOTSTRAP ATT ANVÄNDA DINA FÄRGER (VIKTIGT!)       */
+/* Detta fixar så att "bg-secondary" blir mörkblå, inte grå  */
+/* --------------------------------------------------------- */
+
+/* Primary (Standardblå) */
 .text-primary { color: var(--primary) !important; }
 .bg-primary { background-color: var(--primary) !important; }
+.border-primary { border-color: var(--primary) !important; }
+
+/* Secondary (Mörkblå/Header) - Det var denna som saknades! */
+.text-secondary { color: var(--secondary) !important; }
+.bg-secondary { background-color: var(--secondary) !important; }
+.border-secondary { border-color: var(--secondary) !important; }
+
+/* Light */
 .bg-light { background-color: var(--light) !important; }
 
+/* Knappar */
 .btn-primary {
     color: #fff;
     background-color: var(--primary);
     border-color: var(--primary);
 }
 .btn-primary:hover {
-    background-color: #203a5f; /* Lite mörkare nyans vid hover */
+    background-color: #203a5f;
     border-color: #1d3456;
 }
+
+.btn-secondary {
+    color: #fff;
+    background-color: var(--secondary);
+    border-color: var(--secondary);
+}
+.btn-secondary:hover {
+    background-color: #101622;
+    border-color: #0c1019;
+}
+
 
 /**********************************/
 /*       1. LAYOUT & SIDEBAR      */
@@ -70,7 +96,7 @@ a:hover { color: var(--secondary); text-decoration: underline; }
     height: 0 !important;
 }
 
-/* Desktop layout (Sidebar fixed) */
+/* Desktop layout */
 @media (min-width: 768px) {
     .wrapper .content {
         padding: 30px 0 30px 30px;
@@ -117,7 +143,7 @@ a:hover { color: var(--secondary); text-decoration: underline; }
     }
 }
 
-/* Tablet specifik (Sidebar collision handling) */
+/* Tablet collision handling */
 @media (min-width: 768px) and (max-width: 991.98px) {
     .wrapper .sidebar { z-index: 99; }
     
@@ -134,7 +160,7 @@ a:hover { color: var(--secondary); text-decoration: underline; }
     }
 }
 
-/* Large Desktop (Sidebar always visible) */
+/* Large Desktop */
 @media (min-width: 992px) {
     .wrapper .sidebar { margin: 0; }
     .wrapper .content {
@@ -257,37 +283,4 @@ h3 {
 .contact-form .help-block ul {
     margin: 0;
     padding: 0;
-    list-style-type: none;
-}
-
-/* Buttons */
-.custom-read-more-button {
-    border: 2px solid white;
-    background-color: transparent;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 8px;
-    font-weight: bold;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    transition: background-color 0.3s ease, color 0.3s ease;
-    margin-top: 30px;
-}
-
-.custom-read-more-button:hover {
-    background-color: rgba(255, 255, 255, 0.2);
-    color: white;
-    border-color: white;
-    text-decoration: none;
-}
-
-/* Bootstrap Overrides (Specifics) */
-.container.py-5.px-2.bg-primary {
-    padding-top: 0.1rem !important;
-    padding-bottom: 0.1rem !important;
-}
-
-.container.py-5.px-2.bg-primary h1.mb-3.mb-md-0.text-white.text-uppercase.font-weight-bold {
-    font-size: 2rem !important;
-}
+     ⠖
