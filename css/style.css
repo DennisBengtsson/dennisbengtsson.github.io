@@ -283,4 +283,37 @@ h3 {
 .contact-form .help-block ul {
     margin: 0;
     padding: 0;
-     ⠖
+    list-style-type: none;
+}
+
+/* Buttons */
+.custom-read-more-button {
+    border: 2px solid white;
+    background-color: transparent;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    margin-top: 30px;
+}
+
+.custom-read-more-button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    border-color: white;
+    text-decoration: none;
+}
+
+/* Bootstrap Overrides (Specifics) */
+.container.py-5.px-2.bg-primary {
+    padding-top: 0.1rem !important;
+    padding-bottom: 0.1rem !important;
+}
+
+.container.py-5.px-2.bg-primary h1.mb-3.mb-md-0.text-white.text-uppercase.font-weight-bold {
+    font-size: 2rem !important;
+}
