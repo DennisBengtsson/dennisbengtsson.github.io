@@ -17,6 +17,12 @@ body {
     font-family: "Open Sans", sans-serif;
 }
 
+/* GÖR RUBRIKER SVARTA */
+h1, h2, h3, h4, h5, h6 {
+    color: #000000;
+}
+
+
 /* Länkar */
 a { color: var(--primary); text-decoration: none; }
 a:hover { color: var(--secondary); text-decoration: underline; }
