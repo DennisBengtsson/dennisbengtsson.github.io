@@ -48,6 +48,7 @@
         /* Modern styling för citat-boxen */
         .quote-box {
             background-color: #f8f9fa; /* Ljusgrå bakgrund */
+            border-left: 4px solid #007bff; /* Primary color fallback */
             border-left: 4px solid var(--primary);
             padding: 2rem;
             border-radius: 4px;
@@ -64,14 +65,14 @@
 
 <body>
     <div class="wrapper">
-        <!-- Sidebar -->
+        <!-- Sidebar (Laddas via main.js) -->
         <div id="sidebar-container"></div>
 
         <div class="content">
-            <!-- Navbar -->
+            <!-- Navbar (Laddas via main.js) -->
             <div id="header-container"></div>
 
-            <!-- Page Header Start (Mindre version) -->
+            <!-- Page Header Start -->
             <div class="container py-2 px-2 bg-primary mb-4 shadow-sm rounded-bottom">
                 <div class="row py-3 px-4">
                     <div class="col-sm-6 text-center text-md-left">
@@ -100,7 +101,7 @@
                         <div class="d-inline-block p-1 border rounded">
                             <img class="img-fluid rounded" src="img/about.jpg" alt="Bild från Kittelsenmuseet" style="max-height: 400px; width: auto;">
                         </div>
-                        <figcaption class="bildtext">Näst äldsta dottern och jag på Kittelsenmuseet, Norge.</figcaption>
+                        <figcaption class="bildtext">Näst äldsta dottern och jag p�� Kittelsenmuseet, Norge.</figcaption>
                     </div>
                     
                     <!-- Textkolumn -->
@@ -148,7 +149,7 @@
                                     <i class="fas fa-hammer mr-2 text-primary"></i> Yrkesliv
                                 </h5>
                                 <p class="text-secondary">
-                                    Jag är <strong>certifierad snickare</strong> och utbildad betongarbetare med erfarenhet av både små och stora projekt.
+                                    Jag är <strong>certifierad snickare</strong> och utbildad betongarbetare med erfarenhet av b��de små och stora projekt.
                                 </p>
                                 <p class="text-secondary mb-0">
                                     Just nu arbetar jag som snickare på en större byggarbetsplats i Lund, anställd på ett företag med 300 medarbetare.
@@ -156,14 +157,14 @@
                             </div>
                         </div>
 
-                        <!-- Höger kolumn: Engagemang -->
+                        <!-- H��ger kolumn: Engagemang -->
                         <div class="col-md-6 mb-4">
                             <div class="p-3 h-100 border rounded bg-light">
                                 <h5 class="font-weight-bold text-uppercase mb-3 text-dark" style="letter-spacing: 1px;">
                                     <i class="fas fa-users mr-2 text-primary"></i> Engagemang
                                 </h5>
                                 <p class="text-secondary">
-                                    Lokalsamhället och demokratin är viktiga för mig. Rätten att rösta fritt är en grundläggande princip som jag stöder aktivt.
+                                    Lokalsamhället och demokratin är viktiga för mig. Rätten att rösta fritt är en grundl��ggande princip som jag stöder aktivt.
                                 </p>
                                 
                                 <ul class="list-unstyled text-secondary pl-2 border-left border-primary mb-3">
@@ -186,7 +187,7 @@
             </div>
             <!-- Huvudinnehåll End -->
 
-            <!-- Footer -->
+            <!-- Footer (Laddas via main.js) -->
             <div id="footer-container"></div>
         </div>
     </div>
@@ -199,8 +200,7 @@
     <script src="bootstrap-4.6.2-dist/js/bootstrap.bundle.min.js"></script>
     <script src="jquery/jquery.waypoints.min.js"></script>
 
-    <!-- Template Javascript -->
-    <script src="js/site-data.js"></script>
+    <!-- Template Javascript (Enbart main.js beh��vs nu) -->
     <script src="js/main.js"></script>
 </body>
 </html>
