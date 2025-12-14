@@ -7,7 +7,7 @@
     <meta content="Dennis Bengtsson snickare betongarbetare" name="keywords">
     <meta content="Om Dennis Bengtsson" name="description">
 
-    <!-- Content Security Policy (Samma som index) -->
+    <!-- Content Security Policy -->
     <meta http-equiv="Content-Security-Policy" content="
       default-src 'self'; 
       script-src 'self' 'unsafe-inline'; 
@@ -38,10 +38,26 @@
     <!-- Sidspecifik CSS -->
     <style>
         .bildtext {
-            font-size: 0.6em;
-            color: #666;
-            display: block;
+            font-size: 0.85rem;
+            color: #6c757d; /* Muted grey */
+            margin-top: 0.5rem;
+            font-style: italic;
             text-align: center;
+        }
+        
+        /* Modern styling för citat-boxen */
+        .quote-box {
+            background-color: #f8f9fa; /* Ljusgrå bakgrund */
+            border-left: 4px solid var(--primary);
+            padding: 2rem;
+            border-radius: 4px;
+        }
+        
+        .quote-text {
+            font-family: 'Georgia', serif;
+            font-size: 1.1rem;
+            font-style: italic;
+            color: #444;
         }
     </style>
 </head>
@@ -55,61 +71,120 @@
             <!-- Navbar -->
             <div id="header-container"></div>
 
-            <!-- Page Header Start -->
-            <div class="container py-5 px-2 bg-primary">
-                <div class="row py-5 px-4">
+            <!-- Page Header Start (Mindre version) -->
+            <div class="container py-2 px-2 bg-primary mb-4 shadow-sm rounded-bottom">
+                <div class="row py-3 px-4">
                     <div class="col-sm-6 text-center text-md-left">
-                        <h1 class="mb-3 mb-md-0 text-white text-uppercase font-weight-bold">Om Mig</h1>
+                        <h1 class="mb-3 mb-md-0 text-white text-uppercase font-weight-bold" style="font-size: 1.75rem;">Om Mig</h1>
                     </div>
                     <div class="col-sm-6 text-center text-md-right">
                         <div class="d-inline-flex pt-2">
-                            <h4 class="m-0 text-white"><a class="text-white" href="index.html">Hem</a></h4>
-                            <h4 class="m-0 text-white px-2">/</h4>
-                            <h4 class="m-0 text-white">Om mig</h4>
+                            <h4 class="m-0 text-white" style="font-size: 1.1rem;">
+                                <a class="text-white" href="index.html">Hem</a>
+                            </h4>
+                            <h4 class="m-0 text-white px-2" style="font-size: 1.1rem;">/</h4>
+                            <h4 class="m-0 text-white" style="font-size: 1.1rem;">Om mig</h4>
                         </div>
                     </div>
                 </div>
             </div>
             <!-- Page Header End -->
 
-            <!-- About Start -->
-            <div class="container bg-white pt-5">
-                <div class="row px-3 pb-5">
-                    <div class="col-md-12">
-                        <h2 class="mb-4 font-weight-bold">Dennis Bengtsson</h2>
-                        <figure class="float-left mr-4 mb-3" style="max-width: 300px;">
-                            <img class="img-fluid" src="img/about.jpg" alt="Bild från Kittelsenmuseet">
-                            <figcaption class="bildtext">Näst äldsta dottern och jag på Kittelsenmuseet, Norge.</figcaption>
-                        </figure>
-                        <p class="m-0">
-                            F��dd i april 1992, ursprungligen från Hultsfred, bor numera i nordvästra Skåne.
-                            Är en gift man, far till fyra små duktiga flickor.</p>
-                        <p><br>
-                            Som person är jag lugn, eftertänksam och noggrann. Jag uppskattar naturen, gärna med familjen. 
-                            <br><br>
-                            <span class="quote">"Sätter du en smålänning på en öde klippa<br> i havet skaver han sig
-                                mätt,<br>och giver du honom en get bliver han rik."</span>
-                            <br>
-                            <img src="img/strandad-man.jpg" alt="Strandad man" class="mt-3" style="max-width: 100%;">
+            <!-- Huvudinnehåll Start -->
+            <div class="container bg-white p-4 p-lg-5 shadow-sm rounded">
+                
+                <!-- Sektion 1: Intro & Bild -->
+                <div class="row align-items-center mb-5">
+                    <!-- Bildkolumn -->
+                    <div class="col-lg-5 text-center mb-4 mb-lg-0">
+                        <div class="d-inline-block p-1 border rounded">
+                            <img class="img-fluid rounded" src="img/about.jpg" alt="Bild från Kittelsenmuseet" style="max-height: 400px; width: auto;">
+                        </div>
+                        <figcaption class="bildtext">Näst äldsta dottern och jag på Kittelsenmuseet, Norge.</figcaption>
+                    </div>
+                    
+                    <!-- Textkolumn -->
+                    <div class="col-lg-7">
+                        <h2 class="mb-4 font-weight-bold text-dark">Dennis Bengtsson</h2>
+                        <p class="lead text-dark" style="font-size: 1.1rem;">
+                            Född i april 1992, ursprungligen från Hultsfred, bor numera i nordvästra Skåne.
                         </p>
-
-                        <br>
-                        <h3>Mitt yrke och engagemang</h3>
-                        <p>
-                            Certifierad snickare och utbildad betongarbetare. Har arbetat med både små och stora projekt.
-                            Just nu arbetar jag som snickare på en större byggarbetsplats i Lund. Är anställd på ett företag med 300 anställda.
-
-                            Engagerad medborgare. Lokalsamhället och demokratin är viktiga för mig, dessa kräver ständigt engagemang.
-                            Rätten att rösta fritt är en grundläggande princip som jag stöder genom
-                            att ställa upp som rösträknare vid val. Jag har hunnit med 5 val hittills och fler ska det bli. 
-                            Jag blev vald till valnämndsordförande i kyrkoförsamlingen den 3/12 2025. 
+                        <p class="text-secondary">
+                            Jag är en gift man och stolt far till fyra små duktiga flickor.
+                            Som person är jag lugn, eftertänksam och noggrann. Jag uppskattar naturen, gärna tillsammans med familjen där vi hämtar kraft och inspiration.
                         </p>
-
-                        <p>Svenska kyrkan är en plats för reflektion och gemenskap för mig och min familj.</p>
                     </div>
                 </div>
+
+                <hr class="my-5">
+
+                <!-- Sektion 2: Citat & Humor (Grå box) -->
+                <div class="quote-box mb-5">
+                    <div class="row align-items-center">
+                        <div class="col-md-8 mb-3 mb-md-0">
+                            <h4 class="text-dark font-weight-bold mb-3">En småländsk filosofi</h4>
+                            <p class="quote-text mb-0">
+                                "Sätter du en smålänning på en öde klippa i havet skaver han sig mätt,
+                                och giver du honom en get bliver han rik."
+                            </p>
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <img src="img/strandad-man.jpg" alt="Strandad man" class="img-fluid rounded shadow-sm" style="max-height: 150px;">
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="my-5">
+
+                <!-- Sektion 3: Yrke och Engagemang (2 kolumner) -->
+                <div class="mb-2">
+                    <h3 class="mb-4 text-dark font-weight-bold">Mitt yrke och engagemang</h3>
+                    
+                    <div class="row">
+                        <!-- Vänster kolumn: Arbete -->
+                        <div class="col-md-6 mb-4">
+                            <div class="p-3 h-100 border rounded bg-light">
+                                <h5 class="font-weight-bold text-uppercase mb-3 text-dark" style="letter-spacing: 1px;">
+                                    <i class="fas fa-hammer mr-2 text-primary"></i> Yrkesliv
+                                </h5>
+                                <p class="text-secondary">
+                                    Jag är <strong>certifierad snickare</strong> och utbildad betongarbetare med erfarenhet av både små och stora projekt.
+                                </p>
+                                <p class="text-secondary mb-0">
+                                    Just nu arbetar jag som snickare på en större byggarbetsplats i Lund, anställd på ett företag med 300 medarbetare.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Höger kolumn: Engagemang -->
+                        <div class="col-md-6 mb-4">
+                            <div class="p-3 h-100 border rounded bg-light">
+                                <h5 class="font-weight-bold text-uppercase mb-3 text-dark" style="letter-spacing: 1px;">
+                                    <i class="fas fa-users mr-2 text-primary"></i> Engagemang
+                                </h5>
+                                <p class="text-secondary">
+                                    Lokalsamhället och demokratin är viktiga för mig. Rätten att rösta fritt är en grundläggande princip som jag stöder aktivt.
+                                </p>
+                                
+                                <ul class="list-unstyled text-secondary pl-2 border-left border-primary mb-3">
+                                    <li class="mb-2 pl-3">
+                                        <strong>Rösträknare:</strong> Har tjänstgjort vid 5 val hittills.
+                                    </li>
+                                    <li class="mb-0 pl-3">
+                                        <strong>Förtroendeuppdrag:</strong> Valnämndsordförande i kyrkoförsamlingen (vald 2025-12-03).
+                                    </li>
+                                </ul>
+
+                                <p class="font-italic small text-secondary mb-0">
+                                    "Svenska kyrkan är en plats för reflektion och gemenskap för mig och min familj."
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
-            <!-- About End -->
+            <!-- Huvudinnehåll End -->
 
             <!-- Footer -->
             <div id="footer-container"></div>
@@ -119,7 +194,7 @@
     <!-- Back to Top -->
     <a href="#" class="back-to-top"><i class="fa fa-angle-double-up" aria-hidden="true"></i></a>
 
-    <!-- JavaScript Libraries (LOKALA) -->
+    <!-- JavaScript Libraries -->
     <script src="jquery/jquery-3.7.1.min.js"></script>
     <script src="bootstrap-4.6.2-dist/js/bootstrap.bundle.min.js"></script>
     <script src="jquery/jquery.waypoints.min.js"></script>
@@ -127,6 +202,5 @@
     <!-- Template Javascript -->
     <script src="js/site-data.js"></script>
     <script src="js/main.js"></script>
-    <!-- feed.js behövs inte här då vi inte har nyhetskarusellen på om-sidan -->
 </body>
 </html>
