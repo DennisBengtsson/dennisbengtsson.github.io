@@ -1,23 +1,23 @@
 (function ($) {
     "use strict";
-
-    // Back to top button functionality
+    
+    // Back to top button
     $(window).scroll(function () {
+        // Om man scrollar ner mer än 100px, visa knappen
         if ($(this).scrollTop() > 100) {
-            $(".back-to-top").fadeIn("slow");
+            $('.back-to-top').fadeIn('slow');
         } else {
-            $(".back-to-top").fadeOut("slow");
+            $('.back-to-top').fadeOut('slow');
         }
     });
 
-    $(".back-to-top").click(function (e) {
-        e.preventDefault();
-        $("html, body").animate(
-            { scrollTop: 0 },
-            1500,
-            "easeInOutExpo"
-        );
+    // När man klickar på knappen
+    $('.back-to-top').click(function () {
+        $('html, body').animate({scrollTop: 0}, 1500, 'swing');
+        return false;
     });
+
+})(jQuery);
 
     // Carousel Initialization (Make sure you have the correct HTML in place)
     $(document).ready(function() {

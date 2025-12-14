@@ -9804,81 +9804,67 @@ h3 {
 }
 /******** Back to Top CSS *********/
 .back-to-top {
-  position: fixed;
-  display: none;
-  width: 30px;
-  height: 30px;
-  text-align: center;
-  line-height: 1;
-  font-size: 30px;
-  right: 30px;
-  bottom: 30px;
-  transition: background 0.5s;
-  z-index: 11;
+    position: fixed;
+    display: none; /* Döljs tills JS aktiverar den */
+    background: #2A4B7C; /* Din primära färg */
+    color: #ffffff;
+    width: 45px;
+    height: 45px;
+    text-align: center;
+    line-height: 45px; /* Centrerar pilen vertikalt */
+    font-size: 22px;
+    right: 30px;
+    bottom: 30px;
+    transition: background 0.3s;
+    z-index: 99; /* Ser till att den ligger överst */
+    border-radius: 5px; /* Lite rundade hörn */
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3); /* Ger en liten skugga */
+    cursor: pointer;
+}
+
+.back-to-top:hover {
+    background: #202C45; /* Mörkare blå vid hovring */
+    color: #ffffff;
 }
 
 .back-to-top i {
-  color: #2A4B7C;
+    color: #ffffff; /* Vit pil */
 }
 
-.back-to-top i:hover {
-  color: #202C45;
-}
-
-.back-to-top {
-  -webkit-animation: action 1s infinite alternate;
-  animation: action 1s infinite alternate;
-}
-
-@-webkit-keyframes action {
-  0% {
-    transform: translateY(0);
-  }
-  100% {
-    transform: translateY(-15px);
-  }
-}
-@keyframes action {
-  0% {
-    transform: translateY(0);
-  }
-  100% {
-    transform: translateY(-15px);
-  }
-}
 /********** Custom CSS ************/
 .carousel-caption {
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 1;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+}
+
+.carousel-caption h5 {
+    font-weight: bold;
 }
 
 @media (min-width: 768px) {
-  .blog-item h3 {
-    margin-left: -90px;
-  }
+    .blog-item h3 {
+        margin-left: -90px;
+    }
 }
 .skills .progress .progress-bar {
-  width: 0;
-  transition: 2s;
+    width: 0;
+    transition: 2s;
 }
 
 .contact-form .help-block ul {
-  margin: 0;
-  padding: 0;
-  list-style-type: none;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
 }
 
-/*# sourceMappingURL=style.css.map */
-
-
-
+/* Dina anpassade fonter och stilar */
 @font-face {
     font-family: 'GotenborgFraktur';
-    src: url('../fonts/GotenborgFraktur.ttf') format('truetype'); /* KONTROLLERA S��KV��GEN! */
+    src: url('../fonts/GotenborgFraktur.ttf') format('truetype'); 
     font-weight: normal;
     font-style: normal;
 }
@@ -9894,80 +9880,36 @@ body.about-page h2.mb-4.font-weight-bold {
     font-family: 'GotenborgFraktur', sans-serif;
 }
 
-
 .container.py-5.px-2.bg-primary {
     padding-top: 0.1rem !important;
     padding-bottom: 0.1rem !important;
 }
 
-.container.py-5.px-2.bg-primary h1.mb-3.mb-md-0.text-white.text-uppercase.font-weight-bold {
-    font-size: 2rem !important; /* Valfritt: Minska fontstorleken */
+.container.py-5.px-2.bg-primary h1 {
+    font-size: 2rem !important;
 }
-
 
 .email-address {
-  word-wrap: break-word; /* För äldre webbläsare */
-  word-break: break-word; /* För moderna webbläsare */
+    word-wrap: break-word;
+    word-break: break-word;
 }
-
-
-.sentence {
-  display: inline-block;
-}
-
-.quote {
-  display: inline-block;
-  vertical-align: top; /* Justera efter behov */
-  margin-left: 10px; /* Justera avståndet mellan meningen och citatet */
-  font-style: italic; /* Gör citatet kursivt */
-}
-
-h3 {
-  font-size: 1.5em;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
-.sentence {
-  display: inline-block;
-}
-
-.quote {
-  display: inline-block;
-  vertical-align: central; /* Justera efter behov */
-  margin-right: 100px; /* Justera avståndet mellan citatet och bilden */
-}
-
-.quote + img {
-  display: inline-block;
-  width: 200px; /* Justera bildens bredd */
-  height: auto;
-  vertical-align: central; /* Justera efter behov */
-}
-
 
 .custom-read-more-button {
-    border: 2px solid white; /* Vita kanter, 2px tjocka */
-    background-color: transparent; /* Genomskinlig bakgrund */
-    color: white; /* Vit textfärg */
-    padding: 10px 20px; /* Justera padding efter önskemål */
-    border-radius: 8px; /* Runda hörn */
-    font-weight: bold; /* Fet text */
-    text-align: center; /* Centrera texten horisontellt */
-    text-decoration: none; /* Ta bort understrykning */
-    display: inline-block; /* Viktigt för att padding ska fungera */
-    transition: background-color 0.3s ease, color 0.3s ease; /* Mjuk övergång */
-    margin-top: 30px; /* LÄGG TILL DEN HÄR RADEN */
-}
-
-.carousel-caption h5 {
-    font-weight: bold; /* Lägg till denna rad för att göra texten fet */
-    /* ... andra stilar för h5 ... */
+    border: 2px solid white;
+    background-color: transparent;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    margin-top: 30px;
 }
 
 .custom-read-more-button:hover {
-    background-color: rgba(255, 255, 255, 0.2); /* Lite ljusare bakgrund vid hover */
-    color: white; /* Behåll vit text */
-    border-color: white; /* Behåll vit kant vid hover */
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    border-color: white;
 }
-
