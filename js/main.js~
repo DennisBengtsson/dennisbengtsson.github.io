@@ -38,7 +38,7 @@
                 <div class="text-center mt-5">
                     <a href="mailto:dennisrmgbengtsson@gmail.com" class="btn btn-primary btn-sm mb-3">Kontakta mig</a>
                     <p class="m-0 small text-muted">
-                        &copy; 2025 <span id="footer-name"></span>.Denna webbplats sparar ingen användardata och använder inga spårningstekniker eller cookies. Alla rättigheter förbehållna.
+                        &copy; 2025 <span id="footer-name"></span>. Denna webbplats sparar ingen användardata och använder inga spårningstekniker eller cookies. Alla rättigheter förbehållna.
                     </p>
                 </div>
             </div>
@@ -49,13 +49,20 @@
         </div>
     `;
 
-    const footerHTML = ``;
+    // HÄR ÄR UPPDATERINGEN F��R FOOTERN:
+    const footerHTML = `
+        <div class="container py-4 bg-secondary text-center my-website-footer">
+            <p class="m-0 text-white">
+                &copy; 2025 <span id="footer-name-main"></span>. Denna webbplats sparar ingen användardata och använder inga spårningstekniker eller cookies. Alla rättigheter förbehållna.
+            </p>
+        </div>
+    `;
 
     /* =========================================
        2. DATA & BACKUP (Detta räddar sidan lokalt)
        ========================================= */
 
-    // Denna data används om data.json inte g��r att ladda (t.ex. lokalt)
+    // Denna data används om data.json inte går att ladda (t.ex. lokalt)
     const fallbackData = {
         name: "Dennis Bengtsson",
         description: "Sunt bonnförnuft räcker långt.",
@@ -75,7 +82,7 @@
     };
 
     /* =========================================
-       3. LOGIK F��R ATT BYGGA SIDAN
+       3. LOGIK FÖR ATT BYGGA SIDAN
        ========================================= */
 
     const initSite = async () => {
@@ -110,10 +117,12 @@
         }
 
         $("#profile-name").text(data.name);
-        $("#footer-name").text(data.name);
+        $("#footer-name").text(data.name); // Texten i sidebaren
+        $("#footer-name-main").text(data.name); // NYTT: Texten i den liggande footern
+        
         $("#profile-description").text(data.description);
 
-        // Säkerställ att bilden finns i fallback eller json
+        // S��kerst��ll att bilden finns i fallback eller json
         const imgSrc = (data.sidebar && data.sidebar.profileImagePath) ? data.sidebar.profileImagePath : "img/about.jpg";
         $("#profile-image").attr("src", imgSrc);
 
