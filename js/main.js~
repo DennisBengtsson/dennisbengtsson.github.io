@@ -123,7 +123,7 @@
         $("#profile-description").text(data.description);
 
         // S��kerst��ll att bilden finns i fallback eller json
-        const imgSrc = (data.sidebar && data.sidebar.profileImagePath) ? data.sidebar.profileImagePath : "img/about.jpg";
+        const imgSrc = (data.sidebar && data.sidebar.profileImagePath) ? data.sidebar.profileImagePath : "img/profile.jpg";
         $("#profile-image").attr("src", imgSrc);
 
         $("#telegram-link").attr("href", data.telegram);
