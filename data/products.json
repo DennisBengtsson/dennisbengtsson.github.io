@@ -1,0 +1,29 @@
+[
+  {
+    "id": 1,
+    "title": "Makita Skruvdragare 18V",
+    "description": "Väl använd men fungerar felfritt. Två batterier och laddare ingår.",
+    "price": 800,
+    "category": "Verktyg",
+    "image": "img/products/makita.jpg",
+    "status": "available" 
+  },
+  {
+    "id": 2,
+    "title": "Ekparkett 14mm (3pkt)",
+    "description": "Överblivet från renovering. Ca 9 kvm totalt. Oöppnade paket.",
+    "price": 1200,
+    "category": "Material",
+    "image": "img/products/parkett.jpg",
+    "status": "available"
+  },
+  {
+    "id": 3,
+    "title": "Betongblandare",
+    "description": "��ldre modell, behöver rengöras men snurrar som den ska.",
+    "price": 500,
+    "category": "Verktyg",
+    "image": "img/products/blandare.jpg",
+    "status": "sold"
+  }
+]

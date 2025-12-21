@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <title>Köp & Sälj - Dennis Bengtsson</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Samma CSS-länkar som index.html -->
+  <link rel="stylesheet" href="css/css/bootstrap.min.css">
+  <link rel="stylesheet" href="fonts/fontawesome-free-6.7.2-web/css/all.min.css">
+  <link rel="stylesheet" href="css/opensans.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="wrapper">
+    <div id="sidebar-container"></div> <!-- Sidebar laddas här -->
+
+    <div class="content">
+      <div id="header-container"></div> <!-- Header laddas här -->
+
+      <!-- HERO SECTION -->
+      <div class="hero-section text-center text-md-left">
+          <div class="container">
+              <div class="row align-items-center">
+                  <div class="col-md-6">
+                      <h1 class="hero-title mb-2">LO PPIS</h1>
+                      <p class="mb-0" style="opacity: 0.8;">Överblivet material & verktyg</p>
+                  </div>
+                  <div class="col-md-6 text-md-right mt-3 mt-md-0">
+                      <span class="badge badge-light p-2" style="color: var(--primary); font-weight: 600;">Först till kvarn</span>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+      <!-- MARKNAD INNEH��LL -->
+      <div class="container content-box mb-5">
+        
+        <!-- Filter-knappar -->
+        <div class="row mb-4">
+            <div class="col-12 text-center">
+                <button class="btn btn-sm btn-outline-primary active filter-btn m-1" data-filter="all">Alla</button>
+                <button class="btn btn-sm btn-outline-primary filter-btn m-1" data-filter="Verktyg">Verktyg</button>
+                <button class="btn btn-sm btn-outline-primary filter-btn m-1" data-filter="Material">Material</button>
+            </div>
+        </div>
+
+        <!-- Här laddas produkterna in via JS -->
+        <div class="row" id="product-list">
+            <div class="col-12 text-center py-5">
+                <div class="spinner-border text-primary" role="status"></div>
+                <p>Laddar loppisen...</p>
+            </div>
+        </div>
+
+      </div>
+
+      <div id="footer-container"></div>
+    </div>
+  </div>
+
+  <!-- Script -->
+  <script src="jquery/jquery-3.7.1.min.js"></script>
+  <script src="bootstrap-4.6.2-dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/main.js"></script>
+  
+  <!-- BUTIKS-SCRIPT -->
+  <script>
+    $(document).ready(function() {
+        // Hämta JSON
+        $.getJSON("data/products.json", function(data) {
+            renderProducts(data);
+
+            // Filter funktion
+            $('.filter-btn').click(function() {
+                $('.filter-btn').removeClass('active'); // Ta bort active från alla
+                $(this).addClass('active'); // Lägg till på den klickade
+                
+                let category = $(this).attr('data-filter');
+                if(category === 'all') {
+                    renderProducts(data);
+                } else {
+                    let filtered = data.filter(item => item.category === category);
+                    renderProducts(filtered);
+                }
+            });
+        }).fail(function() {
+            $('#product-list').html('<div class="col-12 text-center"><p class="text-danger">Kunde inte ladda varor.</p></div>');
+        });
+    });
+
+    function renderProducts(products) {
+        let html = '';
+        if(products.length === 0) {
+             $('#product-list').html('<div class="col-12 text-center"><p>Inga varor i denna kategori.</p></div>');
+             return;
+        }
+
+        $.each(products, function(key, item) {
+            // Kolla om s��ld
+            let isSold = item.status === 'sold';
+            let statusBadge = isSold ? '<span class="badge badge-danger position-absolute" style="top:10px; right:10px; z-index:5;">SÅLD</span>' : '<span class="badge badge-success position-absolute" style="top:10px; right:10px; z-index:5;">TILL SALU</span>';
+            let btnState = isSold ? 'disabled btn-secondary' : 'btn-primary';
+            let btnText = isSold ? 'Såld' : 'Köp / Intresse';
+            let imgOpacity = isSold ? 'opacity: 0.6;' : '';
+
+            // Skapa mail-länken
+            let mailSubject = `Intresse: ${item.title}`;
+            let mailBody = `Hej Dennis!%0D%0AJag är intresserad av att köpa "${item.title}" för ${item.price} kr.%0D%0AFinns den kvar?`;
+            let mailLink = `mailto:din.email@exempel.se?subject=${mailSubject}&body=${mailBody}`;
+
+            // Om såld, ta bort länk
+            let actionBtn = isSold ? `<button class="btn ${btnState} btn-block" disabled>${btnText}</button>` : `<a href="${mailLink}" class="btn ${btnState} btn-block">${btnText}</a>`;
+
+            // Använd en placeholder bild om ingen bild finns i JSON
+            let imageSrc = item.image ? item.image : 'https://via.placeholder.com/400x300?text=Ingen+Bild';
+
+            html += `
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card feature-card h-100 p-0 overflow-hidden border-0 shadow-sm">
+                    ${statusBadge}
+                    <div style="height: 200px; overflow: hidden; background: #eee;">
+                        <img src="${imageSrc}" class="card-img-top" alt="${item.title}" style="width: 100%; height: 100%; object-fit: cover; ${imgOpacity}">
+                    </div>
+                    <div class="card-body d-flex flex-column p-4">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <h5 class="card-title font-weight-bold mb-0">${item.title}</h5>
+                            <span class="font-weight-bold text-primary">${item.price} kr</span>
+                        </div>
+                        <p class="card-text text-muted small flex-grow-1">${item.description}</p>
+                        <div class="mt-3">
+                            ${actionBtn}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            `;
+        });
+        $('#product-list').html(html);
+    }
+  </script>
+</body>
+</html>
