@@ -16,7 +16,7 @@ const headerHTML = `
 const footerHTML = `
   <div class="container py-4 bg-secondary text-center my-website-footer">
     <p class="m-0 text-white">
-      &copy; 2025 <span id="footer-name"></span>. Denna webbplats sparar ingen användardata och använder inga spårningstekniker eller cookies. Alla rättigheter förbehållna.
+      &copy; 2025 <span id="footer-name">Denna webbplats sparar ingen användardata och använder inga spårningstekniker eller cookies. Alla rättigheter förbehållna.</span>.
     </p>
   </div>
 `;
