@@ -58,10 +58,10 @@
     // Denna data används om data.json inte g��r att ladda (t.ex. lokalt)
     const fallbackData = {
         name: "Dennis Bengtsson",
-        description: "Certifierad snickare och betongarbetare. Vanligt sunt bonnförnuft räcker långt.",
+        description: "Sunt bonnförnuft räcker långt.",
         pageTitleSuffix: " - Personlig Blogg",
         sidebar: {
-            profileImagePath: "img/about.jpg" 
+            profileImagePath: "img/profile.jpg" 
         },
         telegram: "#",
         goodreads: "https://www.goodreads.com/user/show/164131463-dennis-bengtsson",
