@@ -1,80 +1,195 @@
 @charset "UTF-8";
 
 /**********************************/
-/*       0. THEME COLORS          */
-/*  Här ställer vi in dina färger */
+/*       0. THEME VARIABLES       */
 /**********************************/
 :root {
-    --primary: #2A4B7C;   /* Din standardblå */
-    --secondary: #202C45; /* Din mörkblå (Header/Footer) */
-    --light: #f1f3ff;     /* Ljus bakgrundsfärg */
-    --text-color: #666666;
+    /* Färger */
+    --primary: #2A4B7C;       /* Din standardblå */
+    --primary-dark: #1e365b;  /* Mörkare variant för hover */
+    --secondary: #202C45;     /* Mörkblå (Header/Footer/Text) */
+    --accent: #4a90e2;        /* Ljusare accentfärg för ikoner/detaljer */
+    
+    --light: #f4f6f9;         /* Lite renare, kall gråblå bakgrund */
+    --white: #ffffff;
+    
+    --text-color: #555555;    /* Mjukare mörkgrå för brödtext */
+    --heading-color: #1a1a1a; /* Nästan svart, men mjukare */
+
+    /* Skuggor (Ger djup och modern känsla) */
+    --shadow-sm: 0 2px 8px rgba(0,0,0,0.05);
+    --shadow-card: 0 10px 25px rgba(0,0,0,0.06);
+    --shadow-hover: 0 15px 35px rgba(0,0,0,0.1);
 }
 
 body {
     color: var(--text-color);
     background-color: var(--light);
     font-family: "Open Sans", sans-serif;
+    line-height: 1.6; /* Lite luftigare text */
+    -webkit-font-smoothing: antialiased; /* Gör texten skarpare */
 }
 
-/* GÖR RUBRIKER SVARTA */
+/* Rubriker */
 h1, h2, h3, h4, h5, h6 {
-    color: #000000;
+    color: var(--heading-color);
+    font-weight: 700;
 }
-
 
 /* Länkar */
-a { color: var(--primary); text-decoration: none; }
-a:hover { color: var(--secondary); text-decoration: underline; }
+a { 
+    color: var(--primary); 
+    text-decoration: none; 
+    transition: color 0.2s ease;
+}
+a:hover { 
+    color: var(--secondary); 
+    text-decoration: none; 
+}
 
-/* --------------------------------------------------------- */
-/* TVINGA BOOTSTRAP ATT ANVÄNDA DINA FÄRGER (VIKTIGT!)       */
-/* Detta fixar så att "bg-secondary" blir mörkblå, inte grå  */
-/* --------------------------------------------------------- */
+/**********************************/
+/*    1. MODERN HERO & CARDS      */
+/*    (Nya klasser för modern look)*/
+/**********************************/
 
-/* Primary (Standardblå) */
+/* Hero Section (Ersätter den gamla blå listen) */
+.hero-section {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    color: var(--white);
+    padding: 3rem 1rem;
+    border-radius: 0 0 20px 20px; /* Rundade hörn nertill */
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 3rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-title {
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+/* Content Box (Vita lådan som håller innehållet) */
+.content-box {
+    background: var(--white);
+    border-radius: 12px;
+    box-shadow: var(--shadow-card);
+    padding: 3rem;
+    border: none;
+    margin-bottom: 3rem;
+}
+
+/* Feature Cards (De tre boxarna) */
+.feature-card {
+    background: var(--white);
+    border: 1px solid rgba(0,0,0,0.03); /* Mycket subtil ram */
+    border-radius: 12px;
+    padding: 2.5rem 1.5rem;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1); /* Mjuk animation */
+    height: 100%;
+    position: relative;
+    top: 0;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px); /* Lyfter kortet */
+    box-shadow: var(--shadow-hover);
+    border-color: transparent;
+}
+
+/* Cirkel bakom ikoner */
+.feature-card i {
+    color: var(--primary);
+    background: rgba(42, 75, 124, 0.08); /* Transparent version av din primärfärg */
+    width: 80px;
+    height: 80px;
+    line-height: 80px; /* Centrerar ikonen vertikalt */
+    border-radius: 50%;
+    display: inline-block;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.feature-card:hover i {
+    background: var(--primary);
+    color: var(--white);
+}
+
+/* Modern Knapp */
+.btn-modern {
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 50px; /* Piller-form */
+    padding: 12px 35px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 10px rgba(42, 75, 124, 0.3);
+    transition: all 0.3s ease;
+}
+
+.btn-modern:hover {
+    background-color: var(--secondary);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(32, 44, 69, 0.4);
+    color: white;
+    text-decoration: none;
+}
+
+
+/**********************************/
+/*       2. BOOTSTRAP OVERRIDES   */
+/**********************************/
+/* Text Colors */
 .text-primary { color: var(--primary) !important; }
-.bg-primary { background-color: var(--primary) !important; }
-.border-primary { border-color: var(--primary) !important; }
-
-/* Secondary (Mörkblå/Header) - Det var denna som saknades! */
 .text-secondary { color: var(--secondary) !important; }
-.bg-secondary { background-color: var(--secondary) !important; }
-.border-secondary { border-color: var(--secondary) !important; }
 
-/* Light */
+/* Backgrounds */
+.bg-primary { background-color: var(--primary) !important; }
+.bg-secondary { background-color: var(--secondary) !important; }
 .bg-light { background-color: var(--light) !important; }
 
-/* Knappar */
+/* Borders */
+.border-primary { border-color: var(--primary) !important; }
+.border-secondary { border-color: var(--secondary) !important; }
+
+/* Standard Buttons */
 .btn-primary {
     color: #fff;
     background-color: var(--primary);
     border-color: var(--primary);
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 .btn-primary:hover {
-    background-color: #203a5f;
-    border-color: #1d3456;
+    background-color: var(--primary-dark);
+    border-color: var(--secondary);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
 }
 
 .btn-secondary {
     color: #fff;
     background-color: var(--secondary);
     border-color: var(--secondary);
+    border-radius: 6px;
 }
 .btn-secondary:hover {
-    background-color: #101622;
-    border-color: #0c1019;
+    background-color: #151d2e;
+    border-color: #101622;
 }
 
 
 /**********************************/
-/*       1. LAYOUT & SIDEBAR      */
+/*       3. LAYOUT & SIDEBAR      */
 /**********************************/
 .wrapper {
     position: relative;
     margin: 0 auto;
     width: 100%;
-    max-width: 1140px;
+    max-width: 1200px; /* Ökade bredden något för modernare känsla */
 }
 
 .wrapper .sidebar {
@@ -82,8 +197,9 @@ a:hover { color: var(--secondary); text-decoration: underline; }
     width: 100%;
     float: left;
     padding: 30px;
-    background: #ffffff;
+    background: var(--white);
     transition: margin 200ms ease-out;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.05); /* Skugga mot innehållet */
 }
 
 .wrapper .content {
@@ -93,6 +209,7 @@ a:hover { color: var(--secondary); text-decoration: underline; }
     float: left;
     background: var(--light);
     transition: margin 200ms ease-out;
+    min-height: 100vh;
 }
 
 .wrapper .sidebar-icon {
@@ -105,24 +222,17 @@ a:hover { color: var(--secondary); text-decoration: underline; }
 /* Desktop layout */
 @media (min-width: 768px) {
     .wrapper .content {
-        padding: 30px 0 30px 30px;
+        padding: 40px; /* Mer padding desktop */
         width: calc(100% - 50px);
         margin-left: 50px;
         float: right;
     }
 
+    /* Tar bort de gamla ::before/::after som skapade vita ränder */
     .wrapper .content::before,
     .wrapper .content::after {
-        position: fixed;
-        content: "";
-        width: 100%;
-        height: 30px;
-        background: var(--light);
-        z-index: 9;
+        display: none; 
     }
-
-    .wrapper .content::before { top: 0; }
-    .wrapper .content::after { bottom: 0; }
 
     .wrapper .sidebar {
         position: fixed;
@@ -132,20 +242,20 @@ a:hover { color: var(--secondary); text-decoration: underline; }
         float: left;
         overflow: auto;
         scrollbar-width: thin;
-        scrollbar-color: gray;
+        scrollbar-color: #cbd5e0 #f1f1f1;
         z-index: 9;
+        border-right: 1px solid #eee;
     }
 
-    .wrapper .sidebar:hover { margin-left: 0; }
+    .wrapper .sidebar:hover { margin-left: 0; box-shadow: 5px 0 15px rgba(0,0,0,0.1); }
     .wrapper .sidebar-text { display: none; }
     .wrapper .sidebar-icon { display: flex; }
 
-    .wrapper .sidebar::-webkit-scrollbar { width: 7px; }
-    .wrapper .sidebar::-webkit-scrollbar-track { -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1); }
+    .wrapper .sidebar::-webkit-scrollbar { width: 6px; }
+    .wrapper .sidebar::-webkit-scrollbar-track { background: #f1f1f1; }
     .wrapper .sidebar::-webkit-scrollbar-thumb {
-        background-color: darkgrey;
-        outline: 1px solid slategrey;
-        border-radius: 7px;
+        background-color: #cbd5e0;
+        border-radius: 10px;
     }
 }
 
@@ -180,38 +290,39 @@ a:hover { color: var(--secondary); text-decoration: underline; }
 
 
 /**********************************/
-/*       2. BACK TO TOP           */
+/*       4. BACK TO TOP           */
 /**********************************/
 .back-to-top {
     position: fixed;
     display: none;
     background: var(--primary);
     color: #ffffff;
-    width: 45px;
-    height: 45px;
+    width: 50px; /* Lite större touch-yta */
+    height: 50px;
     text-align: center;
-    line-height: 45px;
-    font-size: 22px;
+    line-height: 50px;
+    font-size: 20px;
     right: 30px;
     bottom: 30px;
-    transition: background 0.3s, transform 0.3s;
+    transition: all 0.3s ease;
     z-index: 99;
-    border-radius: 5px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    border-radius: 50%; /* Helt rund */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
     cursor: pointer;
 }
 
 .back-to-top:hover {
     background: var(--secondary);
     color: #ffffff;
-    transform: translateY(-3px);
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.3);
 }
 
 .back-to-top i { color: #ffffff; }
 
 
 /**********************************/
-/*       3. CUSTOM COMPONENTS     */
+/*       5. CUSTOM COMPONENTS     */
 /**********************************/
 
 /* Fonts */
@@ -224,108 +335,116 @@ a:hover { color: var(--secondary); text-decoration: underline; }
 
 body.about-page h2.mb-4.font-weight-bold {
     font-family: 'GotenborgFraktur', sans-serif;
+    color: var(--primary); /* Gör den snyggt blå */
 }
 
 /* Typography Overrides */
 h3 {
     font-size: 1.5em;
-    font-weight: bold;
-    margin-bottom: 10px;
+    font-weight: 700;
+    margin-bottom: 15px;
+    color: var(--secondary);
 }
 
 .bildtext {
-    font-size: 0.6em;
-    color: #666;
+    font-size: 0.85rem;
+    color: #888;
     display: block;
     text-align: center;
+    margin-top: 5px;
+    font-style: italic;
 }
 
 .email-address {
     word-wrap: break-word;
     word-break: break-word;
+    font-weight: 600;
+    color: var(--primary);
 }
 
 .sentence { display: inline-block; }
 
 .quote {
-    display: inline-block;
-    vertical-align: middle;
-    margin-left: 10px;
-    margin-right: 100px;
+    display: block;
+    margin: 20px 0;
+    padding-left: 20px;
+    border-left: 4px solid var(--accent);
     font-style: italic;
-}
-
-.quote + img {
-    display: inline-block;
-    width: 200px;
-    height: auto;
-    vertical-align: middle;
+    color: #555;
+    background: #f9f9f9;
+    padding: 15px 20px;
+    border-radius: 0 10px 10px 0;
 }
 
 /* Carousel */
-.carousel-caption {
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 1;
+.carousel-item {
+    border-radius: 12px;
+    overflow: hidden;
 }
 
-.carousel-caption h5 { font-weight: bold; }
+.carousel-caption {
+    background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0));
+    padding-bottom: 2rem;
+    border-radius: 0 0 12px 12px;
+}
 
-/* Blog Item */
-@media (min-width: 768px) {
-    .blog-item h3 { margin-left: -90px; }
+.carousel-caption h5 { 
+    font-weight: 800; 
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
 }
 
 /* Progress Bars */
+.skills .progress {
+    height: 25px;
+    border-radius: 15px;
+    background-color: #e9ecef;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+    margin-bottom: 1.5rem;
+}
+
 .skills .progress .progress-bar {
     width: 0;
-    transition: 2s;
+    transition: 2s ease-out;
+    background-color: var(--primary);
+    border-radius: 15px;
+    line-height: 25px;
+    font-weight: bold;
+    font-size: 0.9rem;
 }
 
 /* Forms */
-.contact-form .help-block ul {
-    margin: 0;
-    padding: 0;
-    list-style-type: none;
+.form-control {
+    border-radius: 8px;
+    padding: 12px;
+    border: 1px solid #ced4da;
 }
 
-/* Buttons */
+.form-control:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 0.2rem rgba(74, 144, 226, 0.25);
+}
+
+/* Custom Read More Button (Gammal stil uppdaterad) */
 .custom-read-more-button {
-    border: 2px solid white;
-    background-color: transparent;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 8px;
-    font-weight: bold;
+    border: 2px solid var(--white);
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--white);
+    padding: 10px 25px;
+    border-radius: 50px;
+    font-weight: 600;
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    transition: background-color 0.3s ease, color 0.3s ease;
-    margin-top: 30px;
+    transition: all 0.3s ease;
+    margin-top: 20px;
+    backdrop-filter: blur(5px);
 }
 
 .custom-read-more-button:hover {
-    background-color: rgba(255, 255, 255, 0.2);
-    color: white;
-    border-color: white;
+    background-color: var(--white);
+    color: var(--primary);
+    border-color: var(--white);
     text-decoration: none;
-}
-
-/* Bootstrap Overrides (Specifics) */
-.container.py-5.px-2.bg-primary {
-    padding-top: 0.1rem !important;
-    padding-bottom: 0.1rem !important;
-}
-
-.container.py-5.px-2.bg-primary h1.mb-3.mb-md-0.text-white.text-uppercase.font-weight-bold {
-    font-size: 2rem !important;
-}
-
-/* Tvinga den inre raden i headern att bli mindre */
-.container.py-5.px-2.bg-primary .row.py-5 {
-    padding-top: 1rem !important;
-    padding-bottom: 1rem !important;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
 }
