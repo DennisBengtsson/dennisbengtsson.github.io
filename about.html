@@ -39,26 +39,49 @@
     <style>
         .bildtext {
             font-size: 0.85rem;
-            color: #6c757d; /* Muted grey */
+            color: #6c757d;
             margin-top: 0.5rem;
             font-style: italic;
             text-align: center;
         }
-        
-        /* Modern styling för citat-boxen */
-        .quote-box {
+
+        /* Design för informations-rutorna */
+        .info-card {
             background-color: #f8f9fa; /* Ljusgrå bakgrund */
-            border-left: 4px solid #007bff; /* Primary color fallback */
-            border-left: 4px solid var(--primary);
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 1.5rem;
+            height: 100%; /* Gör att alla rutor i samma rad blir lika höga */
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 .5rem 1rem rgba(0,0,0,.05);
+            border-color: var(--primary); /* Lyser upp i blått vid hover */
+        }
+
+        .info-card-icon {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        /* Citat-boxen */
+        .quote-box {
+            background-color: #fff;
+            border-left: 5px solid var(--primary);
             padding: 2rem;
             border-radius: 4px;
+            box-shadow: 0 0.125rem 0.25rem rgba(0,0,0,0.075);
         }
         
         .quote-text {
             font-family: 'Georgia', serif;
-            font-size: 1.1rem;
+            font-size: 1.15rem;
             font-style: italic;
             color: #444;
+            line-height: 1.6;
         }
     </style>
 </head>
@@ -95,59 +118,93 @@
             <div class="container bg-white p-4 p-lg-5 shadow-sm rounded">
                 
                 <!-- Sektion 1: Intro & Bild -->
-                <div class="row align-items-center mb-5">
+                <div class="row mb-5">
                     <!-- Bildkolumn -->
                     <div class="col-lg-5 text-center mb-4 mb-lg-0">
-                        <div class="d-inline-block p-1 border rounded">
-                            <img class="img-fluid rounded" src="img/about.jpg" alt="Bild från Kittelsenmuseet" style="max-height: 400px; width: auto;">
+                        <div class="d-inline-block p-1 border rounded shadow-sm">
+                            <img class="img-fluid rounded" src="img/about.jpg" alt="Bild från Kittelsenmuseet" style="max-height: 350px; width: auto;">
                         </div>
                         <figcaption class="bildtext">Näst äldsta dottern och jag på Kittelsenmuseet, Norge.</figcaption>
                     </div>
                     
-                    <!-- Textkolumn -->
-                    <div class="col-lg-7">
-                        <h2 class="mb-4 font-weight-bold text-dark">Dennis Bengtsson</h2>
-                        <p class="lead text-dark" style="font-size: 1.1rem;">
-                            Född i april 1992, ursprungligen från Hultsfred, bor numera i nordvästra Skåne.
+                    <!-- Introtext (Kort) -->
+                    <div class="col-lg-7 d-flex flex-column justify-content-center">
+                        <h2 class="mb-3 font-weight-bold text-dark">Dennis Bengtsson</h2>
+                        <p class="lead text-dark">
+                            Välkommen! Jag är en snickare och familjefar bosatt i nordvästra Skåne.
                         </p>
                         <p class="text-secondary">
-                            Jag är gift och far till fyra små duktiga flickor.
-                            Som person är jag lugn, eftertänksam och noggrann. Jag uppskattar naturen, gärna tillsammans med familjen. Att sitta och diskutera med goda vänner är också någonting jag uppskattar, men det blir så sällan numera.
+                            Här har jag samlat lite information om vem jag är, både privat och i yrkeslivet. För mig är noggrannhet och eftertanke ledord som genomsyrar det mesta jag tar mig för, vare sig det gäller ett byggprojekt eller en diskussion om samhället.
                         </p>
                     </div>
                 </div>
 
-                <hr class="my-5">
+                <!-- Sektion 2: Personliga Info-Rutor (Familj, Personlighet, Intressen) -->
+                <div class="row mb-5">
+                    
+                    <!-- Ruta 1: Bakgrund & Familj -->
+                    <div class="col-md-4 mb-4 mb-md-0">
+                        <div class="info-card text-center text-md-left">
+                            <i class="fas fa-home info-card-icon"></i>
+                            <h5 class="font-weight-bold text-uppercase mb-3">Bakgrund & Familj</h5>
+                            <p class="text-secondary small mb-0">
+                                Född 1992 och ursprungligen från småländska Hultsfred. Idag bor jag i Skåne tillsammans med min fru och våra fyra döttrar.
+                            </p>
+                        </div>
+                    </div>
 
-                <!-- Sektion 2: Citat & Humor (Grå box) -->
-                <div class="quote-box mb-5">
+                    <!-- Ruta 2: Personlighet -->
+                    <div class="col-md-4 mb-4 mb-md-0">
+                        <div class="info-card text-center text-md-left">
+                            <i class="fas fa-user-check info-card-icon"></i>
+                            <h5 class="font-weight-bold text-uppercase mb-3">Personlighet</h5>
+                            <p class="text-secondary small mb-0">
+                                Som person är jag lugn, eftertänksam och noggrann. Jag föredrar att göra saker ordentligt från början hellre än att stressa fram ett resultat.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Ruta 3: Intressen -->
+                    <div class="col-md-4">
+                        <div class="info-card text-center text-md-left">
+                            <i class="fas fa-tree info-card-icon"></i>
+                            <h5 class="font-weight-bold text-uppercase mb-3">Fritid</h5>
+                            <p class="text-secondary small mb-0">
+                                Jag uppskattar naturen, gärna ihop med familjen. Att sitta ner och diskutera livets stora frågor med goda vänner är också något jag värderar högt.
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Sektion 3: Citat (Fullbredd) -->
+                <div class="quote-box mb-5 bg-light">
                     <div class="row align-items-center">
-                        <div class="col-md-8 mb-3 mb-md-0">
-                            <h4 class="text-dark font-weight-bold mb-3">Småländsk filosofi</h4>
+                        <div class="col-md-9 mb-3 mb-md-0">
+                            <h4 class="text-dark font-weight-bold mb-2">Småländsk filosofi</h4>
                             <p class="quote-text mb-0">
-                                "Sätter du en smålänning på en öde klippa i havet skaver han sig mätt,
+                                "Sätter du en smålänning på en ��de klippa i havet skaver han sig mätt,
                                 och giver du honom en get bliver han rik."
                             </p>
                         </div>
-                        <div class="col-md-4 text-center">
-                            <img src="img/strandad-man.jpg" alt="Strandad man" class="img-fluid rounded shadow-sm" style="max-height: 150px;">
+                        <div class="col-md-3 text-center">
+                            <img src="img/strandad-man.jpg" alt="Strandad man" class="img-fluid rounded shadow-sm" style="max-height: 120px; border: 3px solid white;">
                         </div>
                     </div>
                 </div>
 
-                <hr class="my-5">
-
-                <!-- Sektion 3: Yrke och Engagemang (2 kolumner) -->
+                <!-- Sektion 4: Yrkesliv & Engagemang (Rutor) -->
                 <div class="mb-2">
-                    <h3 class="mb-4 text-dark font-weight-bold">Yrke och engagemang</h3>
+                    <h3 class="mb-4 text-dark font-weight-bold">Yrke och Engagemang</h3>
                     
                     <div class="row">
                         <!-- Vänster kolumn: Arbete -->
                         <div class="col-md-6 mb-4">
-                            <div class="p-3 h-100 border rounded bg-light">
-                                <h5 class="font-weight-bold text-uppercase mb-3 text-dark" style="letter-spacing: 1px;">
-                                    <i class="fas fa-hammer mr-2 text-primary"></i> Yrkesliv
-                                </h5>
+                            <div class="info-card">
+                                <div class="d-flex align-items-center mb-3">
+                                    <i class="fas fa-hammer fa-2x text-primary mr-3"></i>
+                                    <h5 class="font-weight-bold text-uppercase m-0">Yrkesliv</h5>
+                                </div>
                                 <p class="text-secondary">
                                     Jag är <strong>certifierad snickare</strong> och utbildad betongarbetare med erfarenhet av både små och stora projekt.
                                 </p>
@@ -157,27 +214,22 @@
                             </div>
                         </div>
 
-                        <!-- H��ger kolumn: Engagemang -->
+                        <!-- Höger kolumn: Engagemang -->
                         <div class="col-md-6 mb-4">
-                            <div class="p-3 h-100 border rounded bg-light">
-                                <h5 class="font-weight-bold text-uppercase mb-3 text-dark" style="letter-spacing: 1px;">
-                                    <i class="fas fa-users mr-2 text-primary"></i> Engagemang
-                                </h5>
+                            <div class="info-card">
+                                <div class="d-flex align-items-center mb-3">
+                                    <i class="fas fa-users fa-2x text-primary mr-3"></i>
+                                    <h5 class="font-weight-bold text-uppercase m-0">Engagemang</h5>
+                                </div>
                                 <p class="text-secondary">
                                     Lokalsamhället och demokratin är viktiga för mig. Rätten att rösta fritt är en grundläggande princip som jag stöder aktivt.
                                 </p>
-                                
-                                <ul class="list-unstyled text-secondary pl-2 border-left border-primary mb-3">
-                                    <li class="mb-2 pl-3">
-                                        <strong>Rösträknare:</strong> Har tjänstgjort vid 5 val hittills.
-                                    </li>
-                                    <li class="mb-0 pl-3">
-                                        <strong>Förtroendeuppdrag:</strong> Valnämndsordförande i kyrkoförsamlingen.
-                                    </li>
+                                <ul class="list-unstyled text-secondary pl-0 mb-3 small">
+                                    <li class="mb-2"><i class="fas fa-check text-success mr-2"></i><strong>Rösträknare:</strong> Tjänstgjort vid 5 val.</li>
+                                    <li class="mb-0"><i class="fas fa-check text-success mr-2"></i><strong>Förtroendeuppdrag:</strong> Valn��mndsordförande i kyrkoförsamlingen.</li>
                                 </ul>
-
-                                <p class="font-italic small text-secondary mb-0">
-                                    "Svenska kyrkan är en plats för reflektion och gemenskap för mig och min familj."
+                                <p class="font-italic text-muted small mb-0 border-top pt-2">
+                                    "Svenska kyrkan är en plats för reflektion och gemenskap."
                                 </p>
                             </div>
                         </div>
@@ -200,7 +252,7 @@
     <script src="bootstrap-4.6.2-dist/js/bootstrap.bundle.min.js"></script>
     <script src="jquery/jquery.waypoints.min.js"></script>
 
-    <!-- Template Javascript (Enbart main.js beh��vs nu) -->
+    <!-- Template Javascript -->
     <script src="js/main.js"></script>
 </body>
 </html>
