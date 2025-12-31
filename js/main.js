@@ -61,7 +61,7 @@
         name: "Dennis Bengtsson",
         description: "Certifierad snickare och betongarbetare.",
         pageTitleSuffix: " - Personlig Blogg",
-        sidebar: { profileImagePath: "img/about.jpg" },
+        sidebar: { profileImagePath: "img/profile.jpg" },
         telegram: "#",
         goodreads: "https://www.goodreads.com/",
         linkedin: "https://linkedin.com/",
