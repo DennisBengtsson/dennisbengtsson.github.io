@@ -48,9 +48,8 @@
 
     const footerHTML = `
         <div class="container py-4 bg-secondary text-center">
-            <p class="m-0 text-white">
-                &copy; 2025 <span id="footer-name">Dennis Bengtsson</span>. <p>Ingen datainsamling. Alla rättigheter förbehållna.
-            </p>
+            <p class="m-0 text-white fs-6">
+                &copy; 2025 <span id="footer-name">Dennis Bengtsson</span>. Ingen datainsamling. Alla rättigheter förbehållna.
                 </p>
         </div>
     `;
