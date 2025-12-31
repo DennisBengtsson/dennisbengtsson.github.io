@@ -46,12 +46,12 @@
         </div>
     `;
 
-    const footerHTML = `
-        <div class="container py-4 bg-secondary text-center">
-            <p class="m-0 text-white">
-                &copy; 2025 <span id="footer-name">Dennis Bengtsson</span>. Ingen datainsamling. Alla rättigheter förbehållna.
-            </p>
-        </div>
+<div class="container py-4 bg-secondary text-center">
+    <p class="m-0 text-white small">
+        &copy; 2025 <span id="footer-name">Dennis Bengtsson</span><br>
+        Ingen datainsamling. Alla rättigheter förbehållna.
+    </p>
+</div>
     `;
 
     /* =========================================
