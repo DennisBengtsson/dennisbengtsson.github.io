@@ -47,11 +47,12 @@
     `;
 
     const footerHTML = `
-        <div class="container py-4 bg-secondary text-center">
-            <p class="m-0 text-white fs-2">
-                &copy; 2025 <span id="footer-name">Dennis Bengtsson</span>. Ingen datainsamling. Alla rättigheter förbehållna.
-                </p>
-        </div>
+<div class="container py-3 bg-secondary text-center">
+    <div class="text-white small">
+        Dennis Bengtsson © 2025<br>
+        Ingen datainsamling • Alla rättigheter förbehållna
+    </div>
+</div>
     `;
 
     /* =========================================
