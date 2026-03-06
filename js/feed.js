@@ -2,9 +2,9 @@
 
 function loadNewsCarousel() {
     const rssUrls = [
-        'https://www.fastighetstidningen.se/feed/',
-        'https://www.husbyggaren.se/feed/',
-        'https://byggnyheter.se/feed/'
+        'https://feeds.expressen.se/nyheter/',
+        'https://www.svt.se/nyheter/rss.xml',
+        'https://www.aftonbladet.se/rss.xml'
     ];
 
     const requests = rssUrls.map(url => {
