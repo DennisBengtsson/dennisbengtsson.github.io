@@ -2,9 +2,9 @@
 
 function loadNewsCarousel() {
     const rssUrls = [
-        'https://www.byggvarlden.se/feed/',
-        'https://www.byggindustrin.se/rss.xml',
-        'https://www.byggnadsarbetaren.se/feed/'
+        'https://www.fastighetstidningen.se/feed/',
+        'https://www.husbyggaren.se/feed/',
+        'https://byggnyheter.se/feed/'
     ];
 
     const requests = rssUrls.map(url => {
