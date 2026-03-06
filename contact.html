@@ -2,51 +2,40 @@
 <html lang="sv">
 <head>
     <meta charset="utf-8">
-    
-    <!-- Content Security Policy (CSP) -->
+
     <meta http-equiv="Content-Security-Policy" content="
-      default-src 'self'; 
-      script-src 'self' 'unsafe-inline'; 
-      style-src 'self' 'unsafe-inline'; 
-      img-src 'self' data: https:; 
-      font-src 'self'; 
-      connect-src 'self' https://api.rss2json.com; 
-      object-src 'none'; 
-      base-uri 'self'; 
-      form-action 'self'; 
+      default-src 'self';
+      script-src 'self' 'unsafe-inline';
+      style-src 'self' 'unsafe-inline';
+      img-src 'self' data: https:;
+      font-src 'self';
+      connect-src 'self';
+      object-src 'none';
+      base-uri 'self';
+      form-action 'self';
       upgrade-insecure-requests">
 
     <title id="page-title">Dennis Bengtsson - Kontakt</title>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="Kontakta Dennis Bengtsson" name="keywords">
-    <meta content="Kontaktuppgifter Dennis Bengtsson" name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="Kontakta Dennis Bengtsson">
+    <meta name="description" content="Kontaktuppgifter Dennis Bengtsson">
+    <meta name="referrer" content="no-referrer">
 
-    <!-- Favicon -->
     <link href="img/favicon.ico" rel="icon">
-
-    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="css/css/bootstrap.min.css">
-
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="fonts/fontawesome-free-6.7.2-web/css/all.min.css">
-
-    <!-- Font Open Sans -->
     <link href="css/opensans.css" rel="stylesheet">
-
-    <!-- Din egen CSS -->
     <link href="css/style.css" rel="stylesheet">
 </head>
 
 <body>
     <div class="wrapper">
-        <!-- Sidebar (Laddas via main.js) -->
         <div id="sidebar-container"></div>
 
         <div class="content">
-            <!-- Navbar (Mobilmeny laddas via main.js) -->
             <div id="header-container"></div>
 
-            <!-- Page Header (Mindre och snyggare - Matchar index.html) -->
+            <!-- Page Header -->
             <div class="container py-2 px-2 bg-primary mb-4 shadow-sm rounded-bottom">
                 <div class="row py-3 px-4">
                     <div class="col-sm-6 text-center text-md-left">
@@ -54,54 +43,44 @@
                     </div>
                     <div class="col-sm-6 text-center text-md-right">
                         <div class="d-inline-flex pt-2">
-                            <h4 class="m-0 text-white" style="font-size: 1.1rem;">
-                                <a class="text-white" href="index.html">Hem</a>
-                            </h4>
+                            <h4 class="m-0 text-white" style="font-size: 1.1rem;"><a class="text-white" href="index.html">Hem</a></h4>
                             <h4 class="m-0 text-white px-2" style="font-size: 1.1rem;">/</h4>
                             <h4 class="m-0 text-white" style="font-size: 1.1rem;">Kontakt</h4>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- Page Header End -->
 
-            <!-- Contact Start -->
-            <!-- Inslaget i en vit box för modern look (Samma klasser som index) -->
+            <!-- Contact -->
             <div class="container bg-white p-4 p-lg-5 shadow-sm rounded mb-5">
                 <div class="row px-3 pb-2">
                     <div class="col-sm-4 text-center mb-4 mb-sm-0">
                         <i class="fa fa-2x fa-map-marker-alt mb-3 text-primary"></i>
                         <h4 class="font-weight-bold">Adress</h4>
-                        <p class="text-muted">Skåne (NV)</p>
+                        <p class="text-muted" id="contact-address">Laddar...</p>
                     </div>
                     <div class="col-sm-4 text-center mb-4 mb-sm-0">
                         <i class="fa fa-2x fa-phone-alt mb-3 text-primary"></i>
                         <h4 class="font-weight-bold">Telefon</h4>
-                        <p><a href="tel:0730741489">073-074 14 89</a></p>
+                        <p><a href="#" id="contact-phone">Laddar...</a></p>
                     </div>
                     <div class="col-sm-4 text-center">
                         <i class="far fa-2x fa-envelope mb-3 text-primary"></i>
                         <h4 class="font-weight-bold">Email</h4>
-                        <p class="email-address"><a href="mailto:dennisrmgbengtsson@gmail.com">DennisRMGBengtsson</a></p>
+                        <p class="email-address"><a href="#" id="contact-email">Laddar...</a></p>
                     </div>
                 </div>
             </div>
-            <!-- Contact End -->
 
-            <!-- Footer (Laddas via main.js) -->
             <div id="footer-container"></div>
         </div>
     </div>
 
-    <!-- Back to Top -->
     <a href="#" class="back-to-top"><i class="fa fa-angle-double-up" aria-hidden="true"></i></a>
 
-    <!-- JAVASCRIPT -->
     <script src="jquery/jquery-3.7.1.min.js"></script>
     <script src="bootstrap-4.6.2-dist/js/bootstrap.bundle.min.js"></script>
     <script src="jquery/jquery.waypoints.min.js"></script>
-
-    <!-- Template Javascript -->
     <script src="js/main.js"></script>
 </body>
 </html>

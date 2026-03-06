@@ -1,25 +1,21 @@
 {
     "name": "Dennis Bengtsson",
     "pageTitleSuffix": " - Personlig Blogg",
-    "footerNameId": "footer-name",
     "description": "Vanlig sunt bonnförnuft räcker långt.",
+    "email": "dennisrmgbengtsson@gmail.com",
+    "phone": "073-074 14 89",
+    "phoneHref": "tel:0730741489",
+    "address": "Skåne (NV)",
     "sidebar": {
-        "profileNameId": "profile-name",
-        "profileDescriptionId": "profile-description",
-        "profileImageId": "profile-image",
-"profileImagePath": "img/profile.jpg",
-        "telegramId": "telegram-link",
-        "goodreadsLinkId": "goodreads-link",
-        "linkedinLinkId": "linkedin-link",
-        "instagramLinkId": "instagram-link"
+        "profileImagePath": "img/profile.jpg"
     },
     "telegram": "https://www.t.me/",
     "goodreads": "https://www.goodreads.com/user/show/164131463-dennis-bengtsson",
     "linkedin": "https://se.linkedin.com/in/dennis-bengtsson-703562135",
     "instagram": "https://www.instagram.com/dennis.bengtsson92/",
     "menu": [
-        { "label": "Hem", "url": "index.html", "dataPage": "index" },
-        { "label": "Om mig", "url": "about.html", "dataPage": "about" },
-        { "label": "Kontakt", "url": "contact.html", "dataPage": "contact" }
+        { "label": "Hem",    "url": "index.html",   "dataPage": "index"   },
+        { "label": "Om mig", "url": "about.html",   "dataPage": "about"   },
+        { "label": "Kontakt","url": "contact.html", "dataPage": "contact" }
     ]
 }

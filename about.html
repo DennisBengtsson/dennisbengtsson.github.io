@@ -2,40 +2,31 @@
 <html lang="sv">
 <head>
     <meta charset="utf-8">
-    <title id="page-title">Dennis Bengtsson - Om Mig</title>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="Dennis Bengtsson snickare betongarbetare" name="keywords">
-    <meta content="Om Dennis Bengtsson" name="description">
 
-    <!-- Content Security Policy -->
     <meta http-equiv="Content-Security-Policy" content="
-      default-src 'self'; 
-      script-src 'self' 'unsafe-inline'; 
-      style-src 'self' 'unsafe-inline'; 
-      img-src 'self' data: https:; 
-      font-src 'self'; 
-      connect-src 'self' https://api.rss2json.com; 
-      object-src 'none'; 
-      base-uri 'self'; 
-      form-action 'self'; 
+      default-src 'self';
+      script-src 'self' 'unsafe-inline';
+      style-src 'self' 'unsafe-inline';
+      img-src 'self' data: https:;
+      font-src 'self';
+      connect-src 'self';
+      object-src 'none';
+      base-uri 'self';
+      form-action 'self';
       upgrade-insecure-requests">
 
-    <!-- Favicon -->
+    <title id="page-title">Dennis Bengtsson - Om Mig</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="Dennis Bengtsson snickare betongarbetare">
+    <meta name="description" content="Om Dennis Bengtsson">
+    <meta name="referrer" content="no-referrer">
+
     <link href="img/favicon.ico" rel="icon">
-
-    <!-- Bootstrap CSS (Lokal) -->
     <link rel="stylesheet" href="css/css/bootstrap.min.css">
-
-    <!-- Font Awesome (Lokal) -->
     <link rel="stylesheet" href="fonts/fontawesome-free-6.7.2-web/css/all.min.css">
-
-    <!-- Font Open Sans (Lokal) -->
     <link href="css/opensans.css" rel="stylesheet">
-
-    <!-- Din egen CSS -->
     <link href="css/style.css" rel="stylesheet">
 
-    <!-- Sidspecifik CSS -->
     <style>
         .bildtext {
             font-size: 0.85rem;
@@ -45,20 +36,19 @@
             text-align: center;
         }
 
-        /* Design för informations-rutorna */
         .info-card {
-            background-color: #f8f9fa; /* Ljusgrå bakgrund */
+            background-color: #f8f9fa;
             border: 1px solid #e9ecef;
             border-radius: 8px;
             padding: 1.5rem;
-            height: 100%; /* Gör att alla rutor i samma rad blir lika höga */
+            height: 100%;
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
         .info-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 .5rem 1rem rgba(0,0,0,.05);
-            border-color: var(--primary); /* Lyser upp i blått vid hover */
+            border-color: var(--primary);
         }
 
         .info-card-icon {
@@ -66,8 +56,7 @@
             color: var(--primary);
             margin-bottom: 1rem;
         }
-        
-        /* Citat-boxen */
+
         .quote-box {
             background-color: #fff;
             border-left: 5px solid var(--primary);
@@ -75,7 +64,7 @@
             border-radius: 4px;
             box-shadow: 0 0.125rem 0.25rem rgba(0,0,0,0.075);
         }
-        
+
         .quote-text {
             font-family: 'Georgia', serif;
             font-size: 1.15rem;
@@ -88,14 +77,12 @@
 
 <body>
     <div class="wrapper">
-        <!-- Sidebar (Laddas via main.js) -->
         <div id="sidebar-container"></div>
 
         <div class="content">
-            <!-- Navbar (Laddas via main.js) -->
             <div id="header-container"></div>
 
-            <!-- Page Header Start -->
+            <!-- Page Header -->
             <div class="container py-2 px-2 bg-primary mb-4 shadow-sm rounded-bottom">
                 <div class="row py-3 px-4">
                     <div class="col-sm-6 text-center text-md-left">
@@ -103,46 +90,34 @@
                     </div>
                     <div class="col-sm-6 text-center text-md-right">
                         <div class="d-inline-flex pt-2">
-                            <h4 class="m-0 text-white" style="font-size: 1.1rem;">
-                                <a class="text-white" href="index.html">Hem</a>
-                            </h4>
+                            <h4 class="m-0 text-white" style="font-size: 1.1rem;"><a class="text-white" href="index.html">Hem</a></h4>
                             <h4 class="m-0 text-white px-2" style="font-size: 1.1rem;">/</h4>
                             <h4 class="m-0 text-white" style="font-size: 1.1rem;">Om mig</h4>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- Page Header End -->
 
-            <!-- Huvudinnehåll Start -->
+            <!-- Innehåll -->
             <div class="container bg-white p-4 p-lg-5 shadow-sm rounded">
-                
-                <!-- Sektion 1: Intro & Bild -->
+
+                <!-- Intro & Bild -->
                 <div class="row mb-5">
-                    <!-- Bildkolumn -->
                     <div class="col-lg-5 text-center mb-4 mb-lg-0">
                         <div class="d-inline-block p-1 border rounded shadow-sm">
                             <img class="img-fluid rounded" src="img/about.jpg" alt="Bild från Kittelsenmuseet" style="max-height: 350px; width: auto;">
                         </div>
                         <figcaption class="bildtext">Näst äldsta dottern och jag på Kittelsenmuseet, Norge.</figcaption>
                     </div>
-                    
-                    <!-- Introtext (Kort) -->
                     <div class="col-lg-7 d-flex flex-column justify-content-center">
                         <h2 class="mb-3 font-weight-bold text-dark">Välkommen!</h2>
-                        <p class="lead text-dark">
-                            Jag är en snickare och familjefar bosatt i nordvästra Skåne.
-                        </p>
-                        <p class="text-secondary">
-                            Denna sida är en kort presentation av mig själv, min bakgrund, yrkesliv och engagemang i samhället.
-                        </p>
+                        <p class="lead text-dark">Jag är en snickare och familjefar bosatt i nordvästra Skåne.</p>
+                        <p class="text-secondary">Denna sida är en kort presentation av mig själv, min bakgrund, yrkesliv och engagemang i samhället.</p>
                     </div>
                 </div>
 
-                <!-- Sektion 2: Personliga Info-Rutor (Familj, Personlighet, Intressen) -->
+                <!-- Info-Rutor -->
                 <div class="row mb-5">
-                    
-                    <!-- Ruta 1: Bakgrund & Familj -->
                     <div class="col-md-4 mb-4 mb-md-0">
                         <div class="info-card text-center text-md-left">
                             <i class="fas fa-home info-card-icon"></i>
@@ -152,8 +127,6 @@
                             </p>
                         </div>
                     </div>
-
-                    <!-- Ruta 2: Personlighet -->
                     <div class="col-md-4 mb-4 mb-md-0">
                         <div class="info-card text-center text-md-left">
                             <i class="fas fa-user-check info-card-icon"></i>
@@ -164,8 +137,6 @@
                             </p>
                         </div>
                     </div>
-
-                    <!-- Ruta 3: Intressen -->
                     <div class="col-md-4">
                         <div class="info-card text-center text-md-left">
                             <i class="fas fa-tree info-card-icon"></i>
@@ -175,10 +146,9 @@
                             </p>
                         </div>
                     </div>
-
                 </div>
 
-                <!-- Sektion 3: Citat (Fullbredd) -->
+                <!-- Citat -->
                 <div class="quote-box mb-5 bg-light">
                     <div class="row align-items-center">
                         <div class="col-md-9 mb-3 mb-md-0">
@@ -194,12 +164,10 @@
                     </div>
                 </div>
 
-                <!-- Sektion 4: Yrkesliv & Engagemang (Rutor) -->
+                <!-- Yrkesliv & Engagemang -->
                 <div class="mb-2">
                     <h3 class="mb-4 text-dark font-weight-bold">Yrke och Engagemang</h3>
-                    
                     <div class="row">
-                        <!-- Vänster kolumn: Arbete -->
                         <div class="col-md-6 mb-4">
                             <div class="info-card">
                                 <div class="d-flex align-items-center mb-3">
@@ -214,8 +182,6 @@
                                 </p>
                             </div>
                         </div>
-
-                        <!-- Höger kolumn: Engagemang -->
                         <div class="col-md-6 mb-4">
                             <div class="info-card">
                                 <div class="d-flex align-items-center mb-3">
@@ -238,22 +204,16 @@
                 </div>
 
             </div>
-            <!-- Huvudinnehåll End -->
 
-            <!-- Footer (Laddas via main.js) -->
             <div id="footer-container"></div>
         </div>
     </div>
 
-    <!-- Back to Top -->
     <a href="#" class="back-to-top"><i class="fa fa-angle-double-up" aria-hidden="true"></i></a>
 
-    <!-- JavaScript Libraries -->
     <script src="jquery/jquery-3.7.1.min.js"></script>
     <script src="bootstrap-4.6.2-dist/js/bootstrap.bundle.min.js"></script>
     <script src="jquery/jquery.waypoints.min.js"></script>
-
-    <!-- Template Javascript -->
     <script src="js/main.js"></script>
 </body>
 </html>
