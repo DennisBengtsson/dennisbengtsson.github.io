@@ -1,0 +1,38 @@
+{
+    "name": "Dennis Bengtsson",
+    "description": "Vanlig sunt bonnförnuft räcker långt.",
+    "email": "-",
+    "phone": "-",
+    "phoneHref": "",
+    "address": "Skåne (NV)",
+    "sidebar": {
+        "profileImagePath": "img/profile.jpg"
+    },
+    "telegram": "https://www.t.me/",
+    "goodreads": "https://www.goodreads.com/user/show/164131463-dennis-bengtsson",
+    "linkedin": "https://se.linkedin.com/in/dennis-bengtsson-703562135",
+    "instagram": "https://www.instagram.com/dennis.bengtsson92/",
+    "menu": [
+        {
+            "label": "Hem",
+            "url": "index.html",
+            "dataPage": "index"
+        },
+        {
+            "label": "Om mig",
+            "url": "about.html",
+            "dataPage": "about"
+        },
+        {
+            "label": "Kontakt",
+            "url": "contact.html",
+            "dataPage": "contact"
+        },
+        {
+            "label": "Blogg",
+            "url": "blog.html",
+            "dataPage": "blog"
+        }
+    ],
+    "nyhetsfloden": []
+}

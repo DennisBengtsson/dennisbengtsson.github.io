@@ -1,0 +1,1826 @@
+<!doctype html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<title>Redigera hemsidan</title>
+<style>
+:root {
+  --primar: #2A4B7C; --primar-mork: #1e365b; --morkbla: #202C45; --bg: #f4f6f9; --vit: #fff;
+  --text: #2b2f36; --dov: #6b7280; --linje: #e2e7ef; --fara: #b42318; --gron: #2f7a4b; --gul: #b26a00;
+  --sans: "Open Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+* { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; }
+body { font: 14px/1.5 var(--sans); color: var(--text); background: var(--bg); display: grid;
+       grid-template-columns: 260px 1fr 300px; overflow: hidden; }
+body.utan-panel { grid-template-columns: 260px 1fr; }
+body.utan-panel #egenskaper { display: none; }
+body.fokus { grid-template-columns: 1fr; }
+body.fokus #meny, body.fokus #egenskaper { display: none; }
+body.fokus .verktyg { opacity: .35; transition: opacity .3s; }
+body.fokus .verktyg:hover, body.fokus .verktyg:focus-within { opacity: 1; }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+[hidden] { display: none !important; }
+@font-face { font-family: "Open Sans"; src: url("/fonts/open-sans/OpenSans-Regular.ttf"); font-weight: 400; }
+@font-face { font-family: "Open Sans"; src: url("/fonts/open-sans/OpenSans-Bold.ttf"); font-weight: 700; }
+
+/* ---------- sidopanel ---------- */
+#meny { background: var(--morkbla); color: #dfe5ef; display: flex; flex-direction: column; min-height: 0; }
+#meny .marke { padding: 18px 18px 8px; font-weight: 700; color: #fff; font-size: 15px; }
+#meny .marke small { display: block; font-weight: 400; color: #9fb0c8; font-size: 12px; }
+#meny .sokrad { padding: 4px 12px 2px; }
+#meny .sokrad input { width: 100%; border: 1px solid #3a4b68; background: #17213a; color: #fff; border-radius: 8px; padding: 7px 10px; }
+#meny .sokrad input::placeholder { color: #7f91ab; }
+#meny .rulla { flex: 1; overflow-y: auto; padding: 4px 10px 12px; }
+#meny h3 { display: flex; align-items: center; justify-content: space-between; margin: 16px 6px 6px 8px; font-size: 11px; font-weight: 700;
+           letter-spacing: .08em; text-transform: uppercase; color: #8193ad; }
+#meny h3 button { border: 1px solid #3a4b68; background: none; color: #b9c7dc; border-radius: 6px; font-size: 11px; padding: 1px 8px; letter-spacing: 0; text-transform: none; }
+#meny h3 button:hover { color: #fff; border-color: #9fb9e0; }
+.rad { display: flex; align-items: center; gap: 2px; border-radius: 7px; }
+.rad:hover { background: rgba(255,255,255,.06); }
+.rad.vald { background: rgba(255,255,255,.13); box-shadow: inset 3px 0 0 #6fa0e6; }
+.rad .post { flex: 1; min-width: 0; text-align: left; border: 0; background: none; color: #dfe5ef; padding: 7px 4px 7px 10px;
+             white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.rad.vald .post { color: #fff; }
+.rad.inaktiv .post { color: #8193ad; }
+.rad .post small { color: #8193ad; margin-left: 4px; font-size: 11px; }
+.rad .post .etikett { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; margin-left: 6px; padding: 0 5px;
+                      border-radius: 4px; background: rgba(255,255,255,.08); color: #b9c7dc; }
+.rad .post .etikett.schema { color: #8fd6a6; }
+.vxl { flex: none; width: 26px; height: 26px; border: 0; border-radius: 6px; background: none; color: #56698a; font-size: 13px;
+       display: inline-flex; align-items: center; justify-content: center; }
+.vxl:hover { background: rgba(255,255,255,.1); color: #dfe5ef; }
+.vxl.pa { color: #8fd6a6; }
+.vxl.meny.pa { color: #9fc3f5; }
+.vxl:disabled { opacity: .35; cursor: default; }
+#meny .vy { display: block; width: 100%; text-align: left; border: 0; background: none; color: #dfe5ef; padding: 7px 10px; border-radius: 7px; }
+#meny .vy:hover { background: rgba(255,255,255,.07); }
+#meny .vy.vald { background: rgba(255,255,255,.13); color: #fff; box-shadow: inset 3px 0 0 #6fa0e6; }
+.forklaring { margin: 8px 8px 0; font-size: 11px; color: #7f91ab; line-height: 1.45; }
+#meny .fot { padding: 12px; border-top: 1px solid rgba(255,255,255,.08); display: grid; gap: 8px; }
+#meny .fot .lankar { display: flex; justify-content: center; gap: 12px; font-size: 12px; }
+#meny .fot a, #meny .fot .lanklik { color: #9fb0c8; text-decoration: none; background: none; border: 0; padding: 0; }
+#meny .fot a:hover, #meny .fot .lanklik:hover { color: #fff; }
+
+.knapp { border: 0; border-radius: 8px; padding: 9px 14px; font-weight: 700; background: var(--primar); color: #fff; }
+.knapp:hover { background: var(--primar-mork); }
+.knapp:disabled { opacity: .5; cursor: default; }
+.knapp.ljus { background: #fff; color: var(--primar); border: 1px solid var(--linje); }
+.knapp.ljus:hover { border-color: var(--primar); }
+.knapp.fara { background: #fff; color: var(--fara); border: 1px solid #f1c7c2; }
+.knapp.fara:hover { background: #fdecec; }
+#publicera { background: #3f8f5a; display: flex; align-items: center; justify-content: center; gap: 8px; }
+#publicera:hover { background: #2f7a4b; }
+#publicera .antal { background: rgba(255,255,255,.25); border-radius: 99px; padding: 0 8px; font-size: 12px; }
+
+/* ---------- mitten ---------- */
+main { display: flex; flex-direction: column; min-width: 0; min-height: 0; }
+.verktyg { display: flex; align-items: center; gap: 6px; padding: 7px 12px; background: #fff; border-bottom: 1px solid var(--linje); flex-wrap: wrap; }
+.verktyg .namn { font-weight: 700; margin-right: 4px; max-width: 170px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.grupp { display: flex; gap: 1px; padding-left: 6px; border-left: 1px solid var(--linje); flex-wrap: wrap; }
+.grupp button { border: 0; background: none; min-width: 30px; height: 30px; border-radius: 6px; padding: 0 6px; color: #3c4553; font-size: 13px; }
+.grupp button:hover:not(:disabled) { background: #eef2f8; color: var(--primar); }
+.grupp button:disabled { opacity: .3; cursor: default; }
+.spacer { flex: 1; }
+.vaxel { display: flex; background: #eef2f8; border-radius: 8px; padding: 2px; }
+.vaxel button { border: 0; background: none; padding: 4px 9px; border-radius: 6px; font-size: 13px; color: var(--dov); }
+.vaxel button.vald { background: #fff; color: var(--primar); font-weight: 700; box-shadow: 0 1px 2px rgba(0,0,0,.08); }
+.ikon { border: 0; background: none; width: 32px; height: 32px; border-radius: 6px; color: #3c4553; font-size: 15px; }
+.ikon:hover { background: #eef2f8; color: var(--primar); }
+.ikon.pa { background: #eef2f8; color: var(--primar); }
+#ordrakning { font-size: 12px; color: var(--dov); background: #f2f4f8; border-radius: 99px; padding: 3px 10px; white-space: nowrap; }
+#status { font-size: 13px; color: var(--dov); text-align: right; white-space: nowrap; }
+#status.andrad { color: var(--gul); font-weight: 700; }
+.banner { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; padding: 8px 14px; background: #fff7e6; border-bottom: 1px solid #f3dfb2; font-size: 13px; }
+.banner button { border: 0; border-radius: 6px; padding: 4px 10px; font-weight: 700; background: var(--primar); color: #fff; }
+.banner button.lank { background: none; color: var(--dov); font-weight: 400; }
+.scen { flex: 1; min-height: 0; overflow: auto; display: flex; justify-content: center; background: #dfe4ec; }
+#ram { border: 0; width: 100%; height: 100%; background: #fff; }
+.scen.mobil { padding: 20px 0; }
+.scen.mobil #ram { width: 390px; height: calc(100% - 4px); border-radius: 18px; box-shadow: 0 10px 40px rgba(20,30,50,.25); }
+#formvy { flex: 1; overflow-y: auto; padding: 28px clamp(16px, 4vw, 48px) 80px; }
+#formvy > div { max-width: 860px; margin: 0 auto; }
+#formvy h1 { font-size: 24px; margin: 0 0 4px; }
+#formvy .ingress { color: var(--dov); margin: 0 0 22px; }
+#formvy h2 { font-size: 15px; margin: 28px 0 10px; }
+.falt { display: grid; gap: 4px; margin-bottom: 12px; }
+.falt > span { font-weight: 700; font-size: 13px; }
+.falt small { color: var(--dov); font-size: 12px; }
+.falt input, .falt textarea, .falt select { width: 100%; border: 1px solid #cfd7e3; border-radius: 7px; padding: 8px 10px; background: #fff; }
+.falt input:focus, .falt textarea:focus, .falt select:focus { outline: 2px solid var(--primar); outline-offset: -1px; border-color: var(--primar); }
+.falt textarea { resize: vertical; min-height: 70px; }
+.rad2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0 14px; }
+.kort { background: #fff; border: 1px solid var(--linje); border-radius: 10px; padding: 14px; margin-bottom: 12px; }
+.varukort { display: grid; grid-template-columns: 120px 1fr; gap: 14px; }
+.tumme { width: 120px; height: 90px; border-radius: 7px; background: #e9edf3 center/cover no-repeat; border: 1px solid var(--linje);
+         display: flex; align-items: flex-end; justify-content: center; padding: 6px; }
+.tumme button { font-size: 12px; padding: 3px 8px; border-radius: 6px; border: 0; background: rgba(255,255,255,.92); color: var(--primar); font-weight: 700; }
+.radverktyg { display: flex; gap: 4px; justify-content: flex-end; margin-top: 4px; }
+.radverktyg button, .menyrad button { border: 1px solid var(--linje); background: #fff; border-radius: 6px; height: 30px; min-width: 32px; color: var(--primar); }
+.radverktyg button.fara, .menyrad button.fara { color: var(--fara); }
+.menyrad { display: grid; grid-template-columns: 1fr 1fr auto auto auto; gap: 6px; margin-bottom: 6px; }
+.menyrad input, .menyrad select { border: 1px solid #cfd7e3; border-radius: 7px; padding: 6px 9px; background: #fff; }
+.sparrad { position: sticky; bottom: -80px; margin: 18px -16px 0; padding: 14px 16px; display: flex; gap: 10px; align-items: center;
+           background: rgba(244,246,249,.96); border-top: 1px solid var(--linje); backdrop-filter: blur(4px); }
+/* statistik */
+.siffror { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+.siffror div { background: #fff; border: 1px solid var(--linje); border-radius: 10px; padding: 12px 14px; }
+.siffror b { display: block; font-size: 26px; line-height: 1.15; color: var(--morkbla); }
+.siffror span { color: var(--dov); font-size: 12px; }
+.stapelrad { display: grid; grid-template-columns: 9rem 1fr 8rem; gap: 10px; align-items: center; padding: 4px 0; font-size: 13px; }
+.stapel { height: 10px; background: #e9edf3; border-radius: 5px; overflow: hidden; }
+.stapel i { display: block; height: 100%; background: var(--primar); border-radius: 5px; }
+.stapelrad .tal { color: var(--dov); text-align: right; font-variant-numeric: tabular-nums; }
+.manader { display: flex; align-items: flex-end; gap: 6px; height: 130px; padding-top: 14px; }
+.manader div { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 3px; height: 100%; }
+.manader i { display: block; width: 100%; min-height: 2px; background: var(--primar); border-radius: 4px 4px 0 0; }
+.manader small, .manader b { font-size: 11px; color: var(--dov); font-weight: 400; }
+
+/* ---------- högerpanel ---------- */
+#egenskaper { background: #fff; border-left: 1px solid var(--linje); overflow-y: auto; padding: 18px; min-height: 0; }
+#egenskaper h2 { font-size: 15px; margin: 0 0 12px; }
+#egenskaper .hjalp { color: var(--dov); font-size: 13px; }
+#egenskaper .hjalp p { margin: 0 0 10px; }
+#egenskaper .hjalp b { color: var(--text); }
+#egenskaper hr { border: 0; border-top: 1px solid var(--linje); margin: 18px 0; }
+.status-rad { font-size: 12px; padding: 7px 10px; border-radius: 7px; margin-bottom: 12px; background: #f2f4f8; color: var(--dov); }
+.status-rad.utkast { background: #fff7e6; color: #8a5a00; }
+.status-rad.schema { background: #eaf6ee; color: var(--gron); }
+.bildforhand { width: 100%; max-height: 180px; object-fit: contain; background: #f2f4f8; border-radius: 8px; border: 1px solid var(--linje); margin-bottom: 10px; }
+.knapprad { display: flex; gap: 8px; flex-wrap: wrap; }
+
+/* ---------- dialoger ---------- */
+dialog { border: 0; border-radius: 14px; padding: 0; width: min(900px, calc(100vw - 32px)); max-height: calc(100vh - 48px); box-shadow: 0 20px 60px rgba(10,20,40,.35); }
+dialog.smal { width: min(480px, calc(100vw - 32px)); }
+dialog::backdrop { background: rgba(15,23,40,.5); }
+.dlg { display: flex; flex-direction: column; max-height: calc(100vh - 48px); }
+.dlg header { display: flex; align-items: center; gap: 10px; padding: 14px 18px; border-bottom: 1px solid var(--linje); }
+.dlg header h2 { margin: 0; font-size: 17px; flex: 1; }
+.dlg .inne { padding: 16px 18px; overflow-y: auto; }
+.stang { border: 0; background: none; font-size: 20px; width: 34px; height: 34px; border-radius: 8px; color: var(--dov); }
+.stang:hover { background: #eef2f8; }
+.rutnat { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; }
+.bildruta { position: relative; border: 1px solid var(--linje); border-radius: 8px; background: #fff; padding: 0; overflow: hidden; text-align: left; }
+.bildruta:hover { border-color: var(--primar); box-shadow: 0 0 0 2px rgba(42,75,124,.2); }
+.bildruta.vald { border-color: var(--primar); box-shadow: 0 0 0 3px var(--primar); }
+.bildruta.vald::after { content: "✓"; position: absolute; top: 6px; right: 6px; width: 22px; height: 22px; border-radius: 50%; background: var(--primar); color: #fff;
+                        font-weight: 700; font-size: 13px; display: flex; align-items: center; justify-content: center; }
+.bildruta img { width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block; background: #eef1f5; }
+.bildruta span { display: block; font-size: 11px; color: var(--dov); padding: 4px 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.historik { display: grid; grid-template-columns: 230px 1fr; height: min(620px, calc(100vh - 140px)); }
+.historik .lista { border-right: 1px solid var(--linje); overflow-y: auto; padding: 8px; }
+.historik .lista button { display: block; width: 100%; text-align: left; border: 0; background: none; padding: 8px 10px; border-radius: 7px; }
+.historik .lista button:hover { background: #f2f4f8; }
+.historik .lista button.vald { background: #eef2f8; color: var(--primar); font-weight: 700; }
+.historik .lista small { display: block; color: var(--dov); font-weight: 400; font-size: 11px; }
+.historik iframe { width: 100%; height: 100%; border: 0; background: #f4f6f9; }
+pre.logg { background: #0f1728; color: #d6e2f5; border-radius: 8px; padding: 12px; font-size: 12px; max-height: 260px; overflow: auto; white-space: pre-wrap; }
+.filer { font-size: 13px; color: var(--dov); max-height: 160px; overflow-y: auto; margin: 0 0 12px; padding-left: 18px; }
+.ok { color: var(--gron); font-weight: 700; }
+.felrad { color: var(--fara); font-weight: 700; }
+.toast { position: fixed; left: 50%; bottom: 22px; transform: translateX(-50%); background: #0f1728; color: #fff; padding: 10px 16px; border-radius: 10px; font-size: 13px; box-shadow: 0 8px 24px rgba(0,0,0,.25); z-index: 99; }
+
+/* snedstrecksmenyn */
+#snedmeny { position: fixed; z-index: 50; width: 250px; max-height: 300px; overflow-y: auto; background: #fff; border: 1px solid var(--linje);
+            border-radius: 10px; box-shadow: 0 12px 34px rgba(20,30,50,.22); padding: 4px; }
+#snedmeny button { display: flex; align-items: center; gap: 10px; width: 100%; text-align: left; border: 0; background: none; padding: 6px 8px; border-radius: 7px; }
+#snedmeny button.aktiv { background: #eef2f8; }
+#snedmeny .sym { width: 28px; height: 28px; flex: none; display: flex; align-items: center; justify-content: center; border: 1px solid var(--linje); border-radius: 6px; color: var(--primar); font-size: 13px; }
+#snedmeny b { display: block; font-size: 13px; }
+#snedmeny small { color: var(--dov); font-size: 11px; }
+#snedmeny .tom { padding: 8px; color: var(--dov); font-size: 12px; }
+</style>
+</head>
+<body>
+
+<nav id="meny" aria-label="Innehåll">
+  <div class="marke">Redigera hemsidan<small>dennisbengtsson.github.io</small></div>
+  <div class="sokrad"><input type="search" id="filter" placeholder="Sök sidor och inlägg" aria-label="Sök sidor och inlägg"></div>
+  <div class="rulla">
+    <h3>Sidor <button id="nySida" title="Skapa en ny sida">+ Ny</button></h3>
+    <div id="sidlista"></div>
+    <h3>Blogginlägg <button id="nyttInlagg" title="Skriv ett nytt inlägg">+ Nytt</button></h3>
+    <div id="inlaggslista"></div>
+    <p class="forklaring">● = aktiv, syns på nätet &nbsp; ☰ = finns i menyn<br>Inaktiva sidor är utkast som bara syns här.</p>
+    <h3>Inställningar</h3>
+    <button class="vy" data-vy="uppgifter">Uppgifter och meny</button>
+    <button class="vy" data-vy="loppis">Loppisens varor</button>
+    <button class="vy" data-vy="statistik">Statistik</button>
+  </div>
+  <div class="fot">
+    <button class="knapp" id="publicera">Publicera <span class="antal" id="antalAndringar" hidden></span></button>
+    <div class="lankar">
+      <button class="lanklik" id="sakerhetskopia" title="Ladda ner hela hemsidan som en zip-fil">Säkerhetskopia</button>
+      <a href="https://dennisbengtsson.github.io/" target="_blank" rel="noopener noreferrer">Visa på nätet ↗</a>
+    </div>
+  </div>
+</nav>
+
+<main>
+  <div class="verktyg">
+    <span class="namn" id="sidnamn"></span>
+    <div class="grupp" id="format">
+      <button data-kom="bold" title="Fet (Ctrl+B)"><b>F</b></button>
+      <button data-kom="italic" title="Kursiv (Ctrl+I)"><i>K</i></button>
+      <button data-kom="lank" title="Länk (Ctrl+K)">🔗</button>
+      <button data-kom="unlink" title="Ta bort länk">⛓̸</button>
+    </div>
+    <div class="grupp" id="block">
+      <button data-block="h2" title="Rubrik">Rubrik</button>
+      <button data-block="h3" title="Underrubrik">Under</button>
+      <button data-block="p" title="Vanlig text">Text</button>
+      <button data-kom="insertUnorderedList" title="Punktlista">• Lista</button>
+      <button data-kom="insertOrderedList" title="Numrerad lista">1.</button>
+      <button data-block="blockquote" title="Citat">❝</button>
+      <button data-kom="bild" title="Bild">🖼</button>
+      <button data-kom="galleri" title="Galleri – flera bilder i rad">▦</button>
+      <button data-kom="video" title="Video eller karta">▶</button>
+      <button data-kom="fotnot" title="Fotnot">¹</button>
+      <button data-kom="avdelare" title="Avdelare">―</button>
+    </div>
+    <div class="spacer"></div>
+    <span id="ordrakning" hidden></span>
+    <div class="vaxel" id="enhet"><button data-v="dator" class="vald">Dator</button><button data-v="mobil">Mobil</button></div>
+    <div class="vaxel" id="lage"><button data-v="redigera" class="vald">Redigera</button><button data-v="visa">Förhandsvisa</button></div>
+    <button class="ikon" id="historikKnapp" title="Tidigare versioner">🕘</button>
+    <button class="ikon" id="fokusKnapp" title="Fokusläge (Esc för att gå ur)">⤢</button>
+    <span id="status"></span>
+    <button class="knapp" id="spara" disabled title="Ctrl+S">Spara</button>
+  </div>
+  <div class="banner" id="aterstall" hidden>
+    <span id="aterstallText"></span>
+    <button id="aterstallJa">Återställ</button>
+    <button class="lank" id="aterstallNej">Släng</button>
+  </div>
+  <div class="scen" id="scen"><iframe id="ram" title="Hemsidan"></iframe></div>
+  <div id="formvy" hidden></div>
+</main>
+
+<aside id="egenskaper"></aside>
+
+<div id="snedmeny" hidden></div>
+
+<dialog id="bildbank"><div class="dlg">
+  <header><h2 id="bankTitel">Välj bild</h2><button class="knapp" id="bankKlar" hidden>Lägg in</button><button class="knapp ljus" id="laddaUpp">Ladda upp ny …</button><button class="stang" data-stang aria-label="Stäng">✕</button></header>
+  <div class="inne"><p style="margin-top:0;color:var(--dov);font-size:13px" id="bankHjalp">Nya bilder förminskas och rensas från platsinformation (GPS) innan de sparas.</p><div class="rutnat" id="bildrutnat"></div></div>
+</div></dialog>
+
+<dialog id="pubdialog"><div class="dlg">
+  <header><h2>Publicera till GitHub</h2><button class="stang" data-stang aria-label="Stäng">✕</button></header>
+  <div class="inne" id="pubinne"></div>
+</div></dialog>
+
+<dialog id="histdialog"><div class="dlg">
+  <header><h2>Tidigare versioner</h2><button class="knapp" id="histAterstall" disabled>Återställ den här versionen</button><button class="stang" data-stang aria-label="Stäng">✕</button></header>
+  <div class="historik"><div class="lista" id="histlista"></div><iframe id="histram" title="Tidigare version"></iframe></div>
+</div></dialog>
+
+<dialog id="nysidadialog" class="smal"><div class="dlg">
+  <header><h2>Ny sida</h2><button class="stang" data-stang aria-label="Stäng">✕</button></header>
+  <div class="inne">
+    <label class="falt"><span>Sidans namn</span><input id="nyTitel" placeholder="t.ex. Projekt"></label>
+    <label class="falt"><span>Börja från</span><select id="nyMall"></select>
+      <small>En textsida fungerar som ett blogginlägg: rubriker, bilder, listor, video och mer.</small></label>
+    <p style="color:var(--dov);font-size:13px">Sidan skapas som utkast. Gör den aktiv och lägg den i menyn när den är klar.</p>
+    <div class="knapprad"><button class="knapp" id="nySkapa">Skapa sidan</button></div>
+  </div>
+</div></dialog>
+
+<input type="file" id="filval" accept="image/jpeg,image/png,image/webp,image/gif" multiple hidden>
+
+<script>
+"use strict";
+const NYCKEL = "{{NYCKEL}}";
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const ram = $("#ram");
+const IDAG = new Date().toLocaleDateString("sv-SE");
+const MANADER = ["jan", "feb", "mar", "apr", "maj", "jun", "jul", "aug", "sep", "okt", "nov", "dec"];
+
+let lista = { sidor: [], inlagg: [], git: {}, adress: "" };
+let aktuell = null;          // { typ: "sida" | "inlagg" | "uppgifter" | "loppis" | "statistik", sokvag }
+let andrad = false;
+let lage = "redigera";
+let valdBild = null;
+let sidmeta = {};            // fliktitel, beskrivning och serie för sidan som är öppen
+let formSpara = null;        // spara-funktion för formulärvyerna
+let nyssOppnad = false;      // första laddningen efter att en sida öppnats
+
+/* ================================================================ hjälpare */
+
+async function api(vag, kropp, extra = {}) {
+  const init = { headers: { "X-Nyckel": NYCKEL, ...(extra.headers || {}) } };
+  if (kropp !== undefined) {
+    init.method = "POST";
+    init.body = kropp instanceof Blob ? kropp : JSON.stringify(kropp);
+    if (!(kropp instanceof Blob)) init.headers["Content-Type"] = "application/json";
+  }
+  const svar = await fetch(vag, init);
+  if (extra.blob) { if (!svar.ok) throw new Error(`Fel ${svar.status}`); return svar.blob(); }
+  const data = await svar.json().catch(() => ({}));
+  if (!svar.ok) throw new Error(data.fel || `Fel ${svar.status}`);
+  return data;
+}
+
+function toast(text, ms = 2600) {
+  const t = document.createElement("div");
+  t.className = "toast"; t.textContent = text;
+  document.body.append(t); setTimeout(() => t.remove(), ms);
+}
+
+function satt_andrad(v = true, { behallAutospar = false } = {}) {
+  andrad = v;
+  $("#spara").disabled = !v;
+  $("#status").textContent = v ? "Osparade ändringar" : "";
+  $("#status").classList.toggle("andrad", v);
+  if (v) autospara(); else if (!behallAutospar) glomAutospar();
+  raknaOrd();
+}
+
+async function fragaOmAndringar() {
+  if (!andrad) return true;
+  if (confirm("Du har osparade ändringar.\n\nOK = spara dem först\nAvbryt = välj något annat")) return await spara();
+  if (confirm("Vill du slänga ändringarna?")) { satt_andrad(false); return true; }
+  return false;
+}
+
+const djup = (sokvag) => "../".repeat((sokvag.match(/\//g) || []).length);
+
+function sakerHref(h) {
+  h = (h || "").trim();
+  if (!h) return null;
+  if (/^(https?:|mailto:|tel:)/i.test(h)) return h;
+  if (/^[a-z][a-z0-9+.-]*:/i.test(h) || h.startsWith("//")) return null;   // javascript: och liknande
+  return h;
+}
+function sakerSrc(s) {
+  s = (s || "").trim();
+  if (/^https:/i.test(s)) return s;
+  if (/^[a-z][a-z0-9+.-]*:/i.test(s) || s.startsWith("//")) return null;
+  return s || null;
+}
+
+/* ================================================================ sidopanelen */
+
+async function laddaLista() {
+  lista = await api("/api/lista");
+  ritaLista();
+  visaGit(lista.git);
+}
+
+function ritaLista() {
+  const q = $("#filter").value.trim().toLowerCase();
+  const passar = (t) => !q || (t || "").toLowerCase().includes(q);
+  $("#sidlista").innerHTML = lista.sidor.filter((s) => passar(s.namn)).map((s) => `
+    <div class="rad${s.aktiv ? "" : " inaktiv"}" data-sokvag="${esc(s.sokvag)}">
+      <button class="post" data-typ="sida" data-sokvag="${esc(s.sokvag)}" title="${esc(s.sokvag)}">${esc(s.namn)}${s.aktiv ? "" : '<span class="etikett">utkast</span>'}</button>
+      <button class="vxl meny${s.iMenyn ? " pa" : ""}" data-g="meny" data-sokvag="${esc(s.sokvag)}" title="${s.iMenyn ? "Finns i menyn – klicka för att ta bort" : "Lägg i menyn"}"${s.aktiv ? "" : " disabled"}>☰</button>
+      <button class="vxl aktiv${s.aktiv ? " pa" : ""}" data-g="aktiv" data-sokvag="${esc(s.sokvag)}" title="${s.aktiv ? "Aktiv – syns på nätet" : "Utkast – klicka för att göra aktiv"}"${s.sokvag === "index.html" ? " disabled" : ""}>●</button>
+    </div>`).join("") || '<p class="forklaring">Inga träffar.</p>';
+  $("#inlaggslista").innerHTML = lista.inlagg.filter((p) => passar(p.titel) || passar(p.serie) || passar(p.kategori)).map((p) => {
+    const schema = p.aktiv && p.datum > IDAG;
+    const etikett = !p.aktiv ? '<span class="etikett">utkast</span>' : schema ? '<span class="etikett schema">schemalagd</span>' : (p.datum ? `<small>${esc(p.datum.slice(0, 7))}</small>` : "");
+    return `<div class="rad${p.aktiv ? "" : " inaktiv"}" data-sokvag="${esc(p.sokvag)}">
+      <button class="post" data-typ="inlagg" data-sokvag="${esc(p.sokvag)}" title="${esc(p.titel)}">${esc(p.titel || p.sokvag)}${etikett}</button>
+      <button class="vxl aktiv${p.aktiv ? " pa" : ""}" data-g="aktiv" data-sokvag="${esc(p.sokvag)}" title="${p.aktiv ? "Publicerat – klicka för att göra till utkast" : "Utkast – klicka för att publicera"}">●</button>
+    </div>`;
+  }).join("") || '<p class="forklaring">Inga inlägg.</p>';
+  $$("#meny .post[data-sokvag]").forEach((b) => b.onclick = () => oppna(b.dataset.typ, b.dataset.sokvag));
+  $$("#meny .vxl").forEach((b) => b.onclick = () => vaxla(b.dataset.g, b.dataset.sokvag, b.classList.contains("pa")));
+  markeraVald();
+}
+$("#filter").addEventListener("input", ritaLista);
+
+function markeraVald() {
+  $$("#meny .rad").forEach((r) => r.classList.toggle("vald", Boolean(aktuell && r.dataset.sokvag === aktuell.sokvag)));
+  $$("#meny .vy").forEach((b) => b.classList.toggle("vald", Boolean(aktuell && b.dataset.vy === aktuell.typ)));
+}
+function visaGit(g) {
+  const n = g && g.finns ? g.andringar.length : 0;
+  $("#antalAndringar").hidden = !n;
+  $("#antalAndringar").textContent = n;
+}
+
+async function vaxla(vad, sokvag, ar) {
+  const sida = lista.sidor.find((s) => s.sokvag === sokvag);
+  try {
+    if (vad === "aktiv") {
+      if (ar && !confirm(sokvag.startsWith("blog/")
+        ? "Göra inlägget till ett utkast? Det tas bort från bloggen på nätet när du publicerar."
+        : "Göra sidan inaktiv? Den tas bort från menyn och från nätet när du publicerar, men ligger kvar här som utkast.")) return;
+      await api("/api/sidstatus", { sokvag, aktiv: !ar });
+      toast(ar ? "Nu är det ett utkast" : "Nu är den aktiv – tryck Publicera för att visa den på nätet");
+    } else {
+      await api("/api/sidstatus", { sokvag, meny: !ar, namn: sida ? sida.namn : undefined });
+      toast(ar ? "Borttagen ur menyn" : "Tillagd i menyn");
+    }
+    await laddaLista();
+    if (aktuell && aktuell.sokvag === sokvag && !andrad) visaPanel();
+  } catch (e) { alert(e.message); }
+}
+
+/* ================================================================ öppna en sida */
+
+function namnFor(typ, sokvag) {
+  return typ === "inlagg" ? (lista.inlagg.find((p) => p.sokvag === sokvag) || {}).titel : (lista.sidor.find((s) => s.sokvag === sokvag) || {}).namn;
+}
+
+function visaRedigerare(visa) {
+  $("#formvy").hidden = visa; $("#scen").hidden = !visa;
+  document.body.classList.toggle("utan-panel", !visa);
+  $$(".verktyg .grupp, #enhet, #lage, #historikKnapp, #fokusKnapp").forEach((e) => e.hidden = !visa);
+  if (!visa) { $("#ordrakning").hidden = true; $("#aterstall").hidden = true; }
+}
+
+async function oppna(typ, sokvag) {
+  if (!(await fragaOmAndringar())) return;
+  if (["uppgifter", "loppis", "statistik"].includes(typ)) return visaForm(typ);
+  aktuell = { typ, sokvag };
+  valdBild = null; formSpara = null; nyssOppnad = true;
+  visaRedigerare(true);
+  $("#sidnamn").textContent = namnFor(typ, sokvag) || sokvag;
+  satt_andrad(false, { behallAutospar: true });
+  markeraVald();
+  ram.src = "/" + sokvag + "?r=" + Date.now();
+}
+
+ram.addEventListener("load", () => {
+  const doc = ram.contentDocument;
+  if (!doc || !doc.body) return;
+  // i förhandsvisningen kan man klicka sig vidare; håll reda på vilken sida som visas
+  const sokvag = decodeURIComponent(ram.contentWindow.location.pathname).replace(/^\//, "") || "index.html";
+  if (aktuell && sokvag !== aktuell.sokvag && SIDA_MONSTER.test(sokvag)) {
+    aktuell = { typ: /^blog\//.test(sokvag) ? "inlagg" : "sida", sokvag };
+    $("#sidnamn").textContent = namnFor(aktuell.typ, sokvag) || sokvag;
+    markeraVald();
+  }
+  forbered(doc);
+  if (nyssOppnad) { nyssOppnad = false; kollaAutospar(); }
+});
+const SIDA_MONSTER = /^(?:[\w-]+\.html|blog\/[\w-]+\.html)$/;
+
+/* ================================================================ redigering på sidan */
+
+const INFO = [
+  ["#blog-list", "Listan byggs av blogginläggen"],
+  ["#product-list", "Varorna ändras under Loppisens varor"],
+  ["#product-filter", ""],
+  ["#page-content-container", "Nyheter – ställs in under Uppgifter"],
+  ["#contact-address", "Ändras under Uppgifter"],
+  ["#sokresultat", "Sökresultaten visas här på den publicerade sidan"],
+];
+
+function forbered(doc) {
+  if (!doc.getElementById("ed-css")) {
+    const l = doc.createElement("link");
+    l.id = "ed-css"; l.rel = "stylesheet"; l.href = "/_redigerare/ed-sida.css";
+    doc.head.append(l);
+  }
+  const pa = lage === "redigera";
+  doc.documentElement.toggleAttribute("data-ed-pa", pa);
+  try { doc.execCommand("defaultParagraphSeparator", false, "p"); } catch (e) {}
+
+  $$('[data-redigera="text"], [data-redigera="fri"]', doc).forEach((el) => {
+    if (pa) { el.setAttribute("contenteditable", "true"); el.setAttribute("spellcheck", "true"); }
+    else { el.removeAttribute("contenteditable"); el.removeAttribute("spellcheck"); }
+  });
+  // video och karta redigeras inte inifrån
+  $$(".inbaddning", doc).forEach((e) => pa ? e.setAttribute("contenteditable", "false") : e.removeAttribute("contenteditable"));
+  $$("[data-dynamisk]", doc).forEach((el) => el.removeAttribute("data-ed-info"));
+  if (pa) {
+    for (const [sel, text] of INFO) { const e = doc.querySelector(sel); if (e && text) e.setAttribute("data-ed-info", text); }
+    $$("#contact-phone, #contact-email", doc).forEach((a) => a.parentElement.setAttribute("data-ed-info", "Ändras under Uppgifter"));
+  }
+  $$(".ed-laggtill, .ed-listverktyg", doc).forEach((e) => e.remove());
+  if (pa) {
+    $$("[data-galleri]", doc).forEach((g) => {
+      const k = doc.createElement("button");
+      k.type = "button"; k.className = "ed-laggtill"; k.textContent = "+ Lägg till bild";
+      k.addEventListener("click", (e) => { e.preventDefault(); e.stopPropagation(); laggTillGalleribild(g); });
+      g.append(k);
+    });
+  }
+
+  if (!doc.ed_lyssnar) {
+    doc.ed_lyssnar = true;
+    doc.addEventListener("click", klick, true);
+    doc.addEventListener("input", (e) => { if (lage === "redigera") { sakraStycken(e.target); satt_andrad(); synkaFranSidan(e.target); snedInput(e); } });
+    doc.addEventListener("paste", klistra);
+    doc.addEventListener("keydown", tangent);
+    doc.addEventListener("mouseover", hovra);
+    doc.addEventListener("dragover", (e) => { if (lage === "redigera") e.preventDefault(); });
+    doc.addEventListener("drop", slapp);
+    doc.addEventListener("focusin", uppdateraVerktyg);
+    doc.addEventListener("selectionchange", () => { uppdateraVerktyg(); snedKolla(); });
+    doc.addEventListener("scroll", () => stangSned());
+  }
+  uppdateraVerktyg();
+  lasSidmeta(doc);
+  visaPanel();
+  raknaOrd();
+}
+
+function aktivtFalt() {
+  const doc = ram.contentDocument;
+  if (!doc) return null;
+  const el = doc.activeElement;
+  return el && el.closest ? el.closest('[contenteditable="true"]') : null;
+}
+
+function uppdateraVerktyg() {
+  const f = lage === "redigera" ? aktivtFalt() : null;
+  const fri = f && f.dataset.redigera === "fri";
+  $$("#format button").forEach((b) => b.disabled = !f);
+  $$("#block button").forEach((b) => b.disabled = !fri);
+}
+
+function klick(e) {
+  if (lage !== "redigera") {
+    const a = e.target.closest("a[href]");
+    if (a && andrad) { e.preventDefault(); toast("Spara eller släng ändringarna först"); }
+    return;
+  }
+  if (e.target.closest(".ed-listverktyg, .ed-laggtill")) return;
+  const img = e.target.closest('img[data-redigera="bild"]');
+  if (img) { e.preventDefault(); e.stopPropagation(); valjBildElement(img); return; }
+  const lank = e.target.closest("a, button");
+  if (lank) {
+    e.preventDefault();
+    if (!e.target.closest('[contenteditable="true"]')) e.stopPropagation();
+  }
+  if (valdBild) { valdBild.classList.remove("ed-vald"); valdBild = null; visaPanel(); }
+}
+
+function tangent(e) {
+  if (snedTangent(e)) return;
+  const f = e.target.closest && e.target.closest('[contenteditable="true"]');
+  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "s") { e.preventDefault(); spara(); return; }
+  if (e.key === "Escape" && document.body.classList.contains("fokus")) { fokus(false); return; }
+  if (!f) return;
+  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") { e.preventDefault(); kommando("lank"); return; }
+  if (f.dataset.redigera === "text" && e.key === "Enter") {
+    e.preventDefault();
+    if (e.shiftKey) ram.contentDocument.execCommand("insertLineBreak");
+  }
+  if (e.key === "Escape") f.blur();
+}
+
+function klistra(e) {
+  const f = e.target.closest && e.target.closest('[contenteditable="true"]');
+  if (!f) return;
+  e.preventDefault();
+  const doc = ram.contentDocument;
+  const bilder = [...(e.clipboardData.items || [])].filter((i) => i.type.startsWith("image/")).map((i) => i.getAsFile());
+  if (bilder.length && f.dataset.redigera === "fri") {
+    laddaUpp(bilder[0]).then((s) => infogaBilder([s], f)).catch((x) => alert(x.message));
+    return;
+  }
+  const text = e.clipboardData.getData("text/plain");
+  if (f.dataset.redigera === "fri") {
+    // en ensam länk till YouTube, Vimeo eller en karta blir en inbäddning
+    const inb = text.trim().match(/^https?:\/\/\S+$/) && inbaddning(text.trim());
+    if (inb) { infogaInbaddning(inb, f); return; }
+    const stycken = text.split(/\n\s*\n/).map((s) => s.trim()).filter(Boolean);
+    if (stycken.length > 1) {
+      doc.execCommand("insertHTML", false, stycken.map((s) => `<p>${esc(s).replace(/\n/g, "<br>")}</p>`).join(""));
+      return;
+    }
+  }
+  doc.execCommand("insertText", false, text.replace(/\s*\n\s*/g, " "));
+}
+
+function slapp(e) {
+  if (lage !== "redigera") return;
+  const filer = [...(e.dataTransfer.files || [])].filter((f) => f.type.startsWith("image/"));
+  e.preventDefault();
+  if (!filer.length) return;
+  const fri = e.target.closest && e.target.closest('[data-redigera="fri"]');
+  if (!fri) { toast("Släpp bilderna i en textruta, eller klicka på en bild för att byta den"); return; }
+  const doc = ram.contentDocument;
+  const pos = doc.caretRangeFromPoint ? doc.caretRangeFromPoint(e.clientX, e.clientY) : null;
+  if (pos) { const sel = doc.getSelection(); sel.removeAllRanges(); sel.addRange(pos); }
+  Promise.all(filer.map(laddaUpp)).then((s) => infogaBilder(s, fri)).catch((x) => alert(x.message));
+}
+
+/* ---------- block i texten ---------- */
+
+/** Text som hamnat direkt i textrutan, utan stycke runt, läggs i ett <p>. */
+function sakraStycken(mal) {
+  const fri = mal && mal.closest && mal.closest('[data-redigera="fri"]');
+  if (!fri) return;
+  const doc = fri.ownerDocument, sel = doc.getSelection();
+  const ankare = sel.rangeCount ? [sel.anchorNode, sel.anchorOffset] : null;
+  let p = null;
+  for (const n of [...fri.childNodes]) {
+    const lost = (n.nodeType === 3 && n.nodeValue.trim()) || (n.nodeType === 1 && ["B", "I", "STRONG", "EM", "A", "SPAN", "BR", "SUP"].includes(n.tagName));
+    if (!lost) { p = null; continue; }
+    if (n.nodeType === 1 && n.tagName === "BR" && !p) { n.remove(); continue; }
+    if (!p) { p = doc.createElement("p"); n.before(p); }
+    p.append(n);
+  }
+  if (ankare && ankare[0] && fri.contains(ankare[0])) { try { sel.collapse(ankare[0], ankare[1]); } catch (e) {} }
+}
+
+/** Det block (stycke, rubrik, lista …) i textrutan där markören står. */
+function aktuelltBlock(fri) {
+  const doc = ram.contentDocument;
+  const sel = doc.getSelection();
+  let b = sel.rangeCount ? sel.getRangeAt(0).startContainer : null;
+  while (b && b.parentNode !== fri) b = b.parentNode;
+  return b;
+}
+function laggEfterBlock(fri, ...noder) {
+  const block = aktuelltBlock(fri);
+  if (block) block.after(...noder); else fri.append(...noder);
+}
+function markorI(el, slut = true) {
+  const doc = ram.contentDocument, r = doc.createRange(), sel = doc.getSelection();
+  r.selectNodeContents(el); r.collapse(!slut);
+  sel.removeAllRanges(); sel.addRange(r);
+}
+
+function nyBild(doc, sokvag, bildtext) {
+  const fig = doc.createElement("figure");
+  const img = doc.createElement("img");
+  img.className = "inlaggsbild"; img.setAttribute("src", djup(aktuell.sokvag) + sokvag); img.setAttribute("alt", "");
+  img.setAttribute("data-redigera", "bild");
+  fig.append(img);
+  if (bildtext) { const cap = doc.createElement("figcaption"); cap.className = "bildtext"; cap.textContent = bildtext; fig.append(cap); }
+  return fig;
+}
+
+function infogaBilder(sokvagar, fri) {
+  const doc = ram.contentDocument;
+  fri = fri || aktivtFalt() || doc.querySelector('[data-redigera="fri"]');
+  if (!fri || !sokvagar.length) return;
+  let nod;
+  if (sokvagar.length === 1) nod = nyBild(doc, sokvagar[0], "Bildtext");
+  else { nod = doc.createElement("div"); nod.className = "galleri"; sokvagar.forEach((s) => nod.append(nyBild(doc, s))); }
+  laggEfterBlock(fri, nod);
+  satt_andrad();
+  const img = nod.querySelector("img"); if (img) valjBildElement(img);
+}
+
+/** Gör om en länk till YouTube, Vimeo eller OpenStreetMap till en inbäddning. */
+function inbaddning(adress) {
+  let m = adress.match(/(?:youtube\.com\/(?:watch\?(?:.*&)?v=|shorts\/|embed\/)|youtu\.be\/)([\w-]{11})/);
+  if (m) return { typ: "video", src: `https://www.youtube-nocookie.com/embed/${m[1]}`, titel: "Video" };
+  m = adress.match(/vimeo\.com\/(?:video\/)?(\d+)/);
+  if (m) return { typ: "video", src: `https://player.vimeo.com/video/${m[1]}`, titel: "Video" };
+  m = adress.match(/openstreetmap\.org\/.*#map=(\d+)\/(-?[\d.]+)\/(-?[\d.]+)/);
+  if (m) {
+    const z = +m[1], lat = +m[2], lon = +m[3];
+    const dlon = 360 / 2 ** z * 700 / 256 / 2, dlat = dlon * Math.cos(lat * Math.PI / 180) * 380 / 700;
+    const bbox = [lon - dlon, lat - dlat, lon + dlon, lat + dlat].map((v) => v.toFixed(5)).join(",");
+    return { typ: "karta", src: `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${lat},${lon}`, titel: "Karta" };
+  }
+  return null;
+}
+const TILLATNA_INBADDNINGAR = [
+  /^https:\/\/www\.youtube-nocookie\.com\/embed\/[\w-]{11}$/,
+  /^https:\/\/player\.vimeo\.com\/video\/\d+$/,
+  /^https:\/\/www\.openstreetmap\.org\/export\/embed\.html\?bbox=[-\d.,]+&layer=mapnik(&marker=[-\d.,]+)?$/,
+];
+const FRAME_SRC = "frame-src https://www.youtube-nocookie.com https://player.vimeo.com https://www.openstreetmap.org";
+
+function nyInbaddning(doc, inb) {
+  const d = doc.createElement("div");
+  d.className = "inbaddning " + inb.typ;
+  const f = doc.createElement("iframe");
+  f.setAttribute("src", inb.src); f.setAttribute("title", inb.titel); f.setAttribute("loading", "lazy");
+  f.setAttribute("allowfullscreen", ""); f.setAttribute("referrerpolicy", "strict-origin-when-cross-origin");
+  d.append(f);
+  return d;
+}
+function infogaInbaddning(inb, fri) {
+  const doc = ram.contentDocument;
+  const d = nyInbaddning(doc, inb);
+  d.setAttribute("contenteditable", "false");
+  laggEfterBlock(fri, d);
+  satt_andrad();
+  toast(inb.typ === "video" ? "Videon visas när du har sparat" : "Kartan visas när du har sparat");
+}
+
+function infogaFotnot(fri) {
+  const doc = ram.contentDocument;
+  const n = $$("sup.fotnot", fri).length + 1;
+  doc.execCommand("insertHTML", false, `<sup class="fotnot">${n}</sup>&#8203;`);
+  let ol = fri.querySelector("ol.fotnoter");
+  if (!ol) { ol = doc.createElement("ol"); ol.className = "fotnoter"; fri.append(ol); }
+  const li = doc.createElement("li"); li.textContent = "Skriv fotnoten här.";
+  ol.append(li);
+  markorI(li);
+  const sel = doc.getSelection(); sel.selectAllChildren(li);
+  satt_andrad();
+}
+
+function infogaAvdelare(fri) {
+  const doc = ram.contentDocument;
+  const p = doc.createElement("p"); p.append(doc.createElement("br"));
+  laggEfterBlock(fri, doc.createElement("hr"), p);
+  markorI(p);
+  satt_andrad();
+}
+
+/* ---------- verktygsraden ---------- */
+
+function kommando(kom, varde) {
+  const doc = ram.contentDocument;
+  const f = aktivtFalt();
+  if (!f) return;
+  ram.contentWindow.focus();
+  if (kom === "lank") {
+    const u = prompt("Länkadress (t.ex. https://… eller about.html):", "https://");
+    const href = sakerHref(u);
+    if (u && !href) { alert("Den länken är inte tillåten."); return; }
+    if (href && href !== "https://") doc.execCommand("createLink", false, href);
+  } else if (kom === "bild") {
+    bildbank((s) => infogaBilder([s], f));
+  } else if (kom === "galleri") {
+    bildbank((s) => infogaBilder(s, f), { flera: true });
+  } else if (kom === "video") {
+    const u = prompt("Klistra in en länk till YouTube, Vimeo eller en karta från openstreetmap.org:", "https://");
+    if (!u || u === "https://") return;
+    const inb = inbaddning(u.trim());
+    if (!inb) { alert("Den länken känns inte igen. Använd en länk från YouTube, Vimeo eller openstreetmap.org."); return; }
+    infogaInbaddning(inb, f);
+  } else if (kom === "fotnot") {
+    infogaFotnot(f);
+  } else if (kom === "avdelare") {
+    infogaAvdelare(f);
+  } else if (kom === "formatBlock") {
+    doc.execCommand("formatBlock", false, varde);
+  } else {
+    doc.execCommand(kom, false, null);
+  }
+  satt_andrad();
+}
+$$("#format button, #block button").forEach((b) => {
+  b.addEventListener("mousedown", (e) => e.preventDefault());   // behåll markeringen på sidan
+  b.addEventListener("click", () => b.dataset.block ? kommando("formatBlock", b.dataset.block) : kommando(b.dataset.kom));
+});
+
+/* ---------- snedstrecksmenyn: skriv / i en textruta ---------- */
+
+const SNED = [
+  { namn: "Rubrik", sym: "H", info: "Stor mellanrubrik", sok: "rubrik h2", gor: () => kommando("formatBlock", "h2") },
+  { namn: "Underrubrik", sym: "h", info: "Mindre rubrik", sok: "underrubrik h3", gor: () => kommando("formatBlock", "h3") },
+  { namn: "Text", sym: "¶", info: "Vanligt stycke", sok: "text stycke p", gor: () => kommando("formatBlock", "p") },
+  { namn: "Lista", sym: "•", info: "Punktlista", sok: "lista punkt", gor: () => kommando("insertUnorderedList") },
+  { namn: "Numrerad lista", sym: "1.", info: "1, 2, 3 …", sok: "numrerad lista siffror", gor: () => kommando("insertOrderedList") },
+  { namn: "Citat", sym: "❝", info: "Indraget citat", sok: "citat", gor: () => kommando("formatBlock", "blockquote") },
+  { namn: "Bild", sym: "🖼", info: "En bild med bildtext", sok: "bild foto", gor: () => kommando("bild") },
+  { namn: "Galleri", sym: "▦", info: "Flera bilder i rad", sok: "galleri bilder", gor: () => kommando("galleri") },
+  { namn: "Video eller karta", sym: "▶", info: "YouTube, Vimeo, OpenStreetMap", sok: "video youtube vimeo karta film", gor: () => kommando("video") },
+  { namn: "Fotnot", sym: "¹", info: "Not längst ner", sok: "fotnot not", gor: () => kommando("fotnot") },
+  { namn: "Avdelare", sym: "―", info: "En paus i texten", sok: "avdelare linje", gor: () => kommando("avdelare") },
+];
+let sned = null;   // { nod, start, val }
+
+function snedInput(e) {
+  if (e.inputType !== "insertText") return snedKolla();
+  const f = aktivtFalt();
+  if (!f || f.dataset.redigera !== "fri") return;
+  const sel = ram.contentDocument.getSelection();
+  if (!sel.rangeCount) return;
+  const r = sel.getRangeAt(0), nod = r.startContainer, pos = r.startOffset;
+  if (e.data === "/" && nod.nodeType === 3) {
+    const fore = nod.nodeValue[pos - 2];
+    if (pos === 1 || /\s|​/.test(fore || "")) { sned = { nod, start: pos - 1, val: 0 }; return ritaSned(); }
+  }
+  snedKolla();
+}
+function snedFraga() {
+  const sel = ram.contentDocument.getSelection();
+  if (!sned || !sel.rangeCount) return null;
+  const r = sel.getRangeAt(0);
+  if (r.startContainer !== sned.nod || r.startOffset <= sned.start) return null;
+  const q = sned.nod.nodeValue.slice(sned.start + 1, r.startOffset);
+  return /\s/.test(q) || q.length > 20 ? null : q.toLowerCase();
+}
+function snedTraffar() {
+  const q = snedFraga() ?? "";
+  // namn som börjar med det man skrivit först, sedan namn som innehåller det, sist sökorden
+  const poang = (k) => k.namn.toLowerCase().startsWith(q) ? 0 : k.namn.toLowerCase().includes(q) ? 1 : 2;
+  return SNED.filter((k) => (k.namn + " " + k.sok).toLowerCase().includes(q))
+    .map((k, i) => [poang(k), i, k]).sort((a, b) => a[0] - b[0] || a[1] - b[1]).map((x) => x[2]);
+}
+function snedKolla() { if (sned) (snedFraga() === null ? stangSned() : ritaSned()); }
+function stangSned() { sned = null; $("#snedmeny").hidden = true; }
+function ritaSned() {
+  if (snedFraga() === null) return stangSned();
+  const t = snedTraffar(), m = $("#snedmeny");
+  sned.val = Math.min(sned.val, Math.max(0, t.length - 1));
+  m.innerHTML = t.length ? t.map((k, i) => `<button data-i="${i}" class="${i === sned.val ? "aktiv" : ""}"><span class="sym">${k.sym}</span><span><b>${k.namn}</b><small>${k.info}</small></span></button>`).join("")
+    : '<div class="tom">Inget kommando matchar</div>';
+  $$("#snedmeny button").forEach((b) => b.onmousedown = (e) => { e.preventDefault(); korSned(t[+b.dataset.i]); });
+  const doc = ram.contentDocument, r = doc.createRange();
+  r.setStart(sned.nod, sned.start); r.setEnd(sned.nod, sned.start + 1);
+  const ruta = r.getBoundingClientRect(), iram = ram.getBoundingClientRect();
+  m.hidden = false;
+  const h = m.offsetHeight;
+  let y = iram.top + ruta.bottom + 6;
+  if (y + h > innerHeight - 8) y = iram.top + ruta.top - h - 6;
+  m.style.top = y + "px";
+  m.style.left = Math.min(iram.left + ruta.left, innerWidth - m.offsetWidth - 10) + "px";
+  const akt = m.querySelector(".aktiv"); if (akt) akt.scrollIntoView({ block: "nearest" });
+}
+function korSned(k) {
+  if (!k || !sned) return;
+  const doc = ram.contentDocument, sel = doc.getSelection(), r = doc.createRange();
+  r.setStart(sned.nod, sned.start); r.setEnd(sel.getRangeAt(0).startContainer, sel.getRangeAt(0).startOffset);
+  const block = sned.nod.parentElement && sned.nod.parentElement.closest("p, h2, h3, li, blockquote");
+  r.deleteContents();
+  // ett tomt stycke behöver en <br>, annars tappar webbläsaren var markören är
+  if (block && !block.textContent.replace(/\u200b/g, "").trim() && !block.querySelector("br, img")) {
+    block.replaceChildren(doc.createElement("br"));
+    sel.removeAllRanges(); const r2 = doc.createRange(); r2.setStart(block, 0); r2.collapse(true); sel.addRange(r2);
+  }
+  stangSned();
+  k.gor();
+}
+function snedTangent(e) {
+  if (!sned || $("#snedmeny").hidden) return false;
+  const t = snedTraffar();
+  if (e.key === "ArrowDown") { sned.val = (sned.val + 1) % Math.max(1, t.length); ritaSned(); }
+  else if (e.key === "ArrowUp") { sned.val = (sned.val - 1 + t.length) % Math.max(1, t.length); ritaSned(); }
+  else if ((e.key === "Enter" || e.key === "Tab") && t.length) korSned(t[sned.val]);
+  else if (e.key === "Escape") stangSned();
+  else return false;
+  e.preventDefault();
+  return true;
+}
+
+/* ---------- listor: flytta, kopiera, ta bort ---------- */
+
+let listpost = null;
+function listverktyg(doc) {
+  let v = doc.querySelector(".ed-listverktyg");
+  if (v) return v;
+  v = doc.createElement("div");
+  v.className = "ed-listverktyg";
+  v.innerHTML = '<button type="button" data-g="upp" title="Flytta upp/vänster">↑</button>' +
+    '<button type="button" data-g="ner" title="Flytta ner/höger">↓</button>' +
+    '<button type="button" data-g="kopiera" title="Kopiera">⧉</button>' +
+    '<button type="button" data-g="bort" class="fara" title="Ta bort">✕</button>';
+  v.addEventListener("mousedown", (e) => e.preventDefault());
+  v.addEventListener("click", (e) => {
+    const g = e.target.closest("button"); if (!g || !listpost) return;
+    e.preventDefault(); e.stopPropagation();
+    listatgard(g.dataset.g, listpost);
+  });
+  doc.body.append(v);
+  return v;
+}
+const arListpost = (el) => el && el.parentElement && el.parentElement.hasAttribute("data-lista") &&
+  !el.classList.contains("ed-laggtill") && !el.classList.contains("ed-listverktyg");
+const syskon = (el, riktning) => {
+  let s = riktning < 0 ? el.previousElementSibling : el.nextElementSibling;
+  while (s && !arListpost(s)) s = riktning < 0 ? s.previousElementSibling : s.nextElementSibling;
+  return s;
+};
+
+function hovra(e) {
+  if (lage !== "redigera") return;
+  const doc = ram.contentDocument;
+  if (e.target.closest(".ed-listverktyg")) return;
+  let el = e.target;
+  while (el && el !== doc.body && !arListpost(el)) el = el.parentElement;
+  const v = listverktyg(doc);
+  if (!arListpost(el)) { v.hidden = true; if (listpost) listpost.classList.remove("ed-markerad"); listpost = null; return; }
+  if (el === listpost && !v.hidden) return;
+  if (listpost) listpost.classList.remove("ed-markerad");
+  listpost = el;
+  el.classList.add("ed-markerad");
+  v.hidden = false;
+  const r = el.getBoundingClientRect(), w = ram.contentWindow;
+  v.style.top = (r.top + w.scrollY + 4) + "px";
+  v.style.left = Math.max(4, r.right + w.scrollX - v.offsetWidth - 4) + "px";
+}
+
+function listatgard(g, el) {
+  const behallare = el.parentElement;
+  const poster = [...behallare.children].filter(arListpost);
+  // byt plats rakt av, så att radbrytningar och indrag ligger kvar där de var
+  const byt = (a, b) => { const m = a.ownerDocument.createComment(""); a.replaceWith(m); b.replaceWith(a); m.replaceWith(b); };
+  if (g === "upp") { const s = syskon(el, -1); if (s) byt(el, s); }
+  if (g === "ner") { const s = syskon(el, 1); if (s) byt(el, s); }
+  if (g === "kopiera") {
+    const k = el.cloneNode(true);
+    k.classList.remove("ed-markerad");
+    const mellan = el.previousSibling && el.previousSibling.nodeType === 3 ? el.previousSibling.cloneNode() : null;
+    el.after(k);
+    if (mellan) el.after(mellan);
+  }
+  if (g === "bort") {
+    if (poster.length <= 1) { alert("Den sista kan inte tas bort – ändra texten i stället."); return; }
+    if (!confirm("Ta bort det här?")) return;
+    if (el.previousSibling && el.previousSibling.nodeType === 3 && !el.previousSibling.nodeValue.trim()) el.previousSibling.remove();
+    el.remove();
+    ram.contentDocument.querySelector(".ed-listverktyg").hidden = true;
+    listpost = null;
+  }
+  satt_andrad();
+  if (listpost) hovra({ target: listpost });
+}
+
+function laggTillGalleribild(galleri) {
+  bildbank((sokvagar) => {
+    const forsta = [...galleri.children].find(arListpost);
+    if (!forsta) return;
+    let senast = null;
+    for (const sokvag of sokvagar) {
+      const ny = forsta.cloneNode(true);
+      ny.classList.remove("ed-markerad");
+      const src = djup(aktuell.sokvag) + sokvag;
+      const img = ny.querySelector("img"); if (img) { img.setAttribute("src", src); img.setAttribute("alt", ""); }
+      const a = ny.querySelector("a"); if (a) a.setAttribute("href", src);
+      const mellan = forsta.previousSibling && forsta.previousSibling.nodeType === 3 ? forsta.previousSibling.cloneNode() : null;
+      galleri.querySelector(".ed-laggtill").before(...(mellan ? [mellan, ny] : [ny]));
+      senast = img;
+    }
+    satt_andrad();
+    if (senast) valjBildElement(senast);
+  }, { flera: true });
+}
+
+/* ---------- bilder ---------- */
+
+function valjBildElement(img) {
+  if (valdBild) valdBild.classList.remove("ed-vald");
+  valdBild = img;
+  img.classList.add("ed-vald");
+  visaPanel();
+}
+
+function bytBild(img, sokvag) {
+  const gammal = img.getAttribute("src");
+  const ny = djup(aktuell.sokvag) + sokvag;
+  img.setAttribute("src", ny);
+  const a = img.parentElement && img.parentElement.closest("a");
+  if (a && a.getAttribute("href") === gammal) a.setAttribute("href", ny);
+  satt_andrad();
+  visaPanel();
+}
+
+/** Stora foton krymps och ALLA bilder ritas om, vilket tar bort GPS och annan metadata. */
+async function krymp(fil) {
+  if (fil.type === "image/gif") return fil;
+  const bmp = await createImageBitmap(fil);
+  const max = 1600, skala = Math.min(1, max / Math.max(bmp.width, bmp.height));
+  const c = document.createElement("canvas");
+  c.width = Math.round(bmp.width * skala); c.height = Math.round(bmp.height * skala);
+  c.getContext("2d").drawImage(bmp, 0, 0, c.width, c.height);
+  const typ = fil.type === "image/png" ? "image/png" : "image/jpeg";
+  const blob = await new Promise((r) => c.toBlob(r, typ, 0.84));
+  const namn = (fil.name || "bild").replace(/\.[^.]+$/, "") + (typ === "image/png" ? ".png" : ".jpg");
+  return new File([blob], namn, { type: typ });
+}
+async function laddaUpp(fil) {
+  toast("Laddar upp bilden …");
+  const ren = await krymp(fil);
+  const svar = await api("/api/bild", ren, { headers: { "X-Filnamn": encodeURIComponent(ren.name), "Content-Type": "application/octet-stream" } });
+  return svar.sokvag;
+}
+
+let bank = { svar: null, flera: false, valda: [] };
+async function bildbank(svar, { flera = false } = {}) {
+  bank = { svar, flera, valda: [] };
+  $("#bankTitel").textContent = flera ? "Välj bilder" : "Välj bild";
+  $("#bankHjalp").textContent = (flera ? "Klicka på bilderna du vill ha med, i den ordning de ska visas. " : "") +
+    "Nya bilder förminskas och rensas från platsinformation (GPS) innan de sparas.";
+  const bilder = await api("/api/bilder");
+  $("#bildrutnat").innerHTML = bilder.map((b) =>
+    `<button class="bildruta" data-s="${esc(b.sokvag)}"><img src="/${esc(b.sokvag)}" alt="" loading="lazy"><span>${esc(b.sokvag.slice(4))}</span></button>`).join("");
+  $$("#bildrutnat .bildruta").forEach((k) => k.onclick = () => {
+    if (!bank.flera) { $("#bildbank").close(); bank.svar && bank.svar(k.dataset.s); return; }
+    const i = bank.valda.indexOf(k.dataset.s);
+    if (i >= 0) bank.valda.splice(i, 1); else bank.valda.push(k.dataset.s);
+    k.classList.toggle("vald", i < 0);
+    visaBankKnapp();
+  });
+  visaBankKnapp();
+  $("#bildbank").showModal();
+}
+function visaBankKnapp() {
+  $("#bankKlar").hidden = !bank.flera;
+  $("#bankKlar").disabled = !bank.valda.length;
+  $("#bankKlar").textContent = bank.valda.length ? `Lägg in ${bank.valda.length} ${bank.valda.length === 1 ? "bild" : "bilder"}` : "Lägg in";
+}
+$("#bankKlar").onclick = () => { $("#bildbank").close(); bank.svar && bank.svar(bank.valda.slice()); };
+$("#laddaUpp").onclick = () => { $("#filval").multiple = bank.flera; $("#filval").click(); };
+$("#filval").onchange = async (e) => {
+  const filer = [...e.target.files]; e.target.value = "";
+  if (!filer.length) return;
+  try {
+    const vagar = [];
+    for (const f of filer) vagar.push(await laddaUpp(f));
+    $("#bildbank").close();
+    if (bank.svar) bank.svar(bank.flera ? [...bank.valda, ...vagar] : vagar[0]);
+  } catch (x) { alert("Kunde inte ladda upp: " + x.message); }
+};
+$$("[data-stang]").forEach((b) => b.onclick = () => b.closest("dialog").close());
+
+/* ================================================================ högerpanelen */
+
+function lasSidmeta(doc) {
+  const post = lista.inlagg.find((p) => aktuell && p.sokvag === aktuell.sokvag) || {};
+  sidmeta = {
+    titel: doc.title,
+    beskrivning: (doc.querySelector('meta[name="description"]') || {}).content || "",
+    serie: post.serie || "",
+  };
+}
+
+function falt(etikett, html, hjalp = "") {
+  return `<label class="falt"><span>${etikett}</span>${html}${hjalp ? `<small>${hjalp}</small>` : ""}</label>`;
+}
+
+function visaPanel() {
+  const p = $("#egenskaper");
+  const doc = ram.contentDocument;
+  if (!aktuell || !doc || !doc.body) { p.innerHTML = ""; return; }
+  let html = "";
+  const sida = lista.sidor.find((s) => s.sokvag === aktuell.sokvag);
+  const post = lista.inlagg.find((s) => s.sokvag === aktuell.sokvag);
+
+  if (valdBild && doc.contains(valdBild)) {
+    const omslag = valdBild.dataset.falt === "omslag";
+    const iText = !!valdBild.closest('[data-redigera="fri"]');
+    html += `<h2>${omslag ? "Omslagsbild" : "Bild"}</h2>
+      <img class="bildforhand" src="${esc(valdBild.src)}" alt="">
+      <div class="knapprad"><button class="knapp" id="pBytBild">Byt bild …</button>
+      ${omslag || iText ? `<button class="knapp fara" id="pTaBortBild">Ta bort</button>` : ""}</div>
+      <div style="margin-top:12px">${falt("Beskrivning av bilden", `<input id="pAlt" value="${esc(valdBild.getAttribute("alt") || "")}">`, "Läses upp för den som inte ser bilden, och visas om den inte laddas.")}</div><hr>`;
+  }
+
+  if (aktuell.typ === "inlagg") {
+    const h1 = doc.querySelector('[data-falt="titel"]'), tid = doc.querySelector('[data-falt="datum"]'), kat = doc.querySelector('[data-falt="kategori"]');
+    const datum = tid ? tid.getAttribute("datetime") : "";
+    const aktiv = post ? post.aktiv : true;
+    const serier = [...new Set(lista.inlagg.map((x) => x.serie).filter(Boolean))];
+    const kategorier = [...new Set(lista.inlagg.map((x) => x.kategori).filter(Boolean))];
+    html += `<h2>Inlägget</h2>
+      ${!aktiv ? `<div class="status-rad utkast">Utkast – syns inte på nätet. Klicka på ● i listan till vänster när det är klart.</div>`
+        : datum > IDAG ? `<div class="status-rad schema" id="pSchema">Schemalagt – visas på bloggen från ${esc(datum)}.</div>` : ""}
+      ${falt("Titel", `<input id="pTitel" value="${esc(h1 ? h1.textContent.trim() : "")}">`, "Du kan också skriva direkt i rubriken på sidan.")}
+      <div class="rad2">${falt("Datum", `<input id="pDatum" type="date" value="${esc(datum)}">`, "Ett datum framåt i tiden schemalägger inlägget.")}
+      ${falt("Kategori", `<input id="pKategori" list="pKategorier" value="${esc(kat ? kat.textContent.trim() : "")}"><datalist id="pKategorier">${kategorier.map((k) => `<option value="${esc(k)}">`).join("")}</datalist>`)}</div>
+      ${falt("Serie", `<input id="pSerie" list="pSerier" value="${esc(sidmeta.serie)}" placeholder="Ingen"><datalist id="pSerier">${serier.map((k) => `<option value="${esc(k)}">`).join("")}</datalist>`, "Inlägg med samma serie får en ruta med alla delar.")}
+      ${falt("Sammanfattning", `<textarea id="pBesk" rows="3">${esc(sidmeta.beskrivning)}</textarea>`, "Visas i blogglistan, i sökmotorer och när någon delar länken.")}
+      ${doc.querySelector('[data-falt="omslag"]') ? "" : `<button class="knapp ljus" id="pNyttOmslag" style="width:100%;margin-bottom:12px">+ Lägg till omslagsbild</button>`}
+      <hr><button class="knapp fara" id="pRadera" style="width:100%">Ta bort inlägget</button><hr>`;
+  } else {
+    html += `<h2>Sidan</h2>
+      ${sida && !sida.aktiv ? `<div class="status-rad utkast">Utkast – syns inte på nätet. Klicka på ● i listan till vänster för att göra sidan aktiv.</div>` : ""}
+      ${falt("Titel i webbläsarfliken", `<input id="pFlik" value="${esc(sidmeta.titel)}">`)}
+      ${falt("Beskrivning", `<textarea id="pSidbesk" rows="3">${esc(sidmeta.beskrivning)}</textarea>`, "Visas i sökmotorer och när någon delar länken.")}
+      ${sida && !sida.karna ? `<hr><button class="knapp fara" id="pRaderaSida" style="width:100%">Ta bort sidan</button>` : ""}<hr>`;
+  }
+
+  html += `<div class="hjalp">
+    <p><b>Text:</b> klicka och skriv. Skift+Enter ger en ny rad.</p>
+    ${doc.querySelector('[data-redigera="fri"]') ? "<p><b>Snabbkommandon:</b> skriv <b>/</b> i texten för rubrik, bild, galleri, video, fotnot med mera.</p>" : ""}
+    <p><b>Bilder:</b> klicka på en bild för att byta den.</p>
+    <p><b>Kort och listor:</b> för musen över dem för att flytta, kopiera eller ta bort.</p>
+    <p><b>Spara</b> med knappen uppe till höger eller Ctrl+S. Ingenting syns på nätet förrän du trycker <b>Publicera</b>.</p>
+  </div>`;
+  p.innerHTML = html;
+
+  // bild
+  if ($("#pBytBild")) $("#pBytBild").onclick = () => bildbank((s) => bytBild(valdBild, s));
+  if ($("#pAlt")) $("#pAlt").oninput = (e) => { valdBild.setAttribute("alt", e.target.value); satt_andrad(); };
+  if ($("#pTaBortBild")) $("#pTaBortBild").onclick = () => {
+    const fig = valdBild.closest("figure");
+    const i_galleri = valdBild.closest(".galleri");
+    (fig && fig.closest('[data-redigera="fri"]') ? fig : valdBild).remove();
+    if (i_galleri && !i_galleri.querySelector("img")) i_galleri.remove();
+    valdBild = null; satt_andrad(); visaPanel();
+  };
+  // inlägg
+  if ($("#pTitel")) {
+    $("#pTitel").oninput = (e) => { const h1 = doc.querySelector('[data-falt="titel"]'); if (h1) h1.textContent = e.target.value; satt_andrad(); };
+    $("#pDatum").oninput = (e) => {
+      const t = doc.querySelector('[data-falt="datum"]'); if (t) { t.setAttribute("datetime", e.target.value); t.textContent = e.target.value; }
+      satt_andrad();
+    };
+    $("#pKategori").oninput = (e) => { const k = doc.querySelector('[data-falt="kategori"]'); if (k) k.textContent = e.target.value; satt_andrad(); };
+    $("#pSerie").oninput = (e) => { sidmeta.serie = e.target.value; satt_andrad(); };
+    $("#pBesk").oninput = (e) => { sidmeta.beskrivning = e.target.value; satt_andrad(); };
+    $("#pRadera").onclick = raderaInlagg;
+    if ($("#pNyttOmslag")) $("#pNyttOmslag").onclick = () => bildbank((s) => {
+      const img = doc.createElement("img");
+      img.className = "inlaggsbild"; img.setAttribute("alt", ""); img.setAttribute("data-redigera", "bild"); img.setAttribute("data-falt", "omslag");
+      img.setAttribute("src", djup(aktuell.sokvag) + s);
+      const h1 = doc.querySelector('[data-falt="titel"]');
+      h1.before(img, doc.createTextNode("\n                "));
+      satt_andrad(); valjBildElement(img);
+    });
+  }
+  if ($("#pFlik")) {
+    $("#pFlik").oninput = (e) => { sidmeta.titel = e.target.value; satt_andrad(); };
+    $("#pSidbesk").oninput = (e) => { sidmeta.beskrivning = e.target.value; satt_andrad(); };
+  }
+  if ($("#pRaderaSida")) $("#pRaderaSida").onclick = raderaSida;
+}
+
+function synkaFranSidan(el) {
+  if (el && el.dataset && el.dataset.falt === "titel" && $("#pTitel")) $("#pTitel").value = el.textContent.trim();
+}
+
+/* ---------- ordräknare ---------- */
+
+function raknaOrd() {
+  const doc = ram.contentDocument;
+  const fri = doc && aktuell && ["sida", "inlagg"].includes(aktuell.typ) ? doc.querySelector('[data-redigera="fri"]') : null;
+  $("#ordrakning").hidden = !fri;
+  if (!fri) return;
+  const ord = (fri.textContent.match(/[\p{L}\p{N}]+/gu) || []).length;
+  $("#ordrakning").textContent = `${ord} ord · ${Math.max(1, Math.round(ord / 200))} min läsning`;
+}
+
+/* ================================================================ autosparning */
+
+let autoTimer = null;
+const autoNyckel = () => aktuell ? `redigeraren-osparat:${aktuell.sokvag}` : null;
+function omradet(doc) {
+  const a = doc.getElementById("header-container"), b = doc.getElementById("footer-container");
+  const delar = [];
+  for (let n = a && a.nextSibling; n && n !== b; n = n.nextSibling) {
+    if (n.nodeType === 1) delar.push(n.outerHTML);
+    else if (n.nodeType === 8) delar.push(`<!--${n.nodeValue}-->`);
+    else if (n.nodeType === 3) delar.push(esc(n.nodeValue));   // text ska aldrig kunna bli kod
+  }
+  return delar.join("");
+}
+function autospara() {
+  if (!aktuell || !["sida", "inlagg"].includes(aktuell.typ)) return;
+  clearTimeout(autoTimer);
+  autoTimer = setTimeout(() => {
+    const doc = ram.contentDocument;
+    if (!doc || !andrad) return;
+    try { localStorage.setItem(autoNyckel(), JSON.stringify({ html: omradet(doc), meta: sidmeta, tid: Date.now() })); } catch (e) {}
+  }, 700);
+}
+function glomAutospar() {
+  clearTimeout(autoTimer);
+  try { if (autoNyckel()) localStorage.removeItem(autoNyckel()); } catch (e) {}
+}
+function kollaAutospar() {
+  let s = null;
+  try { s = JSON.parse(localStorage.getItem(autoNyckel()) || "null"); } catch (e) {}
+  $("#aterstall").hidden = !s;
+  if (!s) return;
+  const d = new Date(s.tid);
+  $("#aterstallText").textContent = `Det finns osparade ändringar på den här sidan från ${d.toLocaleDateString("sv-SE") === IDAG ? "i dag" : d.toLocaleDateString("sv-SE")} kl ${d.toTimeString().slice(0, 5)}.`;
+  $("#aterstallJa").onclick = () => {
+    const doc = ram.contentDocument;
+    const a = doc.getElementById("header-container"), b = doc.getElementById("footer-container");
+    for (let n = a.nextSibling; n && n !== b; ) { const nasta = n.nextSibling; n.remove(); n = nasta; }
+    const mall = doc.createElement("template"); mall.innerHTML = s.html;   // en mall kör inga skript
+    b.before(mall.content);
+    sidmeta = Object.assign(sidmeta, s.meta || {});
+    $("#aterstall").hidden = true;
+    forbered(doc);
+    satt_andrad(true);
+  };
+  $("#aterstallNej").onclick = () => { glomAutospar(); $("#aterstall").hidden = true; };
+}
+
+/* ================================================================ spara */
+
+const INLINE = new Set(["strong", "em", "a", "br", "code", "i", "sup"]);
+const BLOCK = new Set(["p", "h2", "h3", "ul", "ol", "li", "blockquote", "figure", "figcaption", "img", "hr", "div"]);
+const SLANG = new Set(["script", "style", "noscript", "template", "iframe", "object", "embed", "svg", "math", "head", "title", "meta", "link", "form", "input", "button", "select", "textarea"]);
+const BLOCKTAGG = ["ul", "ol", "p", "h2", "h3", "blockquote", "figure", "hr", "div"];
+
+/** Bygger om innehållet med bara tillåtna taggar och attribut. Allt annat blir text. */
+function rensaNod(kalla, mal, fri) {
+  const doc = mal.ownerDocument;
+  for (const n of [...kalla.childNodes]) {
+    if (n.nodeType === 3) { mal.append(doc.createTextNode(n.nodeValue.replace(/​/g, ""))); continue; }
+    if (n.nodeType !== 1) continue;
+    let tag = n.tagName.toLowerCase();
+    if (n.classList.contains("ed-listverktyg") || n.classList.contains("ed-laggtill") || n.classList.contains("tillbaka")) continue;
+    // video och karta: byggs om från grunden, bara från tillåtna adresser
+    if (fri && tag === "div" && n.classList.contains("inbaddning")) {
+      const f = n.querySelector("iframe"), src = f && f.getAttribute("src");
+      if (src && TILLATNA_INBADDNINGAR.some((r) => r.test(src))) {
+        mal.append(nyInbaddning(doc, { typ: n.classList.contains("karta") ? "karta" : "video", src, titel: n.classList.contains("karta") ? "Karta" : "Video" }));
+      }
+      continue;
+    }
+    if (SLANG.has(tag)) continue;                           // tas bort helt, med innehåll
+    if (tag === "b") tag = "strong";
+    if (tag === "i" && !/(^|\s)fa[srb]?(\s|$)|fa-/.test(n.className)) tag = "em";
+    if (tag === "sup" && !n.classList.contains("fotnot")) { rensaNod(n, mal, fri); continue; }
+    if (fri && tag === "div" && !n.classList.contains("galleri")) tag = "p";
+    if (fri && (tag === "h1" || tag === "h4" || tag === "h5" || tag === "h6")) tag = "h3";
+    const tillaten = INLINE.has(tag) || (fri && BLOCK.has(tag));
+    if (!tillaten) { rensaNod(n, mal, fri); continue; }     // packa upp: behåll texten, släng taggen
+    const ny = doc.createElement(tag);
+    if (tag === "a") {
+      const h = sakerHref(n.getAttribute("href")); if (!h) { rensaNod(n, mal, fri); continue; }
+      ny.setAttribute("href", h);
+      if (/^https?:/i.test(h)) { ny.setAttribute("target", "_blank"); ny.setAttribute("rel", "noopener noreferrer"); }
+    }
+    if (tag === "i") { ny.className = n.className.split(/\s+/).filter((c) => /^[\w-]+$/.test(c) && !c.startsWith("ed-")).join(" "); ny.setAttribute("aria-hidden", "true"); }
+    if (tag === "img") {
+      const s = sakerSrc(n.getAttribute("src")); if (!s) continue;
+      ny.setAttribute("class", "inlaggsbild"); ny.setAttribute("src", s); ny.setAttribute("alt", n.getAttribute("alt") || ""); ny.setAttribute("data-redigera", "bild");
+    }
+    if (tag === "sup") { ny.className = "fotnot"; ny.textContent = n.textContent.replace(/​/g, ""); mal.append(ny); continue; }
+    if (tag === "div") ny.className = "galleri";
+    if (tag === "ol" && n.classList.contains("fotnoter")) ny.className = "fotnoter";
+    if (tag === "figcaption") ny.className = "bildtext";
+    if (tag === "p" && n.classList.contains("signature")) ny.className = "signature";
+    if (!["i", "img", "hr"].includes(tag)) rensaNod(n, ny, fri);
+    if (tag === "figcaption" && !ny.textContent.trim()) continue;
+    mal.append(ny);
+  }
+}
+
+function rensaText(el) {
+  const tom = el.ownerDocument.createElement(el.tagName);
+  rensaNod(el, tom, false);
+  el.replaceChildren(...tom.childNodes);
+  if (el.innerHTML === "<br>") el.innerHTML = "";
+}
+
+/** Ett stycke eller en rubrik får inte innehålla listor eller andra stycken – dela upp dem. */
+function platta(behallare) {
+  const doc = behallare.ownerDocument;
+  for (const el of [...behallare.children]) {
+    const tag = el.tagName.toLowerCase();
+    if (["p", "h2", "h3"].includes(tag) && el.querySelector(BLOCKTAGG.join(","))) {
+      const ut = [];
+      let lop = null;
+      for (const n of [...el.childNodes]) {
+        if (n.nodeType === 1 && BLOCKTAGG.includes(n.tagName.toLowerCase())) { lop = null; ut.push(n); continue; }
+        if (!lop) { lop = doc.createElement(tag); ut.push(lop); }
+        lop.append(n);
+      }
+      el.replaceWith(...ut);
+      return platta(behallare);   // börja om, det kan finnas fler nivåer
+    }
+  }
+  behallare.querySelectorAll("p, h2, h3, li, blockquote").forEach((e) => {
+    if (!e.textContent.trim() && !e.querySelector("img")) e.remove();
+  });
+  behallare.querySelectorAll("ul, ol").forEach((e) => { if (!e.querySelector("li")) e.remove(); });
+  behallare.querySelectorAll("div.galleri").forEach((e) => { if (!e.querySelector("img")) e.remove(); });
+  // fotnoterna samlas sist och numreras i ordning
+  const noter = [...behallare.querySelectorAll("ol.fotnoter")];
+  if (noter.length) {
+    const forsta = noter[0];
+    noter.slice(1).forEach((o) => { forsta.append(...o.childNodes); o.remove(); });
+    behallare.append(forsta);
+  }
+  behallare.querySelectorAll("sup.fotnot").forEach((s, i) => s.textContent = String(i + 1));
+}
+
+function rensaFri(el) {
+  const doc = el.ownerDocument;
+  const tom = doc.createElement("div");
+  rensaNod(el, tom, true);
+  // lös text direkt i rutan läggs i stycken
+  const block = [];
+  let lost = null;
+  for (const n of [...tom.childNodes]) {
+    const arBlock = n.nodeType === 1 && BLOCKTAGG.includes(n.tagName.toLowerCase());
+    if (arBlock) { lost = null; block.push(n); continue; }
+    if (n.nodeType === 3 && !n.nodeValue.trim() && !lost) continue;
+    if (!lost) { lost = doc.createElement("p"); block.push(lost); }
+    lost.append(n);
+  }
+  const tom2 = doc.createElement("div");
+  tom2.append(...block);
+  platta(tom2);
+  const ind = "\n                    ";
+  const ut = [];
+  [...tom2.children].forEach((b, i) => { ut.push(doc.createTextNode(i ? "\n" + ind : ind)); ut.push(b); });
+  ut.push(doc.createTextNode("\n                "));
+  el.replaceChildren(...ut);
+}
+
+function sattMeta(src, attr, namn, varde) {
+  let m = src.head.querySelector(`meta[${attr}="${namn}"]`);
+  if (!varde) { if (m) { if (m.previousSibling && m.previousSibling.nodeType === 3) m.previousSibling.remove(); m.remove(); } return; }
+  if (!m) {
+    m = src.createElement("meta"); m.setAttribute(attr, namn);
+    const efter = src.head.querySelector('meta[name="description"]') || src.head.lastElementChild;
+    const delningar = [...src.head.querySelectorAll('meta[property^="og:"], meta[name^="twitter:"]')];
+    (delningar.pop() || efter).after(src.createTextNode("\n    "), m);
+  }
+  m.setAttribute("content", varde);
+}
+
+/** Tar det redigerade innehållet från sidan och bygger en ren HTML-fil av originalet. */
+async function byggSida() {
+  const live = ram.contentDocument;
+  const kalla = (await api("/api/fil?sokvag=" + encodeURIComponent(aktuell.sokvag))).innehall;
+  const src = new DOMParser().parseFromString(kalla, "text/html");
+  const [ls, le, ss, se] = [live.getElementById("header-container"), live.getElementById("footer-container"),
+                            src.getElementById("header-container"), src.getElementById("footer-container")];
+  if (!ls || !le || !ss || !se) throw new Error("Sidan saknar header-container eller footer-container och kan inte sparas här.");
+
+  const delar = [];
+  for (let n = ls.nextSibling; n && n !== le; n = n.nextSibling) delar.push(src.importNode(n, true));
+  const behallare = src.createElement("div");
+  behallare.append(...delar);
+
+  // delar som skript fyller i ska sparas som de var i filen
+  const dynLive = [...behallare.querySelectorAll("[data-dynamisk]")].filter((e) => !e.parentElement.closest("[data-dynamisk]"));
+  const dynKalla = [...src.querySelectorAll("[data-dynamisk]")].filter((e) => !e.parentElement.closest("[data-dynamisk]"));
+  if (dynLive.length !== dynKalla.length) throw new Error("Sidans struktur stämmer inte med filen. Ladda om och försök igen.");
+  dynLive.forEach((e, i) => e.replaceWith(dynKalla[i].cloneNode(true)));
+
+  // det som skript lagt till på sidan när den visades
+  behallare.querySelectorAll(".ed-listverktyg, .ed-laggtill, .serie, nav.innehall").forEach((e) => {
+    if (e.matches(".serie, nav.innehall") && e.closest("[data-redigera]")) return;
+    e.remove();
+  });
+  behallare.querySelectorAll("*").forEach((e) => {
+    e.removeAttribute("contenteditable"); e.removeAttribute("spellcheck"); e.removeAttribute("style");
+    [...e.attributes].filter((a) => a.name.startsWith("data-ed")).forEach((a) => e.removeAttribute(a.name));
+    if (e.classList.length) { [...e.classList].filter((c) => c.startsWith("ed-") || c === "zoombar").forEach((c) => e.classList.remove(c)); if (!e.classList.length) e.removeAttribute("class"); }
+  });
+  // id:n som blog.js satte på rubriker och fotnoter
+  behallare.querySelectorAll(".inlaggstext h2[id], .inlaggstext h3[id], ol.fotnoter li[id]").forEach((e) => e.removeAttribute("id"));
+  behallare.querySelectorAll('[data-redigera="text"]').forEach(rensaText);
+  behallare.querySelectorAll('[data-redigera="fri"]').forEach(rensaFri);
+  behallare.querySelectorAll('img[data-redigera="bild"]').forEach((img) => {
+    const s = sakerSrc(img.getAttribute("src")); if (s) img.setAttribute("src", s); else img.remove();
+  });
+
+  for (let n = ss.nextSibling; n && n !== se; ) { const nasta = n.nextSibling; n.remove(); n = nasta; }
+  se.before(...behallare.childNodes);
+
+  // titel och beskrivning
+  let titel = sidmeta.titel;
+  const arInlagg = aktuell.typ === "inlagg";
+  if (arInlagg) {
+    const h1 = src.querySelector('[data-falt="titel"]');
+    titel = (h1 ? h1.textContent.trim() : "Inlägg") + " – Dennis Bengtsson";
+  }
+  if (titel) src.title = titel;
+  const m = src.querySelector('meta[name="description"]');
+  if (m) m.setAttribute("content", sidmeta.beskrivning || "");
+
+  // delningsbild och text när någon delar länken
+  const bas = lista.adress || "https://dennisbengtsson.github.io";
+  const sidadress = new URL(aktuell.sokvag === "index.html" ? "" : aktuell.sokvag, bas + "/").href;
+  const forstaBild = src.querySelector('[data-falt="omslag"]') || src.querySelector(".content img[data-redigera='bild']");
+  const bild = forstaBild ? new URL(forstaBild.getAttribute("src"), sidadress).href : bas + "/img/profile.jpg";
+  sattMeta(src, "property", "og:type", arInlagg ? "article" : "website");
+  sattMeta(src, "property", "og:site_name", "Dennis Bengtsson");
+  sattMeta(src, "property", "og:locale", "sv_SE");
+  sattMeta(src, "property", "og:title", (titel || "").replace(/ – Dennis Bengtsson$/, ""));
+  sattMeta(src, "property", "og:description", sidmeta.beskrivning || "");
+  sattMeta(src, "property", "og:url", sidadress);
+  sattMeta(src, "property", "og:image", bild);
+  sattMeta(src, "name", "twitter:card", "summary_large_image");
+
+  // säkerhetsregeln: video och karta behöver ett undantag, annars inget
+  const csp = src.querySelector('meta[http-equiv="Content-Security-Policy"]');
+  let cspAndrad = false;
+  if (csp) {
+    const fore = csp.getAttribute("content");
+    const regler = fore.split(";").map((r) => r.trim()).filter((r) => r && !r.startsWith("frame-src"));
+    if (src.querySelector(".inbaddning iframe")) regler.splice(Math.max(0, regler.findIndex((r) => r.startsWith("object-src"))), 0, FRAME_SRC);
+    const efter = regler.join("; ");
+    if (efter.replace(/\s+/g, " ") !== fore.replace(/\s+/g, " ").trim().replace(/;$/, "")) { csp.setAttribute("content", efter); cspAndrad = true; }
+  }
+
+  const html = ("<!DOCTYPE html>\n" + src.documentElement.outerHTML)
+    .replace(/<html([^>]*)><head>/, "<html$1>\n<head>")
+    .replace(/ (data-lista|data-dynamisk|data-galleri|allowfullscreen)=""/g, " $1")
+    .replace(/\s*<\/body>\s*<\/html>\s*$/, "\n</body>\n</html>\n");
+  return { src, html, cspAndrad };
+}
+
+async function spara() {
+  if (formSpara) return formSpara();
+  if (!aktuell || !andrad) return true;
+  $("#spara").disabled = true;
+  $("#status").textContent = "Sparar …";
+  try {
+    const { src, html, cspAndrad } = await byggSida();
+    const kropp = { filer: [{ sokvag: aktuell.sokvag, innehall: html }] };
+    if (aktuell.typ === "inlagg") {
+      const h1 = src.querySelector('[data-falt="titel"]'), tid = src.querySelector('[data-falt="datum"]');
+      const kat = src.querySelector('[data-falt="kategori"]'), oms = src.querySelector('[data-falt="omslag"]');
+      kropp.inlagg = {
+        sokvag: aktuell.sokvag,
+        title: h1 ? h1.textContent.trim() : "",
+        date: tid ? tid.getAttribute("datetime") : "",
+        category: kat ? kat.textContent.trim() : "",
+        description: sidmeta.beskrivning || "",
+        image: oms ? oms.getAttribute("src").replace(/^(\.\.\/)+/, "") : "",
+        serie: sidmeta.serie || "",
+      };
+    }
+    await api("/api/spara", kropp);
+    satt_andrad(false);
+    $("#status").textContent = "Sparat ✓";
+    setTimeout(() => { if (!andrad) $("#status").textContent = ""; }, 2500);
+    await laddaLista();
+    if (cspAndrad) { nyssOppnad = false; ram.src = "/" + aktuell.sokvag + "?r=" + Date.now(); }   // så att video och karta syns
+    else visaPanel();
+    return true;
+  } catch (e) {
+    $("#spara").disabled = false;
+    $("#status").textContent = "";
+    alert("Kunde inte spara: " + e.message);
+    return false;
+  }
+}
+$("#spara").onclick = spara;
+
+/* ================================================================ sidor och inlägg */
+
+$("#nySida").onclick = async () => {
+  if (!(await fragaOmAndringar())) return;
+  $("#nyTitel").value = "";
+  $("#nyMall").innerHTML = `<option value="">Tom textsida</option>` +
+    lista.sidor.filter((s) => s.sokvag !== "sok.html").map((s) => `<option value="${esc(s.sokvag)}">Kopia av ${esc(s.namn)}</option>`).join("");
+  $("#nysidadialog").showModal();
+  $("#nyTitel").focus();
+};
+$("#nySkapa").onclick = async () => {
+  const titel = $("#nyTitel").value.trim();
+  if (!titel) { $("#nyTitel").focus(); return; }
+  try {
+    const { sokvag } = await api("/api/ny-sida", { titel, kopiaAv: $("#nyMall").value || undefined });
+    $("#nysidadialog").close();
+    await laddaLista();
+    andrad = false;
+    oppna("sida", sokvag);
+    toast("Sidan är skapad som utkast");
+  } catch (e) { alert(e.message); }
+};
+$("#nyTitel").addEventListener("keydown", (e) => { if (e.key === "Enter") $("#nySkapa").click(); });
+
+async function raderaSida() {
+  const namn = namnFor("sida", aktuell.sokvag) || aktuell.sokvag;
+  if (!confirm(`Ta bort sidan "${namn}"?\n\nEn kopia sparas i _redigerare/historik.`)) return;
+  try {
+    await api("/api/radera-sida", { sokvag: aktuell.sokvag });
+    satt_andrad(false);
+    await laddaLista();
+    oppna("sida", "index.html");
+    toast("Sidan är borttagen");
+  } catch (e) { alert(e.message); }
+}
+
+$("#nyttInlagg").onclick = async () => {
+  if (!(await fragaOmAndringar())) return;
+  const titel = prompt("Vad ska inlägget heta?");
+  if (!titel) return;
+  try {
+    const { sokvag } = await api("/api/nytt-inlagg", { titel });
+    await laddaLista();
+    andrad = false;
+    oppna("inlagg", sokvag);
+    toast("Inlägget är skapat som utkast – skriv, spara, och klicka på ● när det ska publiceras");
+  } catch (e) { alert(e.message); }
+};
+
+async function raderaInlagg() {
+  const titel = $("#pTitel") ? $("#pTitel").value : aktuell.sokvag;
+  if (!confirm(`Ta bort inlägget "${titel}"?\n\nEn kopia sparas i _redigerare/historik.`)) return;
+  try {
+    await api("/api/radera-sida", { sokvag: aktuell.sokvag });
+    satt_andrad(false);
+    await laddaLista();
+    oppna("sida", "blog.html");
+    toast("Inlägget är borttaget");
+  } catch (e) { alert(e.message); }
+}
+
+/* ================================================================ versionshistorik */
+
+let valdVersion = null;
+$("#historikKnapp").onclick = async () => {
+  if (!aktuell) return;
+  if (!(await fragaOmAndringar())) return;
+  const versioner = await api("/api/historik?sokvag=" + encodeURIComponent(aktuell.sokvag));
+  valdVersion = null;
+  $("#histAterstall").disabled = true;
+  $("#histram").removeAttribute("src");
+  $("#histlista").innerHTML = versioner.length ? versioner.map((v) => {
+    const [d, t] = v.tid.split(" ");
+    return `<button data-namn="${esc(v.namn)}">${+d.slice(8, 10)} ${MANADER[+d.slice(5, 7) - 1]} ${d.slice(0, 4)}<small>kl ${t} · ${Math.round(v.storlek / 1024 * 10) / 10} kB</small></button>`;
+  }).join("") : '<p style="color:var(--dov);font-size:13px;padding:8px">Inga tidigare versioner än. Varje gång du sparar läggs den förra versionen här.</p>';
+  $$("#histlista button").forEach((b) => b.onclick = () => {
+    $$("#histlista button").forEach((x) => x.classList.toggle("vald", x === b));
+    valdVersion = b.dataset.namn;
+    $("#histram").src = "/_redigerare/version/" + encodeURIComponent(valdVersion);
+    $("#histAterstall").disabled = false;
+  });
+  $("#histdialog").showModal();
+};
+$("#histAterstall").onclick = async () => {
+  if (!valdVersion || !confirm("Återställa den här versionen? Den nuvarande sparas också i historiken, så du kan ångra.")) return;
+  try {
+    await api("/api/aterstall", { namn: valdVersion, sokvag: aktuell.sokvag });
+    $("#histdialog").close();
+    toast("Versionen är återställd");
+    andrad = false;
+    await laddaLista();
+    oppna(aktuell.typ, aktuell.sokvag);
+  } catch (e) { alert(e.message); }
+};
+
+/* ================================================================ formulär: uppgifter, loppis, statistik */
+
+async function visaForm(typ) {
+  aktuell = { typ, sokvag: { uppgifter: "data.json", loppis: "data/products.json", statistik: "" }[typ] };
+  valdBild = null; formSpara = null;
+  satt_andrad(false, { behallAutospar: true });
+  markeraVald();
+  visaRedigerare(false);
+  $("#sidnamn").textContent = { uppgifter: "Uppgifter och meny", loppis: "Loppisens varor", statistik: "Statistik" }[typ];
+  if (typ === "statistik") return formStatistik();
+  const data = JSON.parse((await api("/api/fil?sokvag=" + aktuell.sokvag)).innehall);
+  if (typ === "uppgifter") formUppgifter(data); else formLoppis(data);
+}
+$$("#meny .vy").forEach((b) => b.onclick = async () => { if (await fragaOmAndringar()) visaForm(b.dataset.vy); });
+
+function formUppgifter(d) {
+  const v = $("#formvy");
+  const sidor = lista.sidor.filter((s) => s.aktiv);
+  v.innerHTML = `<div>
+    <h1>Uppgifter och meny</h1>
+    <p class="ingress">Det här visas i sidopanelen, i sidfoten och på kontaktsidan, på alla sidor.</p>
+    <div class="kort">
+      <div class="rad2">${falt("Namn", `<input data-k="name">`)}${falt("Ort / adress", `<input data-k="address">`)}</div>
+      ${falt("Text under profilbilden", `<input data-k="description">`)}
+      <div class="rad2">${falt("E-post", `<input data-k="email">`, "Lämna tomt för att dölja den på kontaktsidan.")}${falt("Telefon", `<input data-k="phone">`, "Lämna tomt för att dölja. Länken för att ringa skapas automatiskt.")}</div>
+      <label class="falt"><span>Profilbild</span><div style="display:flex;gap:12px;align-items:center"><div class="tumme" id="profilTumme"><button type="button" id="profilByt">Byt</button></div></div></label>
+    </div>
+    <h2>Sociala länkar</h2>
+    <div class="kort"><div class="rad2">
+      ${falt("Instagram", `<input data-k="instagram" placeholder="https://">`)}${falt("LinkedIn", `<input data-k="linkedin" placeholder="https://">`)}
+      ${falt("Goodreads", `<input data-k="goodreads" placeholder="https://">`)}${falt("Telegram", `<input data-k="telegram" placeholder="https://">`)}
+    </div><small style="color:var(--dov)">Bara adresser som börjar med https:// används. Lämna tomt för att dölja länken.</small></div>
+    <h2>Menyn</h2>
+    <div class="kort"><div id="menyrader"></div><button type="button" class="knapp ljus" id="nyMenyrad">+ Lägg till menyval</button>
+      <p style="color:var(--dov);font-size:12px;margin:10px 0 0">Du kan också slå på och av ☰ vid sidorna i listan till vänster. Bara aktiva sidor kan ligga i menyn.</p></div>
+    <h2>Nyheter på startsidan</h2>
+    <div class="kort">${falt("RSS-flöden, en adress per rad", `<textarea data-k="nyhetsfloden" rows="3" placeholder="https://exempel.se/feed"></textarea>`,
+      "Tomt = ingen nyhetsdel. Nyheterna hämtas via tjänsten rss2json, som då ser besökarens IP-adress.")}</div>
+    <div class="sparrad"><button class="knapp" id="formSparaKnapp">Spara uppgifterna</button><span id="formStatus"></span></div>
+  </div>`;
+  $$("[data-k]", v).forEach((f) => {
+    const k = f.dataset.k;
+    f.value = k === "nyhetsfloden" ? (d.nyhetsfloden || []).join("\n") : (d[k] || "");
+    f.oninput = () => satt_andrad();
+  });
+  let profil = (d.sidebar && d.sidebar.profileImagePath) || "img/profile.jpg";
+  const visaProfil = () => $("#profilTumme").style.backgroundImage = `url("/${profil}")`;
+  visaProfil();
+  $("#profilByt").onclick = () => bildbank((s) => { profil = s; visaProfil(); satt_andrad(); });
+
+  let meny = (d.menu || []).map((m) => ({ ...m }));
+  const ritaMeny = () => {
+    $("#menyrader").innerHTML = meny.map((m, i) => `<div class="menyrad">
+      <input value="${esc(m.label)}" data-i="${i}" data-f="label" placeholder="Text i menyn">
+      <select data-i="${i}" data-f="url">${sidor.map((s) => `<option value="${esc(s.sokvag)}"${s.sokvag === m.url ? " selected" : ""}>${esc(s.namn)}</option>`).join("")}</select>
+      <button type="button" data-i="${i}" data-g="upp" title="Flytta upp">↑</button><button type="button" data-i="${i}" data-g="ner" title="Flytta ner">↓</button>
+      <button type="button" class="fara" data-i="${i}" data-g="bort" title="Ta bort">✕</button></div>`).join("");
+    $$("#menyrader [data-f]").forEach((f) => f.oninput = () => { meny[f.dataset.i][f.dataset.f] = f.value; satt_andrad(); });
+    $$("#menyrader [data-g]").forEach((b) => b.onclick = () => {
+      const i = +b.dataset.i;
+      if (b.dataset.g === "bort") meny.splice(i, 1);
+      if (b.dataset.g === "upp" && i > 0) [meny[i - 1], meny[i]] = [meny[i], meny[i - 1]];
+      if (b.dataset.g === "ner" && i < meny.length - 1) [meny[i + 1], meny[i]] = [meny[i], meny[i + 1]];
+      satt_andrad(); ritaMeny();
+    });
+  };
+  ritaMeny();
+  $("#nyMenyrad").onclick = () => {
+    const forsta = sidor.find((s) => !meny.some((m) => m.url === s.sokvag)) || sidor[0];
+    meny.push({ label: forsta.namn, url: forsta.sokvag }); satt_andrad(); ritaMeny();
+  };
+
+  formSpara = async () => {
+    const ut = { ...d };
+    $$("[data-k]", v).forEach((f) => { if (f.dataset.k !== "nyhetsfloden") ut[f.dataset.k] = f.value.trim(); });
+    for (const k of ["email", "phone", "address"]) if (ut[k] === "-") ut[k] = "";
+    const sifror = ut.phone.replace(/[^\d+]/g, "");
+    ut.phoneHref = sifror ? "tel:" + sifror : "";
+    ut.sidebar = { ...(d.sidebar || {}), profileImagePath: profil };
+    ut.menu = meny.filter((m) => m.label.trim()).map((m) => ({ label: m.label.trim(), url: m.url, dataPage: m.url.replace(/\.html$/, "") }));
+    ut.nyhetsfloden = $('[data-k="nyhetsfloden"]', v).value.split(/\s+/).map((s) => s.trim()).filter((s) => /^https:\/\//i.test(s));
+    for (const k of ["instagram", "linkedin", "goodreads", "telegram"]) {
+      if (ut[k] && !/^https:\/\//i.test(ut[k])) { alert(`Länken för ${k} måste börja med https://`); return false; }
+    }
+    try {
+      await api("/api/spara", { filer: [{ sokvag: "data.json", innehall: JSON.stringify(ut, null, 4) + "\n" }] });
+      satt_andrad(false); $("#formStatus").innerHTML = '<span class="ok">Sparat ✓</span>'; laddaLista();
+      return true;
+    } catch (e) { alert("Kunde inte spara: " + e.message); return false; }
+  };
+  $("#formSparaKnapp").onclick = () => formSpara();
+}
+
+function formLoppis(varor) {
+  const v = $("#formvy");
+  varor = varor.map((x) => ({ ...x }));
+  const rita = () => {
+    const kategorier = [...new Set(varor.map((x) => x.category).filter(Boolean))];
+    v.innerHTML = `<div>
+      <h1>Loppisens varor</h1>
+      <p class="ingress">Varorna visas på sidan Loppis. Filtren skapas av kategorierna.</p>
+      <datalist id="loppisKat">${kategorier.map((k) => `<option value="${esc(k)}">`).join("")}</datalist>
+      ${varor.map((x, i) => `<div class="kort varukort">
+        <div><div class="tumme" style="background-image:url('/${esc(x.image || "")}')"><button type="button" data-i="${i}" data-g="bild">${x.image ? "Byt" : "Lägg till"} bild</button></div></div>
+        <div>
+          <div class="rad2">${falt("Namn", `<input data-i="${i}" data-f="title" value="${esc(x.title)}">`)}
+          <div class="rad2">${falt("Pris (kr)", `<input data-i="${i}" data-f="price" type="number" min="0" value="${esc(x.price)}">`)}
+          ${falt("Status", `<select data-i="${i}" data-f="status"><option value="available"${x.status !== "sold" ? " selected" : ""}>Till salu</option><option value="sold"${x.status === "sold" ? " selected" : ""}>Såld</option></select>`)}</div></div>
+          ${falt("Kategori", `<input data-i="${i}" data-f="category" list="loppisKat" value="${esc(x.category)}">`)}
+          ${falt("Beskrivning", `<textarea data-i="${i}" data-f="description" rows="2">${esc(x.description)}</textarea>`)}
+          <div class="radverktyg"><button type="button" data-i="${i}" data-g="upp" title="Flytta upp">↑</button><button type="button" data-i="${i}" data-g="ner" title="Flytta ner">↓</button>
+          <button type="button" class="fara" data-i="${i}" data-g="bort" title="Ta bort">✕ Ta bort</button></div>
+        </div></div>`).join("")}
+      <button type="button" class="knapp ljus" id="nyVara">+ Lägg till vara</button>
+      <div class="sparrad"><button class="knapp" id="formSparaKnapp">Spara varorna</button><span id="formStatus"></span></div>
+    </div>`;
+    $$("[data-f]", v).forEach((f) => f.oninput = () => {
+      const x = varor[f.dataset.i];
+      x[f.dataset.f] = f.dataset.f === "price" ? (f.value === "" ? "" : Number(f.value)) : f.value;
+      satt_andrad();
+    });
+    $$("[data-g]", v).forEach((b) => b.onclick = () => {
+      const i = +b.dataset.i;
+      if (b.dataset.g === "bild") return bildbank((s) => { varor[i].image = s; satt_andrad(); rita(); });
+      if (b.dataset.g === "bort") { if (!confirm(`Ta bort "${varor[i].title || "varan"}"?`)) return; varor.splice(i, 1); }
+      if (b.dataset.g === "upp" && i > 0) [varor[i - 1], varor[i]] = [varor[i], varor[i - 1]];
+      if (b.dataset.g === "ner" && i < varor.length - 1) [varor[i + 1], varor[i]] = [varor[i], varor[i + 1]];
+      satt_andrad(); rita();
+    });
+    $("#nyVara").onclick = () => {
+      const id = Math.max(0, ...varor.map((x) => Number(x.id) || 0)) + 1;
+      varor.push({ id, title: "", description: "", price: "", category: kategorier[0] || "", image: "", status: "available" });
+      satt_andrad(); rita();
+      const sista = $$(".varukort", v).pop(); sista.scrollIntoView({ behavior: "smooth" }); sista.querySelector("input").focus();
+    };
+    $("#formSparaKnapp").onclick = () => formSpara();
+  };
+  rita();
+  formSpara = async () => {
+    const ut = varor.map((x) => ({ ...x, title: String(x.title || "").trim(), category: String(x.category || "").trim() }));
+    if (ut.some((x) => !x.title)) { alert("Alla varor behöver ett namn."); return false; }
+    try {
+      await api("/api/spara", { filer: [{ sokvag: "data/products.json", innehall: JSON.stringify(ut, null, 2) + "\n" }] });
+      satt_andrad(false); $("#formStatus").innerHTML = '<span class="ok">Sparat ✓</span>'; laddaLista();
+      return true;
+    } catch (e) { alert("Kunde inte spara: " + e.message); return false; }
+  };
+}
+
+async function formStatistik() {
+  const v = $("#formvy");
+  v.innerHTML = "<div><h1>Statistik</h1><p class='ingress'>Räknar …</p></div>";
+  const poster = await api("/api/inlagg-alla");
+  const tal = (n) => n.toLocaleString("sv-SE");
+  // räkna orden i varje inlägg
+  for (const p of poster) {
+    try {
+      const html = (await api("/api/fil?sokvag=" + encodeURIComponent(p.link))).innehall;
+      const text = new DOMParser().parseFromString(html, "text/html").querySelector(".inlaggstext");
+      p.ord = text ? (text.textContent.match(/[\p{L}\p{N}]+/gu) || []).length : 0;
+    } catch (e) { p.ord = 0; }
+  }
+  const pub = poster.filter((p) => p.aktiv && String(p.date) <= IDAG);
+  const utkast = poster.filter((p) => !p.aktiv).length;
+  const schema = poster.filter((p) => p.aktiv && String(p.date) > IDAG).length;
+  if (!pub.length) { v.innerHTML = "<div><h1>Statistik</h1><p class='ingress'>Publicera ditt första inlägg, så dyker siffrorna upp här.</p></div>"; return; }
+  const ord = pub.reduce((s, p) => s + p.ord, 0);
+  const perAr = {};
+  pub.forEach((p) => { const a = String(p.date).slice(0, 4); perAr[a] = perAr[a] || [0, 0]; perAr[a][0]++; perAr[a][1] += p.ord; });
+  const ar = Object.entries(perAr).sort((a, b) => b[0].localeCompare(a[0]));
+  const maxAr = Math.max(...ar.map((a) => a[1][1]), 1);
+  const nu = new Date(), man = [];
+  for (let i = 11; i >= 0; i--) {
+    const d = new Date(nu.getFullYear(), nu.getMonth() - i, 1), k = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
+    man.push([pub.filter((p) => String(p.date).startsWith(k)).length, MANADER[d.getMonth()]]);
+  }
+  const maxMan = Math.max(1, ...man.map((m) => m[0]));
+  const grupper = (falt) => { const g = {}; pub.forEach((p) => p[falt] && (g[p[falt]] = (g[p[falt]] || 0) + 1)); return Object.entries(g).sort((a, b) => b[1] - a[1]); };
+  const kat = grupper("category"), serier = grupper("serie");
+  const maxKat = Math.max(1, ...kat.map((k) => k[1]));
+  const langst = pub.reduce((a, b) => (b.ord > a.ord ? b : a));
+  v.innerHTML = `<div>
+    <h1>Statistik</h1>
+    <p class="ingress">Publicerade inlägg, utan utkast och schemalagda.</p>
+    <div class="siffror">
+      <div><b>${tal(pub.length)}</b><span>publicerade inlägg</span></div>
+      <div><b>${tal(ord)}</b><span>ord totalt</span></div>
+      <div><b>${tal(Math.round(ord / pub.length))}</b><span>ord per inlägg i snitt</span></div>
+      <div><b>${tal(utkast)}</b><span>utkast</span></div>
+      <div><b>${tal(schema)}</b><span>schemalagda</span></div>
+    </div>
+    <h2>Senaste tolv månaderna</h2>
+    <div class="kort"><div class="manader">${man.map((m) => `<div><b>${m[0] || ""}</b><i style="height:${m[0] / maxMan * 100}%"></i><small>${m[1]}</small></div>`).join("")}</div></div>
+    <h2>Per år</h2>
+    <div class="kort">${ar.map(([a, [n, o]]) => `<div class="stapelrad"><span>${a}</span><span class="stapel"><i style="width:${o / maxAr * 100}%"></i></span><span class="tal">${n} inlägg · ${tal(o)} ord</span></div>`).join("")}</div>
+    ${kat.length ? `<h2>Kategorier</h2><div class="kort">${kat.map(([k, n]) => `<div class="stapelrad"><span>${esc(k)}</span><span class="stapel"><i style="width:${n / maxKat * 100}%"></i></span><span class="tal">${n} inlägg</span></div>`).join("")}</div>` : ""}
+    ${serier.length ? `<h2>Serier</h2><div class="kort">${serier.map(([k, n]) => `<div class="stapelrad"><span>${esc(k)}</span><span class="stapel"><i style="width:${n / Math.max(...serier.map((s) => s[1])) * 100}%"></i></span><span class="tal">${n} delar</span></div>`).join("")}</div>` : ""}
+    <h2>Lite till</h2>
+    <div class="kort" style="color:var(--dov)">
+      <p style="margin:0 0 6px">Längsta inlägget: <b style="color:var(--text)">${esc(langst.title)}</b>, ${tal(langst.ord)} ord.</p>
+      <p style="margin:0">Första inlägget publicerades ${esc(pub.map((p) => String(p.date)).sort()[0])}.</p>
+    </div>
+  </div>`;
+}
+
+/* ================================================================ publicera och säkerhetskopia */
+
+$("#publicera").onclick = async () => {
+  if (!(await fragaOmAndringar())) return;
+  const inne = $("#pubinne");
+  inne.innerHTML = "<p>Kollar vad som ändrats …</p>";
+  $("#pubdialog").showModal();
+  const g = await api("/api/git").catch((e) => ({ finns: false, orsak: e.message }));
+  if (!g.finns) {
+    inne.innerHTML = `<p class="felrad">Kan inte publicera härifrån.</p><p>${esc(g.orsak || "")}</p>
+      <p>Dina ändringar är sparade i mappen. Öppna <b>GitHub Desktop</b>, skriv en kort beskrivning och tryck <b>Commit</b> och sedan <b>Push origin</b>.</p>`;
+    return;
+  }
+  if (!g.andringar.length) {
+    inne.innerHTML = `<p class="ok">Allt är redan publicerat.</p><p>Har du nyss publicerat tar det någon minut innan sidan på nätet uppdateras.</p>`;
+    return;
+  }
+  inne.innerHTML = `<p>De här filerna har ändrats:</p>
+    <ul class="filer">${g.andringar.map((f) => `<li>${esc(f)}</li>`).join("")}</ul>
+    ${falt("Kort beskrivning av ändringen", `<input id="pubMedd" value="Uppdaterat hemsidan">`)}
+    <div class="knapprad"><button class="knapp" id="pubKor" style="background:#3f8f5a">Publicera nu</button></div>
+    <div id="pubResultat"></div>`;
+  $("#pubKor").onclick = async () => {
+    $("#pubKor").disabled = true;
+    $("#pubResultat").innerHTML = "<p>Skickar till GitHub … det kan ta en halv minut.</p>";
+    try {
+      const r = await api("/api/publicera", { meddelande: $("#pubMedd").value });
+      $("#pubResultat").innerHTML = r.ok
+        ? `<p class="ok">Publicerat! Sidan på nätet uppdateras inom någon minut.</p><pre class="logg">${esc(r.logg)}</pre>`
+        : `<p class="felrad">Det gick inte att skicka upp ändringarna.</p><pre class="logg">${esc(r.logg)}</pre>
+           <p>Ändringarna är sparade i mappen. Öppna <b>GitHub Desktop</b> och tryck <b>Push origin</b>, så skickas de upp därifrån.</p>`;
+    } catch (e) {
+      $("#pubResultat").innerHTML = `<p class="felrad">${esc(e.message)}</p>`;
+    }
+    $("#pubKor").disabled = false;
+    laddaLista();
+  };
+};
+
+$("#sakerhetskopia").onclick = async () => {
+  toast("Packar ihop hemsidan …");
+  try {
+    const blob = await api("/api/sakerhetskopia", undefined, { blob: true });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = `hemsidan-${IDAG}.zip`;
+    document.body.append(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 5000);
+  } catch (e) { alert("Kunde inte skapa säkerhetskopian: " + e.message); }
+};
+
+/* ================================================================ lägen och kortkommandon */
+
+function fokus(pa = !document.body.classList.contains("fokus")) {
+  document.body.classList.toggle("fokus", pa);
+  $("#fokusKnapp").classList.toggle("pa", pa);
+  if (pa) toast("Fokusläge – tryck Esc för att gå ur");
+}
+$("#fokusKnapp").onclick = () => fokus();
+
+$$("#enhet button").forEach((b) => b.onclick = () => {
+  $$("#enhet button").forEach((x) => x.classList.toggle("vald", x === b));
+  $("#scen").classList.toggle("mobil", b.dataset.v === "mobil");
+});
+$$("#lage button").forEach((b) => b.onclick = () => {
+  lage = b.dataset.v;
+  $$("#lage button").forEach((x) => x.classList.toggle("vald", x === b));
+  if (valdBild) { valdBild.classList.remove("ed-vald"); valdBild = null; }
+  stangSned();
+  if (ram.contentDocument) forbered(ram.contentDocument);
+});
+document.addEventListener("keydown", (e) => {
+  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "s") { e.preventDefault(); spara(); }
+  if (e.key === "Escape" && document.body.classList.contains("fokus") && !document.querySelector("dialog[open]")) fokus(false);
+});
+addEventListener("beforeunload", (e) => { if (andrad) { e.preventDefault(); e.returnValue = ""; } });
+
+laddaLista().then(() => oppna("sida", "index.html")).catch((e) => {
+  document.body.innerHTML = `<p style="padding:40px;font:16px sans-serif">Kunde inte starta redigeraren: ${esc(e.message)}</p>`;
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
+    <meta name="referrer" content="no-referrer">
+    <title>Färdig med utbildningen – Dennis Bengtsson</title>
+    <meta name="description" content="Och ett glädjande besked">
+    <link rel="stylesheet" href="../vendor/bootstrap-4.6.2/bootstrap.min.css">
+    <link rel="stylesheet" href="../vendor/fontawesome-6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="../css/opensans.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div class="wrapper">
+        <div id="sidebar-container"></div>
+
+        <div class="content">
+            <div id="header-container"></div>
+
+            <!-- Sidrubrik -->
+            <div class="container py-2 px-2 bg-primary mb-4 shadow-sm rounded-bottom">
+                <div class="row py-3 px-4">
+                    <div class="col-sm-6 text-center text-md-left">
+                        <h1 class="mb-3 mb-md-0 text-white text-uppercase font-weight-bold sidrubrik" data-redigera="text">Blogg</h1>
+                    </div>
+                    <div class="col-sm-6 text-center text-md-right">
+                        <nav class="d-inline-flex pt-2" aria-label="Du är här">
+                            <h4 class="m-0 text-white brodsmula"><a class="text-white" href="../index.html">Hem</a></h4>
+                            <h4 class="m-0 text-white px-2 brodsmula" aria-hidden="true">/</h4>
+                            <h4 class="m-0 text-white brodsmula"><a class="text-white" href="../blog.html">Blogg</a></h4>
+                            <h4 class="m-0 text-white px-2 brodsmula" aria-hidden="true">/</h4>
+                            <h4 class="m-0 text-white brodsmula">Inlägg</h4>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Inlägget -->
+            <article class="container bg-white p-4 p-lg-5 shadow-sm rounded mb-5">
+                <img class="inlaggsbild" src="../img/tårta.jpg" alt="Tårta med texten Grattis Dennis" data-redigera="bild" data-falt="omslag">
+                <h1 class="mb-2 font-weight-bold" data-redigera="text" data-falt="titel">Färdig med utbildningen</h1>
+                <div class="d-flex mb-4">
+                    <small class="mr-3 text-muted"><i class="fa fa-calendar-alt" aria-hidden="true"></i> <time datetime="2025-06-02" data-falt="datum">2025-06-02</time></small>
+                    <small class="mr-2 text-muted"><i class="fa fa-folder" aria-hidden="true"></i> <span data-falt="kategori">Utbildning</span></small>
+                </div>
+
+                <div class="inlaggstext" data-redigera="fri">
+<p>Fick B i betyg raktigenom. Har inte öppnat min lärlingsbok som betongare än. Får ta tag i det snarast. Nu är det korta kapitlet med Klippans vuxenutbildning över.<br>
+                    Blev även ett glädjande besked, en fortsatt anställd på MTA som snickare!</p>
+                </div>
+
+                <nav class="inlaggsnavigering" aria-label="Fler inlägg" data-dynamisk>
+                    <a class="btn btn-sm btn-outline-primary" href="../blog.html"><i class="fa fa-angle-left" aria-hidden="true"></i> Tillbaka till bloggen</a>
+                    <div>
+                        <a class="btn btn-sm btn-outline-primary prev-post">Föregående inlägg</a>
+                        <a class="btn btn-sm btn-outline-primary next-post">Nästa inlägg</a>
+                    </div>
+                </nav>
+            </article>
+
+            <div id="footer-container"></div>
+        </div>
+    </div>
+
+    <a href="#" class="back-to-top" aria-label="Till toppen"><i class="fa fa-angle-double-up" aria-hidden="true"></i></a>
+
+    <script src="../vendor/jquery-3.7.1.min.js"></script>
+    <script src="../vendor/bootstrap-4.6.2/bootstrap.bundle.min.js"></script>
+    <script src="../js/main.js"></script>
+    <script src="../js/blog.js"></script>
+    <script src="../js/lightbox.js"></script>
+</body>
+</html>

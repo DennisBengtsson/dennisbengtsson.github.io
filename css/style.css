@@ -1,0 +1,507 @@
+@charset "UTF-8";
+/*
+ * Dennis Bengtsson – stilmall
+ * Läses efter Bootstrap 4.6. Alla sidans egna stilar finns här
+ * (inga inline-stilar i HTML, så att säkerhetsregeln kan vara strikt).
+ *
+ * 0. Variabler och grund      5. Sidrubrik
+ * 1. Kort och knappar         6. Blogg
+ * 2. Bootstrap-anpassningar   7. Om mig
+ * 3. Layout och sidopanel     8. Bildgalleri och ljuslåda
+ * 4. Till toppen-knapp        9. Loppis
+ *                            10. Nyhetskarusell
+ */
+
+/* ---------- 0. Variabler och grund ---------- */
+:root {
+    --primary: #2A4B7C;       /* standardblå */
+    --primary-dark: #1e365b;  /* hover */
+    --secondary: #202C45;     /* mörkblå: meny, sidfot */
+    --accent: #4a90e2;
+    --light: #f4f6f9;         /* sidans bakgrund */
+    --white: #ffffff;
+    --text-color: #555555;
+    --heading-color: #1a1a1a;
+
+    --shadow-sm: 0 2px 8px rgba(0,0,0,0.05);
+    --shadow-card: 0 10px 25px rgba(0,0,0,0.06);
+    --shadow-hover: 0 15px 35px rgba(0,0,0,0.1);
+}
+
+body {
+    color: var(--text-color);
+    background-color: var(--light);
+    font-family: "Open Sans", sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: var(--heading-color);
+    font-weight: 700;
+}
+
+h3 {
+    font-size: 1.5em;
+    margin-bottom: 15px;
+    color: var(--secondary);
+}
+
+a {
+    color: var(--primary);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+a:hover {
+    color: var(--secondary);
+    text-decoration: none;
+}
+
+.bildtext {
+    display: block;
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    font-style: italic;
+    color: #6c757d;
+    text-align: center;
+}
+
+.email-address {
+    word-wrap: break-word;
+    word-break: break-word;
+    font-weight: 600;
+    color: var(--primary);
+}
+
+
+/* ---------- 1. Kort och knappar ---------- */
+.hero-section {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    color: var(--white);
+    padding: 3rem 1rem;
+    border-radius: 0 0 20px 20px;
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 3rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-title {
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.hero-underrubrik { opacity: 0.8; }
+
+.content-box {
+    background: var(--white);
+    border-radius: 12px;
+    box-shadow: var(--shadow-card);
+    padding: 3rem;
+    border: none;
+    margin-bottom: 3rem;
+}
+
+.feature-card {
+    background: var(--white);
+    border: 1px solid rgba(0,0,0,0.03);
+    border-radius: 12px;
+    padding: 2.5rem 1.5rem;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+    height: 100%;
+    position: relative;
+    top: 0;
+}
+.feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-hover);
+    border-color: transparent;
+}
+.feature-card i {
+    color: var(--primary);
+    background: rgba(42, 75, 124, 0.08);
+    width: 80px;
+    height: 80px;
+    line-height: 80px;
+    border-radius: 50%;
+    display: inline-block;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    transition: all 0.3s ease;
+}
+.feature-card:hover i {
+    background: var(--primary);
+    color: var(--white);
+}
+
+
+/* ---------- 2. Bootstrap-anpassningar ---------- */
+.text-primary   { color: var(--primary) !important; }
+.text-secondary { color: var(--secondary) !important; }
+.bg-primary     { background-color: var(--primary) !important; }
+.bg-secondary   { background-color: var(--secondary) !important; }
+.bg-light       { background-color: var(--light) !important; }
+.border-primary   { border-color: var(--primary) !important; }
+.border-secondary { border-color: var(--secondary) !important; }
+
+.btn-primary {
+    color: #fff;
+    background-color: var(--primary);
+    border-color: var(--primary);
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.btn-primary:hover {
+    background-color: var(--primary-dark);
+    border-color: var(--secondary);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.btn-secondary {
+    color: #fff;
+    background-color: var(--secondary);
+    border-color: var(--secondary);
+    border-radius: 6px;
+}
+.btn-secondary:hover {
+    background-color: #151d2e;
+    border-color: #101622;
+}
+
+
+/* ---------- 3. Layout och sidopanel ---------- */
+.wrapper {
+    position: relative;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 1200px;
+}
+
+.wrapper .sidebar {
+    position: relative;
+    width: 100%;
+    float: left;
+    padding: 30px;
+    background: var(--white);
+    transition: margin 200ms ease-out;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.05);
+}
+
+.wrapper .content {
+    position: relative;
+    width: 100%;
+    padding: 15px;
+    float: left;
+    background: var(--light);
+    transition: margin 200ms ease-out;
+    min-height: 100vh;
+}
+
+.wrapper .sidebar-icon {
+    display: none;
+    margin-right: -18px;
+    visibility: hidden;
+    height: 0 !important;
+}
+
+@media (min-width: 768px) {
+    .wrapper .content {
+        padding: 40px;
+        width: calc(100% - 50px);
+        margin-left: 50px;
+        float: right;
+    }
+
+    .wrapper .sidebar {
+        position: fixed;
+        width: 350px;
+        height: 100%;
+        margin-left: -300px;
+        float: left;
+        overflow: auto;
+        scrollbar-width: thin;
+        scrollbar-color: #cbd5e0 #f1f1f1;
+        z-index: 9;
+        border-right: 1px solid #eee;
+    }
+
+    .wrapper .sidebar:hover { margin-left: 0; box-shadow: 5px 0 15px rgba(0,0,0,0.1); }
+    .wrapper .sidebar-text { display: none; }
+    .wrapper .sidebar-icon { display: flex; }
+
+    .wrapper .sidebar::-webkit-scrollbar { width: 6px; }
+    .wrapper .sidebar::-webkit-scrollbar-track { background: #f1f1f1; }
+    .wrapper .sidebar::-webkit-scrollbar-thumb { background-color: #cbd5e0; border-radius: 10px; }
+}
+
+/* surfplatta: sidopanelen fälls ut när man för musen över den */
+@media (min-width: 768px) and (max-width: 991.98px) {
+    .wrapper .sidebar { z-index: 99; }
+
+    .wrapper .sidebar-text,
+    .wrapper .sidebar:hover .sidebar-icon {
+        visibility: hidden;
+        height: 0 !important;
+    }
+
+    .wrapper .sidebar-icon,
+    .wrapper .sidebar:hover .sidebar-text {
+        visibility: visible;
+        height: 100% !important;
+    }
+}
+
+@media (min-width: 992px) {
+    .wrapper .sidebar { margin: 0; }
+    .wrapper .content {
+        width: calc(100% - 350px);
+        margin-left: 350px;
+    }
+}
+
+@media (max-width: 1140px) { .wrapper .content { padding: 30px; } }
+@media (max-width: 576px)  { .wrapper .content { padding: 15px; } }
+
+
+/* ---------- 4. Till toppen-knapp ---------- */
+.back-to-top {
+    position: fixed;
+    display: none;
+    background: var(--primary);
+    color: #ffffff;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    line-height: 50px;
+    font-size: 20px;
+    right: 30px;
+    bottom: 30px;
+    transition: all 0.3s ease;
+    z-index: 99;
+    border-radius: 50%;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    cursor: pointer;
+}
+.back-to-top:hover {
+    background: var(--secondary);
+    color: #ffffff;
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+}
+.back-to-top i { color: #ffffff; }
+
+
+/* ---------- 5. Sidrubrik (den blå listen överst på varje sida) ---------- */
+.sidrubrik   { font-size: 1.75rem; }
+.brodsmula   { font-size: 1.1rem; }
+
+
+/* ---------- 6. Blogg ---------- */
+.blog-item img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 4px; }
+.blog-item + .blog-item { border-top: 1px solid #eef1f5; padding-top: 3rem; }
+
+.inlaggsbild {
+    display: block;
+    max-width: 100%;
+    max-height: 70vh;
+    width: auto;
+    margin: 0 auto 1.5rem;
+    border-radius: 4px;
+}
+
+.inlaggstext h2 { font-size: 1.35rem; margin-top: 2rem; }
+.inlaggstext .signature { font-style: italic; }
+
+.inlaggsnavigering {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #eef1f5;
+}
+.inlaggsnavigering .disabled { pointer-events: none; opacity: .5; }
+
+
+/* ---------- 7. Om mig ---------- */
+.om-bild { max-height: 350px; width: auto; }
+
+.info-card {
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 1.5rem;
+    height: 100%;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.info-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.05);
+    border-color: var(--primary);
+}
+.info-card-icon {
+    font-size: 2rem;
+    color: var(--primary);
+    margin-bottom: 1rem;
+}
+
+.quote-box {
+    background-color: #fff;
+    border-left: 5px solid var(--primary);
+    padding: 2rem;
+    border-radius: 4px;
+    box-shadow: 0 0.125rem 0.25rem rgba(0,0,0,0.075);
+}
+.quote-text {
+    font-family: Georgia, serif;
+    font-size: 1.15rem;
+    font-style: italic;
+    color: #444;
+    line-height: 1.6;
+}
+.quote-bild { max-height: 120px; border: 3px solid white; }
+
+
+/* ---------- 8. Bildgalleri och ljuslåda ---------- */
+.image-gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding: 20px;
+}
+@media (max-width: 576px) {
+    .image-gallery { grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 0; }
+}
+
+.gallery-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+}
+.gallery-item:hover { transform: scale(1.05); }
+.gallery-item img { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; }
+
+#lightbox {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: none;
+    z-index: 1000;
+}
+#lightbox.oppen { display: block; }
+
+.lightbox-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+    cursor: pointer;
+}
+
+#lightbox-bild {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 90%;
+    max-height: 90%;
+    z-index: 1000;
+}
+
+#lightbox .close-icon,
+#lightbox .pil {
+    position: absolute;
+    z-index: 1001;
+    border: 0;
+    background: none;
+    color: white;
+    font-family: inherit;
+    cursor: pointer;
+    padding: .25rem .5rem;
+}
+#lightbox .close-icon { top: 20px; right: 20px; font-size: 24px; }
+#lightbox .pil { top: 50%; transform: translateY(-50%); font-size: 3em; line-height: 1; }
+#lightbox .pil.vanster { left: 20px; }
+#lightbox .pil.hoger { right: 20px; }
+
+#bild-nummer {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-size: 1.2em;
+    z-index: 1001;
+}
+
+
+/* ---------- 9. Loppis ---------- */
+.badge-primarfarg { color: var(--primary); font-weight: 600; }
+
+.produktetikett { position: absolute; top: 10px; right: 10px; z-index: 5; }
+.produktbild { height: 200px; overflow: hidden; background: #eee; }
+.produktbild img { width: 100%; height: 100%; object-fit: cover; }
+.produkt.sald .produktbild img { opacity: 0.6; }
+
+
+/* ---------- 10. Nyhetskarusell ---------- */
+.carousel-item { border-radius: 12px; overflow: hidden; }
+
+.nyhetskort { min-height: 400px; }
+.nyhetsbild { height: 250px; overflow: hidden; background-color: #333; }
+.nyhetsbild img { width: 100%; height: 100%; object-fit: cover; }
+
+
+/* ---------- 11. Inläggens extra delar ---------- */
+.inlaggstext img { max-width: 100%; height: auto; border-radius: 4px; }
+.inlaggstext figure { margin: 1.75rem 0; }
+.inlaggstext figure .inlaggsbild { margin-bottom: .25rem; }
+.inlaggstext hr { border: 0; text-align: center; margin: 2.5rem 0; overflow: visible; }
+.inlaggstext hr::after { content: "\2022  \2022  \2022"; color: #9aa4b2; letter-spacing: .4em; }
+.inlaggstext blockquote { margin: 1.5rem 0; padding: .25rem 0 .25rem 1.25rem; border-left: 4px solid var(--primary); color: #555; font-style: italic; }
+.zoombar { cursor: zoom-in; }
+
+/* flera bilder i rad */
+.inlaggstext .galleri { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; margin: 1.75rem 0; }
+.inlaggstext .galleri figure { margin: 0; }
+.inlaggstext .galleri img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; display: block; max-height: none; margin: 0; }
+.inlaggstext .galleri .bildtext { font-size: .8rem; }
+
+/* video och karta */
+.inbaddning { margin: 1.75rem 0; }
+.inbaddning iframe { display: block; width: 100%; border: 0; border-radius: 6px; background: #e9edf3; }
+.inbaddning.video iframe { aspect-ratio: 16 / 9; height: auto; }
+.inbaddning.karta iframe { height: 380px; }
+
+/* serie */
+.serie { margin: 0 0 1.75rem; padding: 1rem 1.25rem; background: var(--light); border-left: 4px solid var(--primary); border-radius: 4px; font-size: .95rem; }
+.serie p { margin: 0 0 .4rem; color: #6c757d; }
+.serie ol { margin: 0; padding-left: 1.3rem; }
+.serie li.nu { font-weight: 700; color: var(--heading-color); }
+
+/* innehållsförteckning */
+.innehall { margin: 0 0 1.75rem; padding: .8rem 1.25rem; border: 1px solid #e9ecef; border-radius: 8px; font-size: .95rem; }
+.innehall summary { cursor: pointer; font-weight: 700; color: var(--secondary); }
+.innehall ol { margin: .5rem 0 0; padding-left: 1.3rem; }
+.innehall .niva-3 { margin-left: 1rem; list-style: circle; }
+
+/* fotnoter */
+sup.fotnot { font-size: .7em; line-height: 0; }
+sup.fotnot a { padding: 0 .1em; font-weight: 700; }
+ol.fotnoter { margin-top: 2.5rem; padding-top: 1rem; padding-left: 1.3rem; border-top: 1px solid #e9ecef; font-size: .88rem; color: #6c757d; }
+ol.fotnoter li { margin: .3rem 0; scroll-margin-top: 1rem; }
+ol.fotnoter li:target { color: var(--heading-color); }
+ol.fotnoter .tillbaka { text-decoration: none; }
+
+
+/* ---------- 12. Sök ---------- */
+.sokfalt { width: 100%; padding: .75rem 1rem; border: 1px solid #ced4da; border-radius: 8px; font-size: 1.05rem; }
+.sokfalt:focus { outline: 0; border-color: var(--primary); box-shadow: 0 0 0 .2rem rgba(42, 75, 124, .2); }
+.sokinfo { color: #6c757d; font-size: .9rem; margin: .75rem 0 0; min-height: 1.4em; }
+.soktraff { padding: 1.1rem 0; border-top: 1px solid #eef1f5; }
+.soktraff mark { background: rgba(42, 75, 124, .15); color: inherit; padding: 0 .1em; border-radius: 2px; }

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
+    <meta name="referrer" content="no-referrer">
+    <title>Om mig – Dennis Bengtsson</title>
+    <meta name="description" content="Om Dennis Bengtsson, snickare och betongarbetare.">
+    <link rel="stylesheet" href="vendor/bootstrap-4.6.2/bootstrap.min.css">
+    <link rel="stylesheet" href="vendor/fontawesome-6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="css/opensans.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="wrapper">
+        <div id="sidebar-container"></div>
+
+        <div class="content">
+            <div id="header-container"></div>
+
+            <!-- Sidrubrik -->
+            <div class="container py-2 px-2 bg-primary mb-4 shadow-sm rounded-bottom">
+                <div class="row py-3 px-4">
+                    <div class="col-sm-6 text-center text-md-left">
+                        <h1 class="mb-3 mb-md-0 text-white text-uppercase font-weight-bold sidrubrik" data-redigera="text">Om Mig</h1>
+                    </div>
+                    <div class="col-sm-6 text-center text-md-right">
+                        <nav class="d-inline-flex pt-2" aria-label="Du är här">
+                            <h4 class="m-0 text-white brodsmula"><a class="text-white" href="index.html">Hem</a></h4>
+                            <h4 class="m-0 text-white px-2 brodsmula" aria-hidden="true">/</h4>
+                            <h4 class="m-0 text-white brodsmula">Om mig</h4>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Innehåll -->
+            <div class="container bg-white p-4 p-lg-5 shadow-sm rounded">
+
+                <!-- Intro och bild -->
+                <div class="row mb-5">
+                    <div class="col-lg-5 text-center mb-4 mb-lg-0">
+                        <figure class="m-0">
+                            <div class="d-inline-block p-1 border rounded shadow-sm">
+                                <img class="img-fluid rounded om-bild" data-redigera="bild" src="img/about.jpg" alt="Dennis och hans näst äldsta dotter på Kittelsenmuseet">
+                            </div>
+                            <figcaption class="bildtext" data-redigera="text">Näst äldsta dottern och jag på Kittelsenmuseet, Norge.</figcaption>
+                        </figure>
+                    </div>
+                    <div class="col-lg-7 d-flex flex-column justify-content-center">
+                        <h2 class="mb-3 font-weight-bold text-dark" data-redigera="text">Välkommen!</h2>
+                        <p class="lead text-dark" data-redigera="text">Jag är en snickare och familjefar bosatt i nordvästra Skåne.</p>
+                        <p class="text-secondary" data-redigera="text">Denna sida är en kort presentation av mig själv, min bakgrund, yrkesliv och engagemang i samhället.</p>
+                    </div>
+                </div>
+
+                <!-- Infokort -->
+                <div class="row mb-5" data-lista>
+                    <div class="col-md-4 mb-4 mb-md-0">
+                        <div class="info-card text-center text-md-left">
+                            <i class="fas fa-home info-card-icon" aria-hidden="true"></i>
+                            <h5 class="font-weight-bold text-uppercase mb-3" data-redigera="text">Bakgrund &amp; Familj</h5>
+                            <p class="text-secondary small mb-0" data-redigera="text">
+                                Född 1992 och uppvuxen i Hultsfred. Jag blev bror som 16-åring. 2022 flyttade jag till Skåne tillsammans med min fru och våra då tre döttrar. Nu har vi fyra döttrar.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4 mb-md-0">
+                        <div class="info-card text-center text-md-left">
+                            <i class="fas fa-user-check info-card-icon" aria-hidden="true"></i>
+                            <h5 class="font-weight-bold text-uppercase mb-3" data-redigera="text">Lynne</h5>
+                            <p class="text-secondary small mb-0" data-redigera="text">
+                                Som person är jag vänlig, reflekterande och arbetsam.
+                                <br>"Det är ingenting att be för. Bara spotta i nävarna och börja arbeta" är min generella inställning till livet.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="info-card text-center text-md-left">
+                            <i class="fas fa-tree info-card-icon" aria-hidden="true"></i>
+                            <h5 class="font-weight-bold text-uppercase mb-3" data-redigera="text">Fritid</h5>
+                            <p class="text-secondary small mb-0" data-redigera="text">
+                                Jag uppskattar naturen, gärna ihop med familjen. Att läsa något smalt på biblioteket. Slöjda är roligt. Att sitta ner och diskutera diverse ämnen med goda vänner över något starkt uppskattar jag mycket.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Citat -->
+                <div class="quote-box mb-5 bg-light">
+                    <div class="row align-items-center">
+                        <div class="col-md-9 mb-3 mb-md-0">
+                            <h4 class="text-dark font-weight-bold mb-2" data-redigera="text">Småländsk filosofi</h4>
+                            <p class="quote-text mb-0" data-redigera="text">
+                                "Sätter du en smålänning på en öde klippa i havet skaver han sig mätt,
+                                och giver du honom en get bliver han rik."
+                            </p>
+                        </div>
+                        <div class="col-md-3 text-center">
+                            <img src="img/strandad-man.svg" alt="Teckning av en mager, skäggig man som sitter på en klippa ute på havet" class="img-fluid rounded shadow-sm quote-bild" data-redigera="bild">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Yrke och engagemang -->
+                <div class="mb-2">
+                    <h3 class="mb-4 text-dark font-weight-bold" data-redigera="text">Yrke och Engagemang</h3>
+                    <div class="row" data-lista>
+                        <div class="col-md-6 mb-4">
+                            <div class="info-card">
+                                <div class="d-flex align-items-center mb-3">
+                                    <i class="fas fa-hammer fa-2x text-primary mr-3" aria-hidden="true"></i>
+                                    <h5 class="font-weight-bold text-uppercase m-0" data-redigera="text">Yrkesliv</h5>
+                                </div>
+                                <p class="text-secondary" data-redigera="text">
+                                    Jag är <strong>certifierad snickare</strong> och utbildad betongarbetare med erfarenhet av både små och stora projekt.
+                                </p>
+                                <p class="text-secondary mb-0" data-redigera="text"></p>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <div class="info-card">
+                                <div class="d-flex align-items-center mb-3">
+                                    <i class="fas fa-users fa-2x text-primary mr-3" aria-hidden="true"></i>
+                                    <h5 class="font-weight-bold text-uppercase m-0" data-redigera="text">Engagemang</h5>
+                                </div>
+                                <p class="text-secondary" data-redigera="text">
+                                    Lokalsamhället och demokratin är viktiga för mig. Rätten att få tycka, tänka och rösta fritt är en grundläggande princip som jag är redo att försvara.
+                                </p>
+                                <ul class="list-unstyled text-secondary pl-0 mb-3 small" data-lista>
+                                    <li class="mb-2" data-redigera="text"><i class="fas fa-check text-success mr-2" aria-hidden="true"></i><strong>Rösträknare:</strong> Tjänstgjort vid 5 val.</li>
+                                    <li class="mb-0" data-redigera="text"><i class="fas fa-check text-success mr-2" aria-hidden="true"></i><strong>Förtroendeuppdrag:</strong> Valnämndsordförande i kyrkoförsamlingen.</li>
+                                </ul>
+                                <p class="font-italic text-muted small mb-0 border-top pt-2" data-redigera="text">
+                                    "Svenska kyrkan är en plats för reflektion och gemenskap."
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div id="footer-container"></div>
+        </div>
+    </div>
+
+    <a href="#" class="back-to-top" aria-label="Till toppen"><i class="fa fa-angle-double-up" aria-hidden="true"></i></a>
+
+    <script src="vendor/jquery-3.7.1.min.js"></script>
+    <script src="vendor/bootstrap-4.6.2/bootstrap.bundle.min.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

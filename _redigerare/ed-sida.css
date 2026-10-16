@@ -1,0 +1,40 @@
+/* Läggs på sidan bara medan den visas i redigeraren. Syns aldrig på den publicerade sidan. */
+[data-ed-pa] [contenteditable="true"] { cursor: text; border-radius: 3px; transition: outline-color .15s; }
+[data-ed-pa] [contenteditable="true"]:hover { outline: 2px dashed rgba(42, 75, 124, .35); outline-offset: 3px; }
+[data-ed-pa] [contenteditable="true"]:focus { outline: 2px solid #2A4B7C; outline-offset: 3px; }
+[data-ed-pa] [contenteditable="true"]:empty::before { content: "Skriv här …"; color: #9aa4b2; }
+[data-ed-pa] .inlaggstext[contenteditable="true"] { min-height: 6rem; }
+
+[data-ed-pa] img[data-redigera="bild"] { cursor: pointer; }
+[data-ed-pa] img[data-redigera="bild"]:hover { outline: 3px dashed rgba(42, 75, 124, .55); outline-offset: 3px; }
+[data-ed-pa] img.ed-vald { outline: 3px solid #2A4B7C !important; outline-offset: 3px; }
+
+/* i redigeringsläget ska korten inte hoppa när man för musen över dem */
+[data-ed-pa] .info-card:hover, [data-ed-pa] .feature-card:hover, [data-ed-pa] .gallery-item:hover { transform: none; }
+[data-ed-pa] [data-dynamisk] { position: relative; }
+[data-ed-pa] [data-dynamisk]::after {
+  content: attr(data-ed-info); position: absolute; top: 6px; right: 8px; z-index: 5;
+  font: 600 11px/1.6 system-ui, sans-serif; color: #2A4B7C; background: rgba(255,255,255,.92);
+  border: 1px solid #c9d3e3; border-radius: 99px; padding: 1px 9px; pointer-events: none;
+}
+[data-ed-pa] [data-dynamisk]:not([data-ed-info])::after { display: none; }
+
+.ed-listverktyg {
+  position: absolute; z-index: 10000; display: flex; gap: 2px; padding: 3px;
+  background: #fff; border: 1px solid #c9d3e3; border-radius: 8px; box-shadow: 0 4px 14px rgba(20, 30, 50, .18);
+  font: 13px/1 system-ui, sans-serif;
+}
+.ed-listverktyg button {
+  border: 0; background: none; width: 28px; height: 26px; border-radius: 5px; cursor: pointer; color: #2A4B7C;
+  font: inherit; display: inline-flex; align-items: center; justify-content: center;
+}
+.ed-listverktyg button:hover { background: #eef2f8; }
+.ed-listverktyg button.fara:hover { background: #fdecec; color: #b42318; }
+.ed-markerad { outline: 2px dashed rgba(42, 75, 124, .5) !important; outline-offset: 4px; }
+
+.ed-laggtill {
+  display: flex; align-items: center; justify-content: center; gap: .5rem; min-height: 120px;
+  border: 2px dashed #c9d3e3; border-radius: 6px; background: #f7f9fc; color: #2A4B7C;
+  font: 600 14px system-ui, sans-serif; cursor: pointer;
+}
+.ed-laggtill:hover { border-color: #2A4B7C; background: #eef2f8; }

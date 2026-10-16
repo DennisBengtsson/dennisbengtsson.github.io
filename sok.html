@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
+    <meta name="referrer" content="no-referrer">
+    <title>Sök – Dennis Bengtsson</title>
+    <meta name="description" content="Sök bland inläggen och sidorna.">
+    <link rel="stylesheet" href="vendor/bootstrap-4.6.2/bootstrap.min.css">
+    <link rel="stylesheet" href="vendor/fontawesome-6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="css/opensans.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="wrapper">
+        <div id="sidebar-container"></div>
+
+        <div class="content">
+            <div id="header-container"></div>
+
+            <!-- Sidrubrik -->
+            <div class="container py-2 px-2 bg-primary mb-4 shadow-sm rounded-bottom">
+                <div class="row py-3 px-4">
+                    <div class="col-sm-6 text-center text-md-left">
+                        <h1 class="mb-3 mb-md-0 text-white text-uppercase font-weight-bold sidrubrik" data-redigera="text">Sök</h1>
+                    </div>
+                    <div class="col-sm-6 text-center text-md-right">
+                        <nav class="d-inline-flex pt-2" aria-label="Du är här">
+                            <h4 class="m-0 text-white brodsmula"><a class="text-white" href="index.html">Hem</a></h4>
+                            <h4 class="m-0 text-white px-2 brodsmula" aria-hidden="true">/</h4>
+                            <h4 class="m-0 text-white brodsmula">Sök</h4>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sök: fylls av js/sok.js -->
+            <div class="container bg-white p-4 p-lg-5 shadow-sm rounded mb-5">
+                <label class="sr-only" for="sokfalt">Sök</label>
+                <input type="search" id="sokfalt" class="sokfalt" placeholder="Sök efter ett ord …" autocomplete="off">
+                <p id="sokinfo" class="sokinfo" aria-live="polite" data-dynamisk></p>
+                <div id="sokresultat" data-dynamisk></div>
+            </div>
+
+            <div id="footer-container"></div>
+        </div>
+    </div>
+
+    <a href="#" class="back-to-top" aria-label="Till toppen"><i class="fa fa-angle-double-up" aria-hidden="true"></i></a>
+
+    <script src="vendor/jquery-3.7.1.min.js"></script>
+    <script src="vendor/bootstrap-4.6.2/bootstrap.bundle.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/sok.js"></script>
+</body>
+</html>

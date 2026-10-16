@@ -1,0 +1,8 @@
+# Redigerarens egna säkerhetskopior ska inte upp på GitHub
+_redigerare/historik/
+
+# Utkast (inaktiva sidor och inlägg) stannar på datorn – repot på GitHub är offentligt
+_utkast/
+
+__pycache__/
+*.tmp

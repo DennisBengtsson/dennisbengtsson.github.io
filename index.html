@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: https:; font-src 'self'; connect-src 'self' https://api.rss2json.com; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
+    <meta name="referrer" content="no-referrer">
+    <title>Dennis Bengtsson</title>
+    <meta name="description" content="Dennis Bengtsson – snickare och betongarbetare i nordvästra Skåne.">
+    <link rel="stylesheet" href="vendor/bootstrap-4.6.2/bootstrap.min.css">
+    <link rel="stylesheet" href="vendor/fontawesome-6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="css/opensans.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="wrapper">
+        <div id="sidebar-container"></div>
+
+        <div class="content">
+            <div id="header-container"></div>
+
+            <!-- Sidrubrik -->
+            <div class="container py-2 px-2 bg-primary mb-4 shadow-sm rounded-bottom">
+                <div class="row py-3 px-4">
+                    <div class="col-sm-6 text-center text-md-left">
+                        <h1 class="mb-3 mb-md-0 text-white text-uppercase font-weight-bold sidrubrik" data-redigera="text">Hem</h1>
+                    </div>
+                    <div class="col-sm-6 text-center text-md-right">
+                        <nav class="d-inline-flex pt-2" aria-label="Du är här">
+                            <h4 class="m-0 text-white brodsmula"><a class="text-white" href="index.html">Hem</a></h4>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Innehåll -->
+            <div class="container bg-white p-4 p-lg-5 shadow-sm rounded mb-5">
+
+                <div class="row mb-5 text-center">
+                    <div class="col-lg-8 mx-auto">
+                        <h1 class="display-4 mb-3" data-redigera="text">Välkommen</h1>
+                        <p class="lead text-muted" data-redigera="text">Yrkesarbetare som arbetar med betong och träkonstruktioner.</p>
+                    </div>
+                </div>
+
+                <div class="row text-center" data-lista>
+                    <div class="col-md-4 mb-4">
+                        <div class="p-4 border rounded h-100 bg-light">
+                            <i class="fa fa-hammer fa-3x mb-3 text-primary" aria-hidden="true"></i>
+                            <h4 class="font-weight-bold" data-redigera="text">Hantverk</h4>
+                            <p class="text-muted small" data-redigera="text">Trä och betong. 6 års yrkeserfarenhet som byggnadssnickare.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="p-4 border rounded h-100 bg-light">
+                            <i class="fa fa-clipboard-list fa-3x mb-3 text-primary" aria-hidden="true"></i>
+                            <h4 class="font-weight-bold" data-redigera="text">Erfarenheter</h4>
+                            <p class="text-muted small" data-redigera="text">Nybyggnation, tillbyggnad och renovering.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="p-4 border rounded h-100 bg-light">
+                            <i class="fa fa-layer-group fa-3x mb-3 text-primary" aria-hidden="true"></i>
+                            <h4 class="font-weight-bold" data-redigera="text">Utbildningar</h4>
+                            <p class="text-muted small" data-redigera="text">Lift, ställning 9m, heta arbeten, safe construction.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+                    <div class="col-12 text-center">
+                        <a class="btn btn-primary btn-lg px-5" href="about.html" data-redigera="text">Läs mer om mig</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Nyhetskarusell: fylls av js/feed.js om flöden finns i data.json, annars döljs den -->
+            <div id="page-content-container" class="mb-5" data-dynamisk>
+                <div id="news-carousel" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner" id="news-carousel-inner">
+                        <div class="carousel-item active">
+                            <div class="container py-5">
+                                <div class="row justify-content-center">
+                                    <div class="col-md-8 text-center">
+                                        <div class="spinner-border text-primary" role="status">
+                                            <span class="sr-only">Laddar …</span>
+                                        </div>
+                                        <p class="mt-2">Hämtar nyheter …</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a class="carousel-control-prev" href="#news-carousel" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Föregående</span>
+                    </a>
+                    <a class="carousel-control-next" href="#news-carousel" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Nästa</span>
+                    </a>
+                </div>
+            </div>
+
+            <div id="footer-container"></div>
+        </div>
+    </div>
+
+    <a href="#" class="back-to-top" aria-label="Till toppen"><i class="fa fa-angle-double-up" aria-hidden="true"></i></a>
+
+    <script src="vendor/jquery-3.7.1.min.js"></script>
+    <script src="vendor/bootstrap-4.6.2/bootstrap.bundle.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/feed.js"></script>
+</body>
+</html>
