@@ -319,6 +319,18 @@ def satt_menyval(sokvag, med, namn=None):
         skriv("data.json", json.dumps(d, ensure_ascii=False, indent=4) + "\n")
 
 
+def satt_menyordning(ordning):
+    """Ny ordning för menyn. Listan måste innehålla exakt samma menyval som nu, bara i en annan ordning."""
+    d = las_json("data.json", {})
+    meny = d.get("menu", [])
+    urls = [m.get("url") for m in meny]
+    if not isinstance(ordning, list) or sorted(map(str, ordning)) != sorted(map(str, urls)) or len(set(urls)) != len(urls):
+        raise ValueError("Menyn har ändrats under tiden. Ladda om redigeraren och försök igen.")
+    d["menu"] = [next(m for m in meny if m.get("url") == u) for u in ordning]
+    if d["menu"] != meny:
+        skriv("data.json", json.dumps(d, ensure_ascii=False, indent=4) + "\n")
+
+
 def satt_aktiv(sokvag, aktiv):
     if not SIDA.match(sokvag):
         raise ValueError("okänd sida")
@@ -522,6 +534,49 @@ def git_status():
     return {"finns": True, "andringar": filer}
 
 
+def sla_ihop_inlaggslistor():
+    """Under en rebase: båda sidor har ändrat json/blog_posts.json (t.ex. ett inlägg från telefonen
+    och ett från datorn). Behåll datorns lista och lägg till de inlägg som bara finns på GitHub."""
+    def version(nr):
+        kod, ut = git("show", f":{nr}:json/blog_posts.json")
+        if kod:
+            return []
+        try:
+            d = json.loads(ut)
+            return d if isinstance(d, list) else []
+        except ValueError:
+            return []
+    github, datorn = version(2), version(3)          # 2 = det som redan finns på GitHub, 3 = din ändring
+    kanda = {p.get("link") for p in datorn if isinstance(p, dict)}
+    nya = [p for p in github if isinstance(p, dict) and p.get("link") not in kanda]
+    with open(full("json/blog_posts.json"), "w", encoding="utf-8", newline="\n") as f:
+        f.write(json.dumps(nya + datorn, ensure_ascii=False, indent=2) + "\n")
+    git("add", "json/blog_posts.json")
+
+
+def hamta_fran_github():
+    """Hämtar det som publicerats någon annanstans (t.ex. inlägg från telefonen) och lägger
+    dina egna ändringar ovanpå. Returnerar (ok, logg)."""
+    kod, ut = git("pull", "--rebase", "--no-autostash")
+    if not kod:
+        return True, ut
+    pagar = lambda: any(os.path.isdir(os.path.join(ROT, ".git", d)) for d in ("rebase-merge", "rebase-apply"))
+    if not pagar():
+        return False, ut + "\n\nKunde inte hämta från GitHub. Är datorn ansluten till nätet?"
+    for _ in range(100):                              # en rebase kan stanna en gång per egen ändring
+        kod, konflikter = git("diff", "--name-only", "--diff-filter=U")
+        filer = {f.strip() for f in konflikter.splitlines() if f.strip()}
+        if not filer or filer != {"json/blog_posts.json"}:
+            break
+        sla_ihop_inlaggslistor()
+        kod, ut2 = git("-c", "core.editor=true", "rebase", "--continue")
+        if not kod:
+            return True, "Hämtade nya inlägg från GitHub och slog ihop dem med dina."
+    git("rebase", "--abort")
+    return False, (ut + "\n\nKunde inte slå ihop ändringarna från GitHub automatiskt. Ingenting är förlorat. "
+                   "Öppna mappen i GitHub Desktop eller VS Code och lös det där, eller be om hjälp.")
+
+
 def publicera(meddelande):
     meddelande = (meddelande or "").strip()[:200] or "Uppdaterat hemsidan"
     logg = []
@@ -530,9 +585,28 @@ def publicera(meddelande):
         logg.append(ut)
         if kod and not (steg[0] == "commit" and "nothing to commit" in ut):
             return {"ok": False, "logg": "\n".join(logg)}
+    ok, ut = hamta_fran_github()                      # inlägg från telefonen kan ha publicerats under tiden
+    logg.append(ut)
+    if not ok:
+        return {"ok": False, "logg": "\n".join(x for x in logg if x)}
     kod, ut = git("push")
     logg.append(ut)
     return {"ok": kod == 0, "logg": "\n".join(x for x in logg if x)}
+
+
+def hamta_vid_start():
+    """När redigeraren startar: hämta nya inlägg från GitHub, men bara om inget är ändrat här."""
+    try:
+        if not hitta_git() or not os.path.isdir(os.path.join(ROT, ".git")):
+            return
+        kod, ut = git("status", "--porcelain", tid=30)
+        if kod or ut.strip():
+            return
+        kod, ut = git("pull", "--ff-only", "-q", tid=60)
+        if not kod:
+            print("  Hämtade det senaste från GitHub (t.ex. inlägg från telefonen).\n")
+    except Exception:
+        pass
 
 
 # ------------------------------------------------------------------ server
@@ -589,7 +663,8 @@ class Hanterare(BaseHTTPRequestHandler):
                 innehall = innehall.replace("<head>", f'<head>\n    <base href="{mapp}">', 1)
                 return self.svara(200, innehall, "text/html; charset=utf-8")
             if vag == "/api/lista":
-                return self.svara(200, {"sidor": sidlista(), "inlagg": inlaggslista(), "git": git_status(), "adress": ADRESS})
+                return self.svara(200, {"sidor": sidlista(), "inlagg": inlaggslista(), "git": git_status(), "adress": ADRESS,
+                                        "meny": [{"namn": m.get("label", ""), "sokvag": m.get("url", "")} for m in menyn()]})
             if vag == "/api/fil":
                 sokvag = q.get("sokvag", "")
                 if not (SIDA.match(sokvag) or sokvag in DATAFILER or sokvag == f"{UTKAST}/blog_posts.json"):
@@ -657,6 +732,9 @@ class Hanterare(BaseHTTPRequestHandler):
                         raise ValueError("Gör sidan aktiv innan den läggs i menyn.")
                     satt_menyval(sokvag, bool(d["meny"]), d.get("namn"))
                 return self.svara(200, {"ok": True})
+            if vag == "/api/menyordning":
+                satt_menyordning(d.get("ordning"))
+                return self.svara(200, {"ok": True})
             if vag == "/api/ny-sida":
                 return self.svara(200, {"sokvag": ny_sida(d.get("titel"), d.get("kopiaAv"))})
             if vag == "/api/radera-sida":
@@ -678,6 +756,7 @@ class Hanterare(BaseHTTPRequestHandler):
 
 def main():
     # söksidan skapas första gången, så att den finns att lägga i menyn
+    hamta_vid_start()
     if not os.path.exists(var_finns("sok.html")):
         skriv("sok.html", soksida_html())
     server = ThreadingHTTPServer(("127.0.0.1", PORT), Hanterare)

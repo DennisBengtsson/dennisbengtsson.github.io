@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
+    <meta name="referrer" content="no-referrer">
+    <title>Husbyggare – Dennis Bengtsson</title>
+    <meta name="description" content="Väggtyper, U-värde och planritning – ett verktyg för att planera ett hus.">
+    <link rel="stylesheet" href="vendor/bootstrap-4.6.2/bootstrap.min.css">
+    <link rel="stylesheet" href="vendor/fontawesome-6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="css/opensans.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/husbyggare.css">
+</head>
+<body>
+    <div class="wrapper">
+        <div id="sidebar-container"></div>
+
+        <div class="content">
+            <div id="header-container"></div>
+
+            <!-- Sidrubrik -->
+            <div class="container py-2 px-2 bg-primary mb-4 shadow-sm rounded-bottom">
+                <div class="row py-3 px-4">
+                    <div class="col-sm-6 text-center text-md-left">
+                        <h1 class="mb-3 mb-md-0 text-white text-uppercase font-weight-bold sidrubrik" data-redigera="text">Husbyggare</h1>
+                    </div>
+                    <div class="col-sm-6 text-center text-md-right">
+                        <nav class="d-inline-flex pt-2" aria-label="Du är här">
+                            <h4 class="m-0 text-white brodsmula"><a class="text-white" href="index.html">Hem</a></h4>
+                            <h4 class="m-0 text-white px-2 brodsmula" aria-hidden="true">/</h4>
+                            <h4 class="m-0 text-white brodsmula">Husbyggare</h4>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Inledning (går att ändra i redigeraren) -->
+            <div class="container bg-white p-4 p-lg-5 shadow-sm rounded mb-4">
+                <div class="inlaggstext" data-redigera="fri">
+                    <p>Bygg upp väggar skikt för skikt och se tjocklek och U-värde direkt. Rita sedan huset i planritningen och få ytor, rum och öppningar uträknade.</p>
+                </div>
+            </div>
+
+            <!-- Husbyggaren: byggs av js/husbyggare.js. Sparas bara i din egen webbläsare. -->
+            <div class="container bg-white p-3 p-lg-4 shadow-sm rounded mb-5 hb" data-dynamisk>
+                <div class="hb-topp">
+                    <div class="hb-flikar" role="tablist">
+                        <button type="button" class="on" data-tab="w" role="tab">Väggtyper</button>
+                        <button type="button" data-tab="p" role="tab">Planritning</button>
+                    </div>
+                    <span class="hb-spacer"></span>
+                    <button type="button" data-gor="spara-fil" title="Ladda ner projektet som en fil">Spara projekt</button>
+                    <button type="button" data-gor="oppna-fil" title="Öppna en sparad projektfil">Öppna projekt</button>
+                    <button type="button" data-gor="nollstall">Nollställ</button>
+                    <input type="file" id="imp" accept=".json,application/json" hidden>
+                </div>
+
+                <!-- ==================== VÄGGTYPER ==================== -->
+                <div class="hb-sida on" id="page-w">
+                    <div class="hb-kolumner">
+                        <div>
+                            <div class="hb-kort hb-mb">
+                                <h2>Skiktuppbyggnad <span id="wtName" class="hb-pill"></span></h2>
+                                <div class="hb-tabellruta">
+                                    <table id="layers"><thead><tr>
+                                        <th class="hb-th-grip"></th><th>Skikt</th><th class="hb-th-typ">Typ</th>
+                                        <th class="hb-th-mm">mm</th><th class="hb-th-lam">λ W/mK</th><th class="hb-th-knappar"></th>
+                                    </tr></thead><tbody></tbody></table>
+                                </div>
+                                <div class="hb-rad hb-mt">
+                                    <button type="button" data-gor="nytt-skikt">+ Lägg till skikt</button>
+                                    <select id="preset" aria-label="Snabbval"><option value="">Snabbval…</option></select>
+                                </div>
+                            </div>
+                            <div class="hb-kort">
+                                <h2>Snitt genom väggen</h2>
+                                <div id="section" class="hb-snitt"></div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="hb-kort hb-mb">
+                                <h2>Sammanställning</h2>
+                                <div class="hb-stat"><span>Total tjocklek</span><b id="tot">—</b></div>
+                                <div class="hb-stat"><span>Varav isolering</span><b id="ins">—</b></div>
+                                <div class="hb-stat"><span>Antal skikt</span><b id="cnt">—</b></div>
+                                <div class="hb-mt">
+                                    <div class="hb-hint">U-värde (inkl. Rsi 0,13 + Rse 0,04)</div>
+                                    <div class="hb-stor" id="uval">—</div>
+                                    <div class="hb-hint" id="unote"></div>
+                                    <div id="eclass" class="hb-mt"></div>
+                                </div>
+                                <div class="hb-rad hb-mt">
+                                    <label class="hb-f">Reglar i stommen
+                                        <select id="studmode">
+                                            <option value="1">Ta hänsyn (λ-metod)</option>
+                                            <option value="0">Ignorera</option>
+                                        </select></label>
+                                </div>
+                                <div class="hb-hint">Förenklad beräkning enligt λ-värdesmetoden. Kontrollräkna mot BBR/isolerleverantör innan bygglov.</div>
+                                <div class="hb-rad hb-mt">
+                                    <button type="button" data-gor="kopiera-spec">Kopiera specifikation</button>
+                                    <button type="button" data-gor="exportera-snitt">Exportera snitt (SVG)</button>
+                                </div>
+                            </div>
+                            <div class="hb-kort">
+                                <h2>Bibliotek</h2>
+                                <ul class="hb-lib" id="lib"></ul>
+                                <div class="hb-rad hb-mt">
+                                    <button type="button" data-gor="ny-vagg">+ Ny väggtyp</button>
+                                    <button type="button" data-gor="duplicera">Duplicera</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ==================== PLANRITNING ==================== -->
+                <div class="hb-sida" id="page-p">
+                    <div class="hb-verktyg">
+                        <button type="button" id="t-wall" class="on" data-verktyg="wall">Rita vägg</button>
+                        <button type="button" id="t-open" data-verktyg="open">Fönster / dörr</button>
+                        <button type="button" id="t-tape" data-verktyg="tape">Måttband</button>
+                        <button type="button" id="t-sel" data-verktyg="sel">Välj / flytta</button>
+                        <button type="button" data-gor="angra" title="Ctrl+Z">Ångra</button>
+                        <button type="button" data-gor="gor-om" title="Ctrl+Y">Gör om</button>
+                        <button type="button" class="hb-fara" data-gor="rensa">Rensa</button>
+                    </div>
+                    <div class="hb-verktyg">
+                        <label class="hb-f">Snap
+                            <select id="snap">
+                                <option value="100">100 mm</option><option value="50">50 mm</option>
+                                <option value="600">600 mm (cc)</option><option value="10">10 mm</option>
+                            </select></label>
+                        <label class="hb-f">Zoom <input type="range" id="zoom" min="2" max="120" value="28"></label>
+                        <button type="button" data-gor="anpassa">Anpassa vy</button>
+                        <label class="hb-f"><input type="checkbox" id="showArea" checked> Visa kvm</label>
+                        <label class="hb-f"><input type="checkbox" id="draft"> Ritningsstil</label>
+                    </div>
+                    <div id="planwrap"><svg id="plan" width="900" height="620"></svg>
+                        <div id="angbox">
+                            <div class="hb-angrad">
+                                <label><span class="lb">Vinkel °</span><input type="number" id="angDeg" step="0.5"></label>
+                                <label><span class="lb">Längd mm</span><input type="number" id="angLen" step="10"></label>
+                            </div>
+                            <div class="hb-hint hb-mt-s">Enter placerar väggen · Esc stänger</div>
+                        </div>
+                        <div id="ctx"></div>
+                    </div>
+                    <div class="hb-hint hb-mt-s" id="planhint">
+                        Klicka för att sätta startpunkt, klicka igen för att avsluta väggen. Håll skift för låst horisontellt/vertikalt. Esc avbryter.
+                    </div>
+                    <p class="hb-hint hb-mobil">Planritningen fungerar bäst med mus på en dator.</p>
+
+                    <div class="hb-panelrutnat hb-mt">
+                        <div class="hb-kort">
+                            <h2>Aktiv väggtyp</h2>
+                            <select id="activeWall" class="hb-full" aria-label="Aktiv väggtyp"></select>
+                            <div class="hb-rad hb-mt">
+                                <label class="hb-f">Väggen ligger
+                                    <select id="just">
+                                        <option value="right" selected>Till höger om linjen</option>
+                                        <option value="mid">Centrerad på linjen</option>
+                                        <option value="left">Till vänster om linjen</option>
+                                    </select></label>
+                            </div>
+                            <div class="hb-hint">Ritar du huset medurs ligger väggen inåt med "till höger" — då är måtten du klickar in husets yttermått. Tryck J för att spegla den vägg du senast ritade.</div>
+                            <div class="hb-hint hb-mt-s" id="awinfo"></div>
+                        </div>
+
+                        <div class="hb-kort">
+                            <h2>Måttband</h2>
+                            <div class="hb-rad">
+                                <label class="hb-f">Mät från
+                                    <select id="tapeRef">
+                                        <option value="left">Vänstra sidan (utsida vid medurs)</option>
+                                        <option value="mid">Väggens mitt</option>
+                                        <option value="right" selected>Högra sidan (insida vid medurs)</option>
+                                    </select></label>
+                            </div>
+                            <div class="hb-hint">Sidorna räknas i väggens ritriktning. Klickar du på en vägg med måttbandet startar mätningen exakt på den valda ytan istället för där du råkade klicka.</div>
+                        </div>
+
+                        <div class="hb-kort">
+                            <h2>Öppning — M-mått</h2>
+                            <div class="hb-rad">
+                                <label class="hb-f">Typ
+                                    <select id="opType">
+                                        <option value="F">Fönster</option><option value="D">Dörr</option>
+                                    </select></label>
+                            </div>
+                            <div class="hb-rad">
+                                <label class="hb-f">Bredd <input type="number" id="opB" value="10" step="1"> M</label>
+                                <label class="hb-f">Höjd <input type="number" id="opH" value="13" step="1"> M</label>
+                            </div>
+                            <div class="hb-rad">
+                                <label class="hb-f">Bröstning <input type="number" id="opS" value="900" step="50"> mm</label>
+                            </div>
+                            <div class="hb-hint" id="opInfo"></div>
+                            <div class="hb-hint hb-mt-s">Karmyttermått = modulmått − 10 mm. Välj verktyget "Fönster / dörr" och klicka på en vägg för att placera.</div>
+                        </div>
+
+                        <div class="hb-kort">
+                            <h2>Sammanställning plan</h2>
+                            <div class="hb-stat"><span>Väggar</span><b id="nWalls">0</b></div>
+                            <div class="hb-stat"><span>Total väggmeter</span><b id="mWalls">0 m</b></div>
+                            <div class="hb-stat"><span>Öppningar</span><b id="nOps">0</b></div>
+                            <div class="hb-stat"><span>Utvändig yta</span><b id="aOuter">—</b></div>
+                            <div class="hb-stat"><span>Invändig yta</span><b id="aInner">—</b></div>
+                            <div class="hb-stat"><span>Varav väggar</span><b id="aWallArea">—</b></div>
+                            <div id="roomList" class="hb-mt-s"></div>
+                            <div class="hb-hint hb-mt-s">Utvändig yta mäts till fasadens utsida. Invändig yta är summan av de slutna rummen — dörr- och fönsteröppningar räknas inte som passager, så varje rum mäts för sig.</div>
+                            <div class="hb-rad hb-mt"><button type="button" data-gor="exportera-plan">Exportera plan (SVG)</button></div>
+                        </div>
+
+                        <div class="hb-kort">
+                            <h2>Öppningar i planen</h2>
+                            <div id="opList" class="hb-hint">Inga öppningar än.</div>
+                        </div>
+                    </div>
+                </div>
+                <p class="hb-hint hb-mt">Allt sparas automatiskt i din egen webbläsare. Ingenting skickas någonstans. Använd "Spara projekt" för att ta med det till en annan dator.</p>
+            </div>
+
+            <div id="footer-container"></div>
+        </div>
+    </div>
+
+    <a href="#" class="back-to-top" aria-label="Till toppen"><i class="fa fa-angle-double-up" aria-hidden="true"></i></a>
+
+    <script src="vendor/jquery-3.7.1.min.js"></script>
+    <script src="vendor/bootstrap-4.6.2/bootstrap.bundle.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/husbyggare.js"></script>
+</body>
+</html>

@@ -80,4 +80,5 @@
     falt.addEventListener("input", sok);
     const m = location.search.match(/[?&]q=([^&]*)/);
     if (m) { falt.value = decodeURIComponent(m[1].replace(/\+/g, " ")); sok(); }
+    else falt.focus({ preventScroll: true });     // man kom hit via förstoringsglaset: börja skriva direkt
 })();

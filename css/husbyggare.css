@@ -1,0 +1,115 @@
+/*
+ * husbyggare.css – Husbyggaren (husbyggare.html), i hemsidans färger.
+ * Allt ligger under .hb så att resten av sidan inte påverkas.
+ */
+.hb {
+    --ink: #1a1a1a; --ink2: #555; --ink3: #6c757d;
+    --paper: #f4f6f9; --card: #fff; --line: #dfe3ea; --line2: #c5ccd8;
+    --accent: var(--primary, #2A4B7C); --accent-bg: #e6edf6;
+    --r: 6px;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--ink);
+    container-type: inline-size;
+}
+
+.hb button { font: inherit; font-size: 13px; padding: 6px 11px; border: 1px solid var(--line2); background: var(--card);
+             color: var(--ink); border-radius: var(--r); cursor: pointer; line-height: 1.4; }
+.hb button:hover { background: #f1f4f8; border-color: var(--accent); }
+.hb button.mini { padding: 3px 7px; font-size: 12px; }
+.hb button.danger, .hb button.hb-fara { color: #a33; border-color: #e6c9c9; }
+.hb button.danger:hover, .hb button.hb-fara:hover { background: #fdf1f1; border-color: #a33; }
+.hb input, .hb select { font: inherit; font-size: 13px; padding: 5px 7px; border: 1px solid var(--line2); background: var(--card);
+                        color: var(--ink); border-radius: 4px; max-width: 100%; }
+.hb input[type=number] { width: 72px; }
+.hb input[type=checkbox] { padding: 0; }
+.hb input:focus, .hb select:focus { outline: 2px solid var(--accent); outline-offset: 0; border-color: transparent; }
+
+/* överst: flikar och projektknappar */
+.hb-topp { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; border-bottom: 1px solid var(--line); margin-bottom: 18px; }
+.hb-flikar { display: flex; gap: 4px; }
+.hb .hb-flikar button { border: 0; background: none; border-bottom: 2px solid transparent; border-radius: 0; padding: 10px 14px;
+                        color: var(--ink2); font-size: 14px; }
+.hb .hb-flikar button:hover { background: none; color: var(--ink); }
+.hb .hb-flikar button.on { border-bottom-color: var(--accent); color: var(--ink); font-weight: 700; }
+.hb-spacer { flex: 1; }
+.hb-topp > button { margin-bottom: 6px; }
+
+.hb-sida { display: none; }
+.hb-sida.on { display: block; }
+
+/* väggtyper: två spalter när det finns plats, annars under varandra */
+.hb-kolumner { display: grid; grid-template-columns: minmax(0, 1fr); gap: 18px; align-items: start; }
+@container (min-width: 1000px) { .hb-kolumner { grid-template-columns: minmax(0, 1fr) 360px; } }
+.hb-panelrutnat { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); gap: 16px; align-items: start; }
+
+.hb-kort { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 16px; }
+.hb-kort h2 { font-size: 12px; font-weight: 700; margin: 0 0 12px; text-transform: uppercase; letter-spacing: .07em; color: var(--ink2); }
+.hb-mb { margin-bottom: 16px; }
+.hb-mt { margin-top: 14px; }
+.hb-mt-s { margin-top: 8px; }
+.hb-full { width: 100%; }
+.hb-w62 { width: 66px !important; }
+.hb-w70 { width: 74px !important; }
+.hb-nowrap { white-space: nowrap; }
+.hb-hoger { float: right; }
+
+.hb-kolumner > div, .hb-panelrutnat > div { min-width: 0; }
+
+/* skikttabellen */
+.hb-tabellruta { overflow-x: auto; }
+.hb table { width: 100%; border-collapse: collapse; min-width: 520px; }
+.hb th { text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: .05em; color: var(--ink3); font-weight: 600;
+         padding: 0 6px 6px; border-bottom: 1px solid var(--line); }
+.hb td { padding: 4px 6px; border-bottom: 1px solid #eef1f5; vertical-align: middle; }
+.hb-th-grip { width: 20px; } .hb-th-typ { width: 130px; } .hb-th-mm { width: 78px; } .hb-th-lam { width: 86px; } .hb-th-knappar { width: 92px; }
+.hb tr.drag-over td { border-top: 2px solid var(--accent); }
+.hb .grip { cursor: grab; color: var(--ink3); user-select: none; padding: 0 2px; }
+
+.hb-rad { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 10px; }
+.hb-f { font-size: 12px; color: var(--ink2); display: inline-flex; gap: 6px; align-items: center; margin: 0; }
+.hb-stat { display: flex; justify-content: space-between; gap: 12px; padding: 7px 0; border-bottom: 1px solid #eef1f5; font-size: 13px; }
+.hb-stat b { font-weight: 700; font-variant-numeric: tabular-nums; }
+.hb-stor { font-size: 26px; font-weight: 700; letter-spacing: -.02em; font-variant-numeric: tabular-nums; color: var(--ink); }
+.hb-hint { font-size: 12px; color: var(--ink3); line-height: 1.5; }
+.hb-pill { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 20px; background: var(--accent-bg); color: var(--accent);
+           font-weight: 600; text-transform: none; letter-spacing: 0; margin-left: 4px; }
+.hb-klass { font-size: 13px; }
+
+.hb svg { display: block; max-width: 100%; }
+.hb-snitt { overflow-x: auto; }
+.hb-snitt svg { height: auto; }
+
+.hb .escale { display: flex; gap: 2px; margin: 8px 0 6px; }
+.hb .escale div { flex: 1; height: 22px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700;
+                  color: #fff; border-radius: 3px; opacity: .32; }
+.hb .escale div.on { opacity: 1; outline: 2px solid var(--ink); outline-offset: 1px; }
+
+/* biblioteket */
+.hb-lib { list-style: none; margin: 0; padding: 0; }
+.hb-lib li { display: flex; align-items: center; gap: 8px; padding: 7px 0; border-bottom: 1px solid #eef1f5; }
+.hb .hb-lib .nm { flex: 1; text-align: left; border: 0; background: none; padding: 2px 0; font-size: 13px; }
+.hb .hb-lib .nm:hover { background: none; color: var(--accent); }
+.hb-lib li.on .nm { font-weight: 700; color: var(--accent); }
+.hb .badge { font-size: 11px; color: var(--ink3); font-variant-numeric: tabular-nums; font-weight: 400; }
+
+/* planritningen */
+.hb-verktyg { display: flex; gap: 6px; margin-bottom: 10px; flex-wrap: wrap; align-items: center; }
+.hb .hb-verktyg button.on { background: var(--accent); color: #fff; border-color: var(--accent); }
+#planwrap { border: 1px solid var(--line); border-radius: 8px; background: #fff; overflow: hidden; position: relative; }
+#plan { cursor: none; touch-action: none; }
+#angbox { position: absolute; display: none; background: var(--card); border: 1px solid var(--ink); border-radius: 6px; padding: 8px;
+          box-shadow: 0 4px 14px rgba(0,0,0,.14); z-index: 5; }
+#angbox input { width: 70px; }
+#angbox .lb { font-size: 11px; color: var(--ink3); display: block; margin-bottom: 2px; }
+.hb-angrad { display: flex; gap: 8px; }
+.hb-angrad label { margin: 0; }
+#ctx { position: absolute; display: none; background: var(--card); border: 1px solid var(--line2); border-radius: 8px; padding: 4px;
+       box-shadow: 0 6px 20px rgba(0,0,0,.18); z-index: 9; min-width: 180px; }
+#ctx .it { padding: 6px 10px; border-radius: 4px; cursor: pointer; font-size: 13px; white-space: nowrap; }
+#ctx .it:hover { background: var(--accent-bg); color: var(--accent); }
+#ctx .hd { padding: 6px 10px 3px; font-size: 11px; text-transform: uppercase; letter-spacing: .05em; color: var(--ink3); }
+#ctx hr { border: none; border-top: 1px solid var(--line); margin: 4px 0; }
+.hb-op { border: 1px solid var(--line); border-radius: 6px; padding: 8px; margin-bottom: 8px; background: #fafbfd; overflow: hidden; }
+.hb-mobil { display: none; }
+@media (hover: none) { .hb-mobil { display: block; } }

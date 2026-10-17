@@ -59,6 +59,16 @@ button { cursor: pointer; }
 #meny .vy { display: block; width: 100%; text-align: left; border: 0; background: none; color: #dfe5ef; padding: 7px 10px; border-radius: 7px; }
 #meny .vy:hover { background: rgba(255,255,255,.07); }
 #meny .vy.vald { background: rgba(255,255,255,.13); color: #fff; box-shadow: inset 3px 0 0 #6fa0e6; }
+/* menyns ordning */
+.menypost { display: flex; align-items: center; gap: 2px; border-radius: 7px; padding-left: 4px; }
+.menypost:hover { background: rgba(255,255,255,.06); }
+.menypost .greppa { flex: none; width: 18px; color: #56698a; cursor: grab; text-align: center; font-size: 13px; user-select: none; }
+.menypost:hover .greppa { color: #b9c7dc; }
+.menypost .nr { flex: none; width: 16px; color: #7f91ab; font-size: 11px; text-align: right; }
+.menypost .namn { flex: 1; min-width: 0; padding: 7px 4px 7px 6px; color: #dfe5ef; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.menypost.drar { opacity: .4; }
+.menypost.over-fore { box-shadow: inset 0 2px 0 #6fa0e6; }
+.menypost.over-efter { box-shadow: inset 0 -2px 0 #6fa0e6; }
 .forklaring { margin: 8px 8px 0; font-size: 11px; color: #7f91ab; line-height: 1.45; }
 #meny .fot { padding: 12px; border-top: 1px solid rgba(255,255,255,.08); display: grid; gap: 8px; }
 #meny .fot .lankar { display: flex; justify-content: center; gap: 12px; font-size: 12px; }
@@ -200,11 +210,13 @@ pre.logg { background: #0f1728; color: #d6e2f5; border-radius: 8px; padding: 12p
   <div class="marke">Redigera hemsidan<small>dennisbengtsson.github.io</small></div>
   <div class="sokrad"><input type="search" id="filter" placeholder="Sök sidor och inlägg" aria-label="Sök sidor och inlägg"></div>
   <div class="rulla">
+    <h3>Menyn <button id="menyByt" title="Byt namn på menyvalen">Byt namn</button></h3>
+    <div id="menylista"></div>
     <h3>Sidor <button id="nySida" title="Skapa en ny sida">+ Ny</button></h3>
     <div id="sidlista"></div>
     <h3>Blogginlägg <button id="nyttInlagg" title="Skriv ett nytt inlägg">+ Nytt</button></h3>
     <div id="inlaggslista"></div>
-    <p class="forklaring">● = aktiv, syns på nätet &nbsp; ☰ = finns i menyn<br>Inaktiva sidor är utkast som bara syns här.</p>
+    <p class="forklaring">● = aktiv, syns på nätet &nbsp; ☰ = finns i menyn<br>Inaktiva sidor är utkast som bara syns här.<br>Dra i ⠿ under Menyn för att ändra ordningen.</p>
     <h3>Inställningar</h3>
     <button class="vy" data-vy="uppgifter">Uppgifter och meny</button>
     <button class="vy" data-vy="loppis">Loppisens varor</button>
@@ -389,11 +401,75 @@ function ritaLista() {
       <button class="vxl aktiv${p.aktiv ? " pa" : ""}" data-g="aktiv" data-sokvag="${esc(p.sokvag)}" title="${p.aktiv ? "Publicerat – klicka för att göra till utkast" : "Utkast – klicka för att publicera"}">●</button>
     </div>`;
   }).join("") || '<p class="forklaring">Inga inlägg.</p>';
+  ritaMenyordning();
   $$("#meny .post[data-sokvag]").forEach((b) => b.onclick = () => oppna(b.dataset.typ, b.dataset.sokvag));
-  $$("#meny .vxl").forEach((b) => b.onclick = () => vaxla(b.dataset.g, b.dataset.sokvag, b.classList.contains("pa")));
+  $$("#sidlista .vxl, #inlaggslista .vxl").forEach((b) => b.onclick = () => vaxla(b.dataset.g, b.dataset.sokvag, b.classList.contains("pa")));
   markeraVald();
 }
 $("#filter").addEventListener("input", ritaLista);
+
+/* ---------- menyns ordning: dra eller använd pilarna, sparas direkt ---------- */
+function ritaMenyordning() {
+  const meny = lista.meny || [];
+  $("#menylista").innerHTML = meny.map((m, i) => `
+    <div class="menypost" draggable="true" data-i="${i}" title="${esc(m.sokvag)}">
+      <span class="greppa" aria-hidden="true">⠿</span><span class="nr">${i + 1}</span>
+      <span class="namn">${esc(m.namn || m.sokvag)}</span>
+      <button class="vxl" data-flytta="-1" data-i="${i}" title="Flytta upp"${i === 0 ? " disabled" : ""}>↑</button>
+      <button class="vxl" data-flytta="1" data-i="${i}" title="Flytta ner"${i === meny.length - 1 ? " disabled" : ""}>↓</button>
+    </div>`).join("") || '<p class="forklaring">Menyn är tom. Slå på ☰ vid en sida nedan.</p>';
+  $$("#menylista [data-flytta]").forEach((b) => b.onclick = () => {
+    const i = +b.dataset.i;
+    flyttaMenyval(i, i + +b.dataset.flytta);
+  });
+  let fran = null;
+  $$("#menylista .menypost").forEach((rad) => {
+    rad.ondragstart = (h) => { fran = +rad.dataset.i; rad.classList.add("drar"); h.dataTransfer.effectAllowed = "move"; h.dataTransfer.setData("text/plain", String(fran)); };
+    rad.ondragend = () => { fran = null; $$("#menylista .menypost").forEach((r) => r.classList.remove("drar", "over-fore", "over-efter")); };
+    rad.ondragover = (h) => {
+      if (fran === null) return;
+      h.preventDefault();
+      const r = rad.getBoundingClientRect(), efter = h.clientY > r.top + r.height / 2;
+      rad.classList.toggle("over-fore", !efter); rad.classList.toggle("over-efter", efter);
+    };
+    rad.ondragleave = () => rad.classList.remove("over-fore", "over-efter");
+    rad.ondrop = (h) => {
+      h.preventDefault();
+      if (fran === null) return;
+      const r = rad.getBoundingClientRect();
+      let till = +rad.dataset.i + (h.clientY > r.top + r.height / 2 ? 1 : 0);
+      if (till > fran) till--;
+      flyttaMenyval(fran, till);
+    };
+  });
+}
+
+async function flyttaMenyval(fran, till) {
+  const meny = [...(lista.meny || [])];
+  if (till < 0 || till >= meny.length || fran === till) return;
+  const [m] = meny.splice(fran, 1);
+  meny.splice(till, 0, m);
+  try {
+    await api("/api/menyordning", { ordning: meny.map((x) => x.sokvag) });
+  } catch (e) { alert(e.message); }
+  await laddaLista();
+  menynIForhandsvisningen();
+  // formuläret "Uppgifter och meny" visar menyn; rita om det så att det inte sparar den gamla ordningen
+  if (aktuell && aktuell.typ === "uppgifter" && !andrad) visaForm("uppgifter");
+  toast("Menyns ordning är sparad – tryck Publicera för att visa den på nätet");
+}
+
+/** Sortera om menyn i den öppna sidan direkt, utan att ladda om den (menyn sparas aldrig med sidan). */
+function menynIForhandsvisningen() {
+  const doc = !$("#scen").hidden && ram.contentDocument;
+  const mal = doc && doc.getElementById("header-menu-target");
+  if (!mal) return;
+  const lankar = [...mal.querySelectorAll("a")];
+  for (const m of lista.meny || []) {
+    const a = lankar.find((x) => (x.getAttribute("href") || "").split("/").pop() === m.sokvag.split("/").pop());
+    if (a) mal.append(a);
+  }
+}
 
 function markeraVald() {
   $$("#meny .rad").forEach((r) => r.classList.toggle("vald", Boolean(aktuell && r.dataset.sokvag === aktuell.sokvag)));
@@ -1550,6 +1626,7 @@ async function visaForm(typ) {
   if (typ === "uppgifter") formUppgifter(data); else formLoppis(data);
 }
 $$("#meny .vy").forEach((b) => b.onclick = async () => { if (await fragaOmAndringar()) visaForm(b.dataset.vy); });
+$("#menyByt").onclick = async () => { if (await fragaOmAndringar()) visaForm("uppgifter"); };
 
 function formUppgifter(d) {
   const v = $("#formvy");

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' blob: data:; font-src 'self'; connect-src 'self' https://api.github.com; manifest-src 'self'; worker-src 'self'; base-uri 'none'; form-action 'none'; require-trusted-types-for 'script'; trusted-types skriv">
+    <meta name="referrer" content="no-referrer">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="theme-color" content="#2A4B7C">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Skriv">
+    <title>Skriv – Dennis Bengtsson</title>
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="icon" href="ikon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="ikon-180.png">
+    <link rel="stylesheet" href="../css/opensans.css">
+    <link rel="stylesheet" href="skriv.css">
+</head>
+<body>
+    <header class="topp">
+        <button type="button" class="ikonknapp" id="tillbaka" aria-label="Tillbaka" hidden>‹</button>
+        <h1 id="rubrik">Skriv</h1>
+        <button type="button" class="ikonknapp" id="las" aria-label="Lås appen" hidden>🔒</button>
+    </header>
+
+    <main>
+        <!-- Första gången: koppla till inkorgen och lås med fingret -->
+        <section id="vy-installera" class="vy" hidden>
+            <div class="kort">
+                <h2>Kom igång</h2>
+                <p>Klistra in nyckeln du skapade på GitHub för inkorgen. Den kan bara lägga inlägg i inkorgen,
+                    aldrig ändra hemsidan.</p>
+                <label for="inst-nyckel">Nyckel till inkorgen</label>
+                <input type="password" id="inst-nyckel" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="github_pat_…">
+                <div id="inst-losen" hidden>
+                    <p class="varning">Telefonen klarar inte lås med fingeravtryck här. Välj ett långt lösenord i stället
+                        (minst 12 tecken, gärna några ord i rad).</p>
+                    <label for="inst-losen1">Lösenord</label>
+                    <input type="password" id="inst-losen1" autocomplete="new-password">
+                    <label for="inst-losen2">Samma lösenord igen</label>
+                    <input type="password" id="inst-losen2" autocomplete="new-password">
+                </div>
+                <button type="button" class="knapp stor" id="inst-ok">Lås med fingeravtryck</button>
+                <p class="status" id="inst-status" role="status"></p>
+            </div>
+        </section>
+
+        <!-- Låst -->
+        <section id="vy-last" class="vy" hidden>
+            <div class="mitt">
+                <div class="lasikon" aria-hidden="true">✎</div>
+                <p class="dampad">Dina utkast är låsta.</p>
+                <div id="last-losen" hidden>
+                    <label for="last-losenfalt">Lösenord</label>
+                    <input type="password" id="last-losenfalt" autocomplete="current-password">
+                </div>
+                <button type="button" class="knapp stor" id="last-ok">Lås upp</button>
+                <p class="status" id="last-status" role="status"></p>
+            </div>
+        </section>
+
+        <!-- Utkast och skickade -->
+        <section id="vy-lista" class="vy" hidden>
+            <button type="button" class="knapp stor" id="nytt">+ Nytt inlägg</button>
+            <h2 class="etikett">Utkast</h2>
+            <ul class="lista" id="utkastlista"></ul>
+            <h2 class="etikett">Väntar på att du godkänner</h2>
+            <ul class="lista" id="vantarlista"></ul>
+            <p class="dampad liten">Godkänn i GitHub-appen genom att trycka på <b>Merge</b>. Då publiceras inlägget.</p>
+            <button type="button" class="lank" id="installningar">Inställningar</button>
+        </section>
+
+        <!-- Skriv -->
+        <section id="vy-skriv" class="vy" hidden>
+            <label class="sr" for="s-titel">Rubrik</label>
+            <input type="text" id="s-titel" class="titelfalt" placeholder="Rubrik" maxlength="150" autocomplete="off">
+
+            <div class="verktyg" role="toolbar" aria-label="Formatering">
+                <button type="button" data-gor="bild">＋ Bild</button>
+                <button type="button" data-gor="rubrik">Rubrik</button>
+                <button type="button" data-gor="punkt">• Punkt</button>
+                <button type="button" data-gor="fet"><b>F</b></button>
+                <button type="button" data-gor="kursiv"><i>K</i></button>
+                <button type="button" data-gor="lank">Länk</button>
+                <button type="button" data-gor="visa" id="visaknapp">Förhandsvisa</button>
+            </div>
+            <label class="sr" for="s-text">Text</label>
+            <textarea id="s-text" class="textfalt" placeholder="Skriv här. Varje rad blir ett eget stycke."></textarea>
+            <article id="forhand" class="forhand" hidden></article>
+            <input type="file" id="s-filer" accept="image/*" multiple hidden>
+
+            <div id="s-bilder" class="bilder"></div>
+
+            <details class="mer">
+                <summary>Kategori, ingress och datum</summary>
+                <label for="s-kategori">Kategori</label>
+                <input type="text" id="s-kategori" list="kategorier" maxlength="60" autocomplete="off">
+                <datalist id="kategorier"></datalist>
+                <label for="s-besk">Ingress (visas i blogglistan)</label>
+                <textarea id="s-besk" rows="2" maxlength="300"></textarea>
+                <label for="s-datum">Datum</label>
+                <input type="date" id="s-datum">
+                <p class="dampad liten">Ett datum framåt i tiden gör att inlägget dyker upp i bloggen först den dagen.</p>
+            </details>
+
+            <div class="knapprad">
+                <button type="button" class="knapp sekundar" id="s-radera">Släng</button>
+                <button type="button" class="knapp" id="s-skicka">Skicka</button>
+            </div>
+            <p class="status" id="s-status" role="status"></p>
+        </section>
+
+        <!-- Skickat -->
+        <section id="vy-skickat" class="vy" hidden>
+            <div class="mitt">
+                <div class="lasikon" aria-hidden="true">✓</div>
+                <h2>Skickat</h2>
+                <p id="sk-text" class="dampad">GitHub förbereder inlägget. Det brukar ta någon minut.</p>
+                <a class="knapp stor" id="sk-granska" hidden target="_blank" rel="noopener noreferrer">Granska och publicera</a>
+                <button type="button" class="lank" id="sk-klar">Tillbaka till utkasten</button>
+            </div>
+        </section>
+
+        <!-- Inställningar -->
+        <section id="vy-installningar" class="vy" hidden>
+            <div class="kort">
+                <h2>Nyckel</h2>
+                <p class="dampad">Byt nyckel när den gamla har gått ut. Låset och utkasten behålls.</p>
+                <label for="ny-nyckel">Ny nyckel till inkorgen</label>
+                <input type="password" id="ny-nyckel" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="github_pat_…">
+                <button type="button" class="knapp" id="ny-nyckel-ok">Spara ny nyckel</button>
+                <p class="status" id="ny-nyckel-status" role="status"></p>
+            </div>
+            <div class="kort">
+                <h2>Radera allt</h2>
+                <p class="dampad">Tar bort nyckeln, låset och alla utkast från den här telefonen. Inlägg som redan är skickade påverkas inte.</p>
+                <button type="button" class="knapp fara" id="radera-allt">Radera allt från telefonen</button>
+            </div>
+        </section>
+    </main>
+
+    <script src="skriv.js"></script>
+</body>
+</html>

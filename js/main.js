@@ -72,6 +72,7 @@
     const menyHTML = `
         <nav class="navbar navbar-expand-lg bg-secondary navbar-dark" aria-label="Huvudmeny">
             <a class="navbar-brand d-block d-lg-none" id="meny-hem">Meny</a>
+            <a class="nav-link sok-ikon ml-auto order-lg-last" id="sok-ikon" aria-label="Sök" title="Sök"><i class="fa fa-search" aria-hidden="true"></i></a>
             <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse"
                     aria-controls="navbarCollapse" aria-expanded="false" aria-label="Visa meny">
                 <span class="navbar-toggler-icon"></span>
@@ -129,6 +130,7 @@
         for (const post of poster || []) {
             const href = lank(post.url);
             if (!href || !post.label) continue;
+            if (/(^|\/)sok\.html$/.test(post.url)) continue;          // sökningen är förstoringsglaset
             const a = el("a", { href, class: "nav-item nav-link", "data-page": post.dataPage }, post.label);
             if (post.dataPage === sida) {
                 a.classList.add("active");
@@ -182,6 +184,12 @@
         $("#sidebar-container").html(sidopanelHTML);
         $("#footer-container").html(sidfotHTML);
         document.getElementById("meny-hem").href = url("index.html");
+        const sok = document.getElementById("sok-ikon");
+        sok.href = url("sok.html");
+        if (/(^|\/)sok\.html$/.test(location.pathname)) {
+            sok.classList.add("active");
+            sok.setAttribute("aria-current", "page");
+        }
 
         data.then(fyllSidan);
 

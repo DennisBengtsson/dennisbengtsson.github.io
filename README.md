@@ -46,6 +46,12 @@ Låt det svarta fönstret vara öppet medan du arbetar.
 - En kopia av varje fil sparas i `_redigerare/historik` innan den skrivs över (kommer inte upp på GitHub).
 - Mappen `_redigerare` publiceras inte av GitHub Pages, eftersom den börjar med understreck.
 
+## Skriva från telefonen
+
+Appen **dennisbengtsson.github.io/skriv/** skickar inlägg till ett privat inkorgsrepo. GitHub bygger
+inlägget och öppnar ett ändringsförslag som du godkänner (Merge) i GitHub-appen. Telefonen kan aldrig
+ändra hemsidan själv. Installation och instruktioner: [`_redigerare/mobil/README.md`](_redigerare/mobil/README.md).
+
 ## Vanliga ändringar för hand
 
 - **Lägg till Blogg, Bildgalleri eller Loppis i menyn:** lägg till en rad i `menu` i `data.json`,

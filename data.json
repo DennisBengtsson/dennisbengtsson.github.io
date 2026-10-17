@@ -32,6 +32,11 @@
             "label": "Blogg",
             "url": "blog.html",
             "dataPage": "blog"
+        },
+        {
+            "label": "Husbyggare",
+            "url": "husbyggare.html",
+            "dataPage": "husbyggare"
         }
     ],
     "nyhetsfloden": []

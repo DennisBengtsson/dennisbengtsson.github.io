@@ -1,0 +1,96 @@
+# Inlägg från telefonen -> ändringsförslag på hemsidan
+#
+# Två jobb på två olika maskiner:
+#   bilder:    hanterar det som kommit från telefonen. Har INGEN nyckel till hemsidan.
+#   forslag:   bygger inlägget och öppnar ett ändringsförslag. Kör bara kod från
+#              hemsidans eget repo, aldrig något som kommit via inkorgen.
+# Skriptet som körs ligger i hemsidans repo (_redigerare/mobil/bygg.py), så den som
+# bara kommer åt inkorgen kan inte ändra vad som körs.
+
+name: Inlägg från telefonen
+
+on:
+  push:
+    branches: [main]
+    paths: ["inkorg/**"]
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: inkorg
+  cancel-in-progress: false
+
+env:
+  SAJT_REPO: DennisBengtsson/dennisbengtsson.github.io
+
+jobs:
+  bilder:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - name: Hämta inkorgen
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: main
+          path: inkorg-repo
+          persist-credentials: false
+
+      - name: Hämta byggskriptet från hemsidan
+        run: git clone -q --depth 1 "https://github.com/${SAJT_REPO}.git" sajt
+
+      - name: Gör om bilderna (krymper och tar bort GPS m.m.)
+        run: |
+          python3 -m venv "$RUNNER_TEMP/py"
+          "$RUNNER_TEMP/py/bin/pip" install --quiet --disable-pip-version-check "pillow==12.*"
+          "$RUNNER_TEMP/py/bin/python" -I sajt/_redigerare/mobil/bygg.py bilder inkorg-repo/inkorg forberett
+
+      - name: Lämna över till nästa jobb
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: forberett
+          path: forberett/
+          retention-days: 1
+          if-no-files-found: ignore
+
+  forslag:
+    needs: bilder
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write          # bara för att tömma inkorgen efteråt
+    steps:
+      - name: Hämta det förberedda
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        continue-on-error: true
+        with:
+          name: forberett
+          path: forberett
+
+      - name: Finns det något att göra?
+        id: koll
+        run: |
+          if [ -n "$(ls -A forberett 2>/dev/null)" ]; then echo "finns=ja" >> "$GITHUB_OUTPUT"; else echo "Inkorgen är tom."; fi
+
+      - name: Hämta inkorgen
+        if: steps.koll.outputs.finns == 'ja'
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: main
+          path: inkorg-repo
+
+      - name: Hämta hemsidan
+        if: steps.koll.outputs.finns == 'ja'
+        env:
+          SAJT_NYCKEL: ${{ secrets.SAJT_NYCKEL }}
+        run: |
+          if [ -z "$SAJT_NYCKEL" ]; then echo "Hemligheten SAJT_NYCKEL saknas i inkorgens inställningar."; exit 1; fi
+          git clone -q --depth 1 "https://x-access-token:${SAJT_NYCKEL}@github.com/${SAJT_REPO}.git" sajt
+
+      - name: Bygg inlägg och öppna ändringsförslag
+        if: steps.koll.outputs.finns == 'ja'
+        env:
+          SAJT_NYCKEL: ${{ secrets.SAJT_NYCKEL }}
+        run: python3 -I sajt/_redigerare/mobil/bygg.py publicera forberett sajt inkorg-repo
