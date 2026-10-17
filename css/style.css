@@ -261,6 +261,29 @@ a:hover {
     }
 }
 
+/* knappen som fäller ihop sidopanelen (bara på stora skärmar) */
+.sidopanel-knapp { display: none; }
+@media (min-width: 992px) {
+    .sidopanel-knapp {
+        display: flex; align-items: center; justify-content: center;
+        position: absolute; top: 14px; right: 9px; z-index: 2;
+        width: 32px; height: 32px; padding: 0; border: 1px solid #e3e7ee; border-radius: 50%;
+        background: var(--white); color: var(--primary); font-size: 15px; cursor: pointer;
+        transition: background-color .15s, color .15s;
+    }
+    .sidopanel-knapp:hover, .sidopanel-knapp:focus-visible { background: var(--primary); color: var(--white); border-color: var(--primary); }
+
+    .sidopanel-ihop .wrapper .sidebar,
+    .sidopanel-ihop .wrapper .sidebar:hover { margin-left: -300px; box-shadow: 2px 0 10px rgba(0,0,0,0.05); cursor: pointer; }
+    .sidopanel-ihop .wrapper .content { width: calc(100% - 50px); margin-left: 50px; }
+    .sidopanel-ihop .wrapper .sidebar-text { visibility: hidden; height: 0 !important; overflow: hidden; }
+    .sidopanel-ihop .wrapper .sidebar-icon { visibility: visible; height: 100% !important; }
+    .sidopanel-ihop .wrapper .sidebar:hover .sidebar-icon i { transform: translateX(3px); }
+    .wrapper .sidebar-icon i { transition: transform .15s; }
+
+    .utan-animering .wrapper .sidebar, .utan-animering .wrapper .content { transition: none !important; }
+}
+
 @media (max-width: 1140px) { .wrapper .content { padding: 30px; } }
 @media (max-width: 576px)  { .wrapper .content { padding: 15px; } }
 

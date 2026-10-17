@@ -67,6 +67,23 @@
 
     window.SITE = { url, lank, el, data };
 
+    /* ---------- sidopanelen kan fällas ihop (på stora skärmar), valet sparas ---------- */
+    const IHOP = "sidopanel-ihop";
+    const sparatIhop = () => { try { return localStorage.getItem("sidopanel") === "ihop"; } catch (e) { return false; } };
+    if (sparatIhop()) document.documentElement.classList.add(IHOP, "utan-animering");
+
+    const sattIhop = (ihop) => {
+        document.documentElement.classList.toggle(IHOP, ihop);
+        try { ihop ? localStorage.setItem("sidopanel", "ihop") : localStorage.removeItem("sidopanel"); } catch (e) { /* privat läge */ }
+        const k = document.getElementById("sidopanel-knapp");
+        if (k) {
+            k.setAttribute("aria-expanded", String(!ihop));
+            k.setAttribute("aria-label", ihop ? "Visa sidopanelen" : "Fäll ihop sidopanelen");
+            k.title = ihop ? "Visa sidopanelen" : "Fäll ihop sidopanelen";
+            k.replaceChildren(el("i", { class: "fa " + (ihop ? "fa-angle-double-right" : "fa-angle-double-left"), "aria-hidden": "true" }));
+        }
+    };
+
     /* ---------- statiska mallar (innehåller ingen data) ---------- */
 
     const menyHTML = `
@@ -84,6 +101,7 @@
 
     const sidopanelHTML = `
         <div class="sidebar pb-4 px-4">
+            <button type="button" class="sidopanel-knapp" id="sidopanel-knapp" aria-controls="sidebar-container"></button>
             <div class="sidebar-text d-flex flex-column h-100 justify-content-center text-center">
                 <div class="text-center py-4">
                     <img alt="Profilbild" id="profile-image" class="mx-auto d-block w-75 bg-primary img-fluid rounded-circle mb-4 p-3">
@@ -183,6 +201,17 @@
         $("#header-container").html(menyHTML);
         $("#sidebar-container").html(sidopanelHTML);
         $("#footer-container").html(sidfotHTML);
+
+        sattIhop(sparatIhop());
+        document.getElementById("sidopanel-knapp").addEventListener("click", (h) => {
+            h.stopPropagation();
+            sattIhop(!document.documentElement.classList.contains(IHOP));
+        });
+        // ihopfälld: ett klick var som helst på listen fäller ut panelen
+        document.querySelector("#sidebar-container .sidebar").addEventListener("click", () => {
+            if (document.documentElement.classList.contains(IHOP) && window.matchMedia("(min-width: 992px)").matches) sattIhop(false);
+        });
+        requestAnimationFrame(() => requestAnimationFrame(() => document.documentElement.classList.remove("utan-animering")));
         document.getElementById("meny-hem").href = url("index.html");
         const sok = document.getElementById("sok-ikon");
         sok.href = url("sok.html");
