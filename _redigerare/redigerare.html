@@ -380,6 +380,11 @@ function sakerSrc(s) {
 
 async function laddaLista() {
   lista = await api("/api/lista");
+  // menyn läses direkt ur data.json, så att den fungerar oavsett vilken version av redigeraren som körs
+  try {
+    const d = JSON.parse((await api("/api/fil?sokvag=data.json")).innehall);
+    lista.meny = (Array.isArray(d.menu) ? d.menu : []).map((m) => ({ namn: m.label || "", sokvag: m.url || "" }));
+  } catch (e) { lista.meny = lista.meny || []; }
   ritaLista();
   visaGit(lista.git);
 }
@@ -450,7 +455,13 @@ async function flyttaMenyval(fran, till) {
   const [m] = meny.splice(fran, 1);
   meny.splice(till, 0, m);
   try {
-    await api("/api/menyordning", { ordning: meny.map((x) => x.sokvag) });
+    // sparas genom att skriva om data.json med menyvalen i den nya ordningen; allt annat lämnas orört
+    const d = JSON.parse((await api("/api/fil?sokvag=data.json")).innehall);
+    const gamla = Array.isArray(d.menu) ? d.menu : [];
+    const ny = meny.map((x) => gamla.find((g) => g.url === x.sokvag)).filter(Boolean);
+    if (ny.length !== gamla.length) throw new Error("Menyn har ändrats under tiden. Försök igen.");
+    d.menu = ny;
+    await api("/api/spara", { filer: [{ sokvag: "data.json", innehall: JSON.stringify(d, null, 4) + "\n" }] });
   } catch (e) { alert(e.message); }
   await laddaLista();
   menynIForhandsvisningen();

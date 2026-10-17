@@ -24,11 +24,6 @@
             "dataPage": "about"
         },
         {
-            "label": "Kontakt",
-            "url": "contact.html",
-            "dataPage": "contact"
-        },
-        {
             "label": "Blogg",
             "url": "blog.html",
             "dataPage": "blog"
@@ -37,6 +32,11 @@
             "label": "Husbyggare",
             "url": "husbyggare.html",
             "dataPage": "husbyggare"
+        },
+        {
+            "label": "Kontakt",
+            "url": "contact.html",
+            "dataPage": "contact"
         }
     ],
     "nyhetsfloden": []
