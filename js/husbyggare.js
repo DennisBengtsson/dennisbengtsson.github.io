@@ -287,7 +287,7 @@ function setTool(t){ tool=t; pending=null; hideAng(); hideCtx(); stopHold();
     ? "Klicka för startpunkt, klicka igen för att fortsätta. Snappar till 90° och 45°. Håll musen stilla en sekund — ringen vid korset visar när snappningen släpper — eller håll Alt för fri vinkel direkt. Högerklick avslutar väggen."
     : t==="tape" ? "Klicka på en hörnpunkt, dra åt önskat håll och klicka för att sätta en mätpunkt. Håll stilla för att skriva exakt mått. Punkten går sedan att fästa väggar mot."
     : t==="open" ? "Klicka på en vägg där öppningen ska sitta. Måtten tas från panelen till höger."
-    : "Klicka på en vägg för att välja den, ta bort med Delete. Högerklick ger fler alternativ.";
+    : "Dra en vägg för att flytta den (håll skift för rakt), eller dra i ett hörn för att ändra det. Klicka för att välja, Delete tar bort. Högerklick ger fler alternativ.";
   drawPlan();
 }
 function syncActiveWallSelect(){
@@ -389,7 +389,7 @@ function angKey(e){
   if(e.key==="Escape"){ freeAngle=false; hideAng(); drawPlan(); }
 }
 
-let panning=null, panMoved=false;
+let panMoved=false;
 $("#plan").addEventListener("wheel", e=>{
   e.preventDefault();
   const r=$("#plan").getBoundingClientRect();
@@ -402,26 +402,88 @@ $("#plan").addEventListener("wheel", e=>{
   stopHold(); drawPlan();
 }, {passive:false});
 
-$("#plan").addEventListener("mousedown", e=>{
-  if(e.ctrlKey || e.metaKey || e.button===1){
-    e.preventDefault();
-    panning={x:e.clientX, y:e.clientY, ox:V.ox, oy:V.oy};
-    panMoved=false;
-    $("#plan").style.cursor="grabbing";
+/* ---- dra: flytta vyn, en vägg eller ett hörn ----
+   Dra på tom yta (alla verktyg), med mellanslag, Ctrl eller mittenknappen: flytta vyn.
+   Verktyget "Välj / flytta": dra en vägg för att flytta den, dra ett hörn för att ändra det.
+   Väggar som sitter ihop med det man drar följer med, så att hörnen hänger ihop. */
+let drag=null, mellanslag=false;
+const DRAGGRANS=5;
+function horn(p){
+  const tol=12/SC(); let best=null;
+  P.walls.forEach(w=>[w.a,w.b].forEach(q=>{ const d=Math.hypot(q.x-p.x,q.y-p.y); if(d<tol&&(!best||d<best.d)) best={q,d}; }));
+  return best && best.q;
+}
+function punkterVid(...ps){            // alla väggändar som ligger på någon av punkterna
+  const ut=new Set();
+  P.walls.forEach(w=>[w.a,w.b].forEach(q=>{ if(ps.some(p=>Math.hypot(q.x-p.x,q.y-p.y)<1)) ut.add(q); }));
+  return [...ut].map(q=>({q, x0:q.x, y0:q.y}));
+}
+$("#plan").addEventListener("pointerdown", e=>{
+  if(e.button===2) return;
+  const tvinga = e.ctrlKey || e.metaKey || e.button===1 || mellanslag;
+  if(e.button!==0 && !tvinga) return;
+  hideCtx();
+  const w=toWorld(e);
+  drag={sx:e.clientX, sy:e.clientY, ox:V.ox, oy:V.oy, typ:"vy", aktiv:false, id:e.pointerId};
+  if(!tvinga && tool==="sel"){
+    const h=horn(w);
+    if(h){ drag.typ="horn"; drag.p={x:h.x,y:h.y}; }
+    else{
+      const hit=nearestWall(w);
+      if(hit && hit.d < Math.max(120, 14/SC())){ drag.typ="vagg"; drag.i=hit.i; }
+    }
   }
+  if(tvinga){ e.preventDefault(); drag.aktiv=true; panMoved=true; $("#plan").style.cursor="grabbing"; }
+  try{ $("#plan").setPointerCapture(e.pointerId); }catch(err){}
 });
-window.addEventListener("mousemove", e=>{
-  if(!panning) return;
-  V.ox = panning.ox + (e.clientX-panning.x);
-  V.oy = panning.oy + (e.clientY-panning.y);
-  if(Math.abs(e.clientX-panning.x)+Math.abs(e.clientY-panning.y) > 3) panMoved=true;
+window.addEventListener("pointermove", e=>{
+  if(!drag || e.pointerId!==drag.id) return;
+  const dx=e.clientX-drag.sx, dy=e.clientY-drag.sy;
+  if(!drag.aktiv){
+    if(Math.abs(dx)+Math.abs(dy) < DRAGGRANS) return;
+    drag.aktiv=true; panMoved=true; stopHold();
+    $("#plan").style.cursor = drag.typ==="vy" ? "grabbing" : "move";
+    if(drag.typ!=="vy"){
+      snap();
+      if(drag.typ==="vagg"){
+        const v=P.walls[drag.i];
+        P.walls.forEach(x=>x.sel=false); v.sel=true;
+        drag.punkter=punkterVid({x:v.a.x,y:v.a.y},{x:v.b.x,y:v.b.y});
+      } else drag.punkter=punkterVid(drag.p);
+    }
+  }
+  if(drag.typ==="vy"){
+    V.ox=drag.ox+dx; V.oy=drag.oy+dy;
+  } else {
+    const g=SNAP();
+    let mx, my;
+    if(drag.typ==="vagg"){
+      mx=Math.round(dx/SC()/g)*g; my=Math.round(dy/SC()/g)*g;
+      if(e.shiftKey){ if(Math.abs(mx)>Math.abs(my)) my=0; else mx=0; }   // skift: bara rakt
+    } else {
+      const m=toWorld(e);
+      mx=Math.round(m.x/g)*g-drag.p.x; my=Math.round(m.y/g)*g-drag.p.y;
+    }
+    drag.punkter.forEach(o=>{ o.q.x=o.x0+mx; o.q.y=o.y0+my; });
+    areaCache.sig="";
+  }
   drawPlan();
 });
-window.addEventListener("mouseup", ()=>{
-  if(!panning) return;
-  panning=null; $("#plan").style.cursor="none";
-  setTimeout(()=>{ panMoved=false; }, 60);
+function slappDrag(){
+  if(!drag) return;
+  const varAktiv=drag.aktiv;
+  drag=null;
+  $("#plan").style.cursor="none";
+  if(varAktiv){ panMoved=true; setTimeout(()=>{ panMoved=false; }, 60); drawPlan(); }
+}
+window.addEventListener("pointerup", slappDrag);
+window.addEventListener("pointercancel", slappDrag);
+document.addEventListener("keydown", e=>{
+  if(e.code!=="Space" || !$("#page-p").classList.contains("on")) return;
+  if(e.target.isContentEditable || /input|select|textarea|button/i.test(e.target.tagName)) return;
+  e.preventDefault(); mellanslag=true;
 });
+document.addEventListener("keyup", e=>{ if(e.code==="Space") mellanslag=false; });
 function resetView(){ Z=28; V={ox:40,oy:40}; $("#zoom").value=28; drawPlan(); }
 function fitView(){
   const all=[...P.walls.flatMap(w=>[w.a,w.b]), ...P.pts];

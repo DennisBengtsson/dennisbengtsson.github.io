@@ -207,7 +207,7 @@ pre.logg { background: #0f1728; color: #d6e2f5; border-radius: 8px; padding: 12p
 <body>
 
 <nav id="meny" aria-label="Innehåll">
-  <div class="marke">Redigera hemsidan<small>dennisbengtsson.github.io</small></div>
+  <div class="marke">Redigera hemsidan<small>plankbengtsson.se</small></div>
   <div class="sokrad"><input type="search" id="filter" placeholder="Sök sidor och inlägg" aria-label="Sök sidor och inlägg"></div>
   <div class="rulla">
     <h3>Menyn <button id="menyByt" title="Byt namn på menyvalen">Byt namn</button></h3>
@@ -226,7 +226,7 @@ pre.logg { background: #0f1728; color: #d6e2f5; border-radius: 8px; padding: 12p
     <button class="knapp" id="publicera">Publicera <span class="antal" id="antalAndringar" hidden></span></button>
     <div class="lankar">
       <button class="lanklik" id="sakerhetskopia" title="Ladda ner hela hemsidan som en zip-fil">Säkerhetskopia</button>
-      <a href="https://dennisbengtsson.github.io/" target="_blank" rel="noopener noreferrer">Visa på nätet ↗</a>
+      <a href="https://plankbengtsson.se/" target="_blank" rel="noopener noreferrer">Visa på nätet ↗</a>
     </div>
   </div>
 </nav>
@@ -1459,7 +1459,7 @@ async function byggSida() {
   if (m) m.setAttribute("content", sidmeta.beskrivning || "");
 
   // delningsbild och text när någon delar länken
-  const bas = lista.adress || "https://dennisbengtsson.github.io";
+  const bas = lista.adress || "https://plankbengtsson.se";
   const sidadress = new URL(aktuell.sokvag === "index.html" ? "" : aktuell.sokvag, bas + "/").href;
   const forstaBild = src.querySelector('[data-falt="omslag"]') || src.querySelector(".content img[data-redigera='bild']");
   const bild = forstaBild ? new URL(forstaBild.getAttribute("src"), sidadress).href : bas + "/img/profile.jpg";

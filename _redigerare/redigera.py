@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Redigeraren för dennisbengtsson.github.io
+Redigeraren för plankbengtsson.se
 
 Starta:  dubbelklicka på "Starta redigeraren.bat"  (eller: py redigera.py)
 Öppnas:  http://127.0.0.1:8010/_redigerare/
@@ -47,7 +47,7 @@ UTKAST = "_utkast"                               # inaktiva sidor och inlägg
 HISTORIK = os.path.join(HAR, "historik")
 PORT = int(os.environ.get("REDIGERA_PORT", 8010))
 NYCKEL = secrets.token_urlsafe(24)
-ADRESS = "https://dennisbengtsson.github.io"
+ADRESS = "https://plankbengtsson.se"
 MAX_BACKUPER = 300
 
 KARNSIDOR = [  # sidor som hemsidans skript räknar med; de kan inte raderas

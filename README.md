@@ -1,4 +1,6 @@
-# dennisbengtsson.github.io
+# plankbengtsson.se
+
+Hemsidan finns på **https://plankbengtsson.se** (repot heter fortfarande dennisbengtsson.github.io).
 
 Min personliga hemsida. Statisk HTML på GitHub Pages – ingen server, inga formulär, inga kakor.
 
@@ -48,7 +50,7 @@ Låt det svarta fönstret vara öppet medan du arbetar.
 
 ## Skriva från telefonen
 
-Appen **dennisbengtsson.github.io/skriv/** skickar inlägg till ett privat inkorgsrepo. GitHub bygger
+Appen **plankbengtsson.se/skriv/** skickar inlägg till ett privat inkorgsrepo. GitHub bygger
 inlägget och öppnar ett ändringsförslag som du godkänner (Merge) i GitHub-appen. Telefonen kan aldrig
 ändra hemsidan själv. Installation och instruktioner: [`_redigerare/mobil/README.md`](_redigerare/mobil/README.md).
 

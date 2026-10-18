@@ -1,6 +1,6 @@
 # blogg-inkorg
 
-Privat inkorg för skrivappen på telefonen (https://dennisbengtsson.github.io/skriv/).
+Privat inkorg för skrivappen på telefonen (https://plankbengtsson.se/skriv/).
 
 - Appen lägger nya inlägg i mappen `inkorg/`.
 - GitHub Actions (`.github/workflows/inkorg.yml`) gör om dem till ett ändringsförslag

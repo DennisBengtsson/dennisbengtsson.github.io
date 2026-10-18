@@ -1,6 +1,6 @@
 # Skriv från telefonen
 
-En enkel skrivapp för telefonen: **https://dennisbengtsson.github.io/skriv/**
+En enkel skrivapp för telefonen: **https://plankbengtsson.se/skriv/**
 
 **Telefonen** → privat inkorg på GitHub (inlägget byggs, bilderna rensas) → ändringsförslag → **du trycker Merge** → publicerat
 
@@ -46,7 +46,7 @@ Nyckeln finns nu bara hos GitHub. Du behöver inte spara den någon annanstans.
 Kopiera den, och skicka den till telefonen på ett säkert sätt (t.ex. via din lösenordshanterare),
 eller skapa den direkt i telefonens webbläsare.
 
-**6. På telefonen.** Öppna **dennisbengtsson.github.io/skriv/** i Chrome (Android) eller Safari (iPhone).
+**6. På telefonen.** Öppna **plankbengtsson.se/skriv/** i Chrome (Android) eller Safari (iPhone).
 - Lägg till på hemskärmen: Chrome-menyn → *Lägg till på startskärmen* / Safari → Dela → *Lägg till på hemskärmen*
 - Öppna appen från hemskärmen, klistra in nyckeln från steg 5 → *Kontrollera nyckeln* → *Lås med fingeravtryck*
 - Installera **GitHub-appen** och logga in, så kan du godkänna inlägg med ett tryck.
